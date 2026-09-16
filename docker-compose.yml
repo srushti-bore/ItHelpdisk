@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: it_helpdesk_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: it_helpdesk
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: it_helpdesk_backend
+    restart: always
+    environment:
+      - ENVIRONMENT=local
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgrespassword@postgres:5432/it_helpdesk
+      - SYNC_DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/it_helpdesk
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+
+volumes:
+  postgres_data:
