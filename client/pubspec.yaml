@@ -1,0 +1,40 @@
+name: it_helpdesk_client
+description: "AI IT Helpdesk - Multi-platform Flutter Client (Mobile, Desktop, Web)"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Routing & State Management
+  go_router: ^14.2.0
+  provider: ^6.1.2
+
+  # Networking & HTTP
+  http: ^1.2.1
+  http_parser: ^4.0.2
+
+  # Secure Storage & Persistence
+  shared_preferences: ^2.2.3
+
+  # Formatting & Localization
+  intl: ^0.19.0
+
+  # File Picking for Evidence Attachments (Cross-platform)
+  file_picker: ^8.0.0
+
+  # Modern Typography & Icons
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
