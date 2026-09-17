@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Dict, Tuple
+from typing import Any, Dict, Tuple
 from backend.models.case import Case
 from backend.models.enums import RiskLevel
 

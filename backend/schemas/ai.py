@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
+from uuid import UUID
 from pydantic import BaseModel, Field
 from backend.models.enums import DraftStatus, DraftType
 
@@ -14,13 +15,13 @@ class DraftSendRequest(BaseModel):
 
 
 class DraftResponse(BaseModel):
-    id: str
-    case_id: str
+    id: Union[UUID, str]
+    case_id: Union[UUID, str]
     draft_type: DraftType
     body: str
     status: DraftStatus
-    reviewed_by: Optional[str]
-    sent_message_id: Optional[str]
+    reviewed_by: Optional[Union[UUID, str]]
+    sent_message_id: Optional[Union[UUID, str]]
     created_at: datetime
 
     class Config:
@@ -28,7 +29,7 @@ class DraftResponse(BaseModel):
 
 
 class CandidateOperator(BaseModel):
-    user_id: str
+    user_id: Union[UUID, str]
     full_name: str
     email: str
     site: Optional[str]
@@ -39,14 +40,14 @@ class CandidateOperator(BaseModel):
 
 
 class SmartAssignmentResponse(BaseModel):
-    case_id: str
+    case_id: Union[UUID, str]
     recommended_team: Optional[str]
     candidate_operators: List[CandidateOperator]
     reasoning: str
 
 
 class DuplicateCandidate(BaseModel):
-    case_id: str
+    case_id: Union[UUID, str]
     reference_number: str
     title: str
     status: str
@@ -55,7 +56,7 @@ class DuplicateCandidate(BaseModel):
 
 
 class DuplicateDetectionResponse(BaseModel):
-    case_id: str
+    case_id: Union[UUID, str]
     candidates: List[DuplicateCandidate]
 
 

@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
+from uuid import UUID
 from pydantic import BaseModel, Field
 from backend.models.enums import CaseStatus, CaseType, Priority, UserRole
 from backend.schemas.auth import UserResponse
@@ -29,8 +30,8 @@ class CaseStatusTransitionRequest(BaseModel):
 
 class CaseAssignRequest(BaseModel):
     version: int = Field(..., description="Optimistic locking version")
-    owner_id: Optional[str] = Field(None, description="User ID of assigned operator")
-    team_id: Optional[str] = Field(None, description="Team ID for assignment")
+    owner_id: Optional[Union[UUID, str]] = Field(None, description="User ID of assigned operator")
+    team_id: Optional[Union[UUID, str]] = Field(None, description="Team ID for assignment")
 
 
 class CaseReopenRequest(BaseModel):
@@ -66,16 +67,16 @@ class AITriageSummaryResponse(BaseModel):
 
 
 class CaseResponse(BaseModel):
-    id: str
+    id: Union[UUID, str]
     reference_number: str
     type: CaseType
     title: str
     description: str
     status: CaseStatus
     priority: Priority
-    requester_id: str
-    owner_id: Optional[str]
-    team_id: Optional[str]
+    requester_id: Union[UUID, str]
+    owner_id: Optional[Union[UUID, str]]
+    team_id: Optional[Union[UUID, str]]
     site: Optional[str]
     service_id: Optional[str]
     version: int

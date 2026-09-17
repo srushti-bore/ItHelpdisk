@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
+from uuid import UUID
 from pydantic import BaseModel, Field
 from backend.models.enums import ArticleState
 
@@ -9,7 +10,7 @@ class KnowledgeArticleCreate(BaseModel):
     body: str = Field(..., min_length=10)
     category: str = Field(..., min_length=2, max_length=100)
     state: Optional[ArticleState] = Field(ArticleState.DRAFT)
-    source_case_id: Optional[str] = None
+    source_case_id: Optional[Union[UUID, str]] = None
 
 
 class KnowledgeArticleUpdate(BaseModel):
@@ -21,14 +22,14 @@ class KnowledgeArticleUpdate(BaseModel):
 
 
 class KnowledgeArticleResponse(BaseModel):
-    id: str
+    id: Union[UUID, str]
     title: str
     body: str
     category: str
-    author_id: Optional[str]
+    author_id: Optional[Union[UUID, str]]
     state: ArticleState
     review_date: Optional[datetime]
-    source_case_id: Optional[str]
+    source_case_id: Optional[Union[UUID, str]]
     created_at: datetime
     updated_at: datetime
 

@@ -33,7 +33,7 @@ async def list_knowledge_articles(
     stmt = select(KnowledgeArticle)
 
     # Filter by user role visibility
-    if current_user.role in [UserRole.REQUESTER, UserRole.SUPPORT_OPERATOR]:
+    if current_user.role in [UserRole.REQUESTER, UserRole.OPERATOR]:
         stmt = stmt.where(KnowledgeArticle.state == ArticleState.PUBLISHED)
 
     if category and category.lower() != "all":
@@ -70,7 +70,7 @@ async def list_knowledge_articles(
 @router.post("/articles", response_model=KnowledgeArticleResponse, status_code=status.HTTP_201_CREATED)
 async def create_knowledge_article(
     payload: KnowledgeArticleCreate,
-    current_user: User = Depends(require_roles([UserRole.KNOWLEDGE_OWNER, UserRole.ADMINISTRATOR, UserRole.SUPPORT_OPERATOR])),
+    current_user: User = Depends(require_roles([UserRole.KNOWLEDGE_OWNER, UserRole.ADMINISTRATOR, UserRole.OPERATOR])),
     db: AsyncSession = Depends(get_db),
 ):
     """
@@ -104,7 +104,7 @@ async def get_knowledge_article(
     if not article:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Article not found")
 
-    if current_user.role in [UserRole.REQUESTER, UserRole.SUPPORT_OPERATOR] and article.state != ArticleState.PUBLISHED:
+    if current_user.role in [UserRole.REQUESTER, UserRole.OPERATOR] and article.state != ArticleState.PUBLISHED:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Article is not published")
 
     return article

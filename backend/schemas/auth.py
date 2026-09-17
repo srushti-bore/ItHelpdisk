@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Optional, Union
+from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 from backend.models.enums import AuthProviderType, AvailabilityStatus, UserRole
 
@@ -51,7 +52,7 @@ class PasswordResetConfirmRequest(BaseModel):
 
 
 class UserResponse(BaseModel):
-    id: str
+    id: Union[UUID, str]
     email: EmailStr
     full_name: Optional[str]
     role: UserRole

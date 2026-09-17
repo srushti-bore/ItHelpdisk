@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
+from uuid import UUID
 from pydantic import BaseModel, Field
 from backend.models.enums import MessageVisibility
 from backend.schemas.auth import UserResponse
@@ -15,9 +16,9 @@ class MessageCreateRequest(BaseModel):
 
 
 class MessageResponse(BaseModel):
-    id: str
-    case_id: str
-    author_id: Optional[str]
+    id: Union[UUID, str]
+    case_id: Union[UUID, str]
+    author_id: Optional[Union[UUID, str]]
     body: str
     visibility: MessageVisibility
     ai_generated: bool
