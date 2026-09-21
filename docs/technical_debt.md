@@ -6,11 +6,31 @@
 ---
 
 ## 1. Overview
-This document tracks identified areas of technical debt, architectural trade-offs made during development, and recommended refactorings for future production milestones.
+This document tracks identified areas of technical debt, resolved platform patches, architectural trade-offs made during development, and recommended refactorings for future production milestones.
 
 ---
 
-## 2. High-Priority Items (Near-Term)
+## 2. Resolved Technical Debt & Platform Fixes (September 2026)
+
+### ✅ 2.1 Kotlin Incremental Cache Cross-Drive Conflict (Fixed)
+- **Issue:** Project located on `D:\` with Gradle cache on `C:\` triggered `IllegalArgumentException: this and base files have different roots`.
+- **Resolution:** Added `kotlin.incremental=false` and `kotlin.incremental.android=false` in `client/android/gradle.properties`.
+
+### ✅ 2.2 Android SDK 36 `file_picker` Incompatibility (Fixed)
+- **Issue:** `flutter_plugin_android_lifecycle` required `compileSdk = 36`, breaking legacy `file_picker: 8.3.7`.
+- **Resolution:** Upgraded `file_picker` to `^10.0.0` in `pubspec.yaml` and set `compileSdk = 36` in `app/build.gradle.kts`.
+
+### ✅ 2.3 Physical Android Device Localhost Bridge (Fixed)
+- **Issue:** Physical mobile device threw connection errors attempting to reach PC emulator IP `10.0.2.2:8000`.
+- **Resolution:** Updated `AppConstants.defaultApiBaseUrl` to `http://localhost:8000/api/v1` and established reverse bridge via `adb reverse tcp:8000 tcp:8000`.
+
+### ✅ 2.4 Standalone Windows Distribution (Fixed)
+- **Issue:** Windows desktop builds required raw `.dll` folder distribution.
+- **Resolution:** Built Inno Setup 6 packaging script `IT_Helpdesk_Setup.iss` outputting single-file installer `IT_Helpdesk-Setup.exe` (10.7MB).
+
+---
+
+## 3. High-Priority Items (Near-Term / Phase 2 Roadmap)
 
 ### 2.1 Storage Provider Integration (Supabase S3)
 - **Current State:** File upload endpoints (`POST /cases/{id}/attachments`) use mock in-memory buffer handling when `SUPABASE_URL` is empty.

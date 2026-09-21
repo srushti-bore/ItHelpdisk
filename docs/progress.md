@@ -43,7 +43,7 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
   - Corrected `settings` import in `backend/core/exceptions.py`.
   - Configured permissive localhost CORS regex in `backend/main.py` allowing Flutter web (`http://localhost:3000`) and desktop runners.
 
-### D. Frontend Features & Enhancements
+### D. Frontend Multiplatform & Deployment Enhancements
 - **AI Smart Assignment Dialog (`AssignCaseDialog`):**
   - Interactive modal fetching `/api/v1/ai/cases/{id}/smart-assignment`.
   - Displays operator workload, site matching (e.g. Pune/BLR), availability status, and match score points.
@@ -53,10 +53,18 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
   - Automatically posts approved drafts into the requester-visible message stream.
 - **Continuous AI Summary & SLA Widgets:**
   - Dynamic summary updates and real-time SLA breach countdowns.
+- **Physical Android Device Bridge & Network Resolution:**
+  - Resolved physical device connectivity by bridging ports via `adb reverse tcp:8000 tcp:8000`.
+  - Updated `AppConstants.defaultApiBaseUrl` to route to `http://localhost:8000/api/v1` across all targets.
+  - Deployed and verified on physical hardware device (`CPH2757`).
+- **Inno Setup 6 Windows Installer (`IT_Helpdesk-Setup.exe`):**
+  - Authored custom Inno Setup script `IT_Helpdesk_Setup.iss`.
+  - Compiled release binaries and packaged into standalone 10.7MB single-file installer at `installer_output/IT_Helpdesk-Setup.exe`.
+  - Configured automated desktop and Start Menu shortcut creation with bundled uninstaller.
 
 ---
 
-## 3. Verified API & Workflow Testing Matrix
+## 3. Verified API & Workflow Testing Matrix (All 24 Phase 1 Features)
 
 | Component / Workflow | Endpoint / Method | Status | Notes |
 | :--- | :--- | :--- | :--- |
@@ -73,7 +81,7 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **The Sweep (Job)**| APScheduler 5-min interval | ✅ Passed | Evaluates SLA breaches & risk signals |
 | **Frontend Web**   | Flutter Web (`:3000`)        | ✅ Passed | Live interactive client UI |
 | **Frontend Desktop** | Flutter Windows (`.exe`)     | ✅ Passed | Native C++ Impeller Desktop Runner |
-| **Frontend Android** | Physical Phone (OnePlus/Oppo)| ✅ Passed | Native Vulkan Impeller Android Runner |
+| **Frontend Android** | Physical Phone (`CPH2757`)   | ✅ Passed | Native Vulkan Impeller Android Runner |
 | **Windows Installer**| `IT_Helpdesk-Setup.exe` (10.7MB)| ✅ Passed | Inno Setup 6 standalone single-file installer |
 
 ---
@@ -88,3 +96,4 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **Operator (BLR)** | `operator.blr@ithelpdesk.com` | `OperatorPassword123!` | Bengaluru / NOC Operations |
 | **Knowledge Owner**| `knowledge.owner@ithelpdesk.com` | `KnowledgePassword123!` | SOP & Knowledge Base Authoring |
 | **Requester** | `requester@ithelpdesk.com` | `RequesterPassword123!` | Self-Service Case Submission |
+
