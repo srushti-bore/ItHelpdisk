@@ -25,7 +25,7 @@ dependencies:
   intl: ^0.19.0
 
   # File Picking for Evidence Attachments (Cross-platform)
-  file_picker: ^8.0.0
+  file_picker: ^10.0.0
 
   # Modern Typography & Icons
   google_fonts: ^6.2.1

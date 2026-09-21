@@ -71,7 +71,10 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **AI Draft Send** | `POST /api/v1/ai/drafts/{id}/send` | ✅ Passed | Posts message & triggers AI summary |
 | **Knowledge Base** | `GET /api/v1/knowledge/articles` | ✅ Passed | Returns published SOP articles |
 | **The Sweep (Job)**| APScheduler 5-min interval | ✅ Passed | Evaluates SLA breaches & risk signals |
-| **Frontend Runner**| Flutter Web (Chrome `:3000`) | ✅ Passed | Live interactive client UI |
+| **Frontend Web**   | Flutter Web (`:3000`)        | ✅ Passed | Live interactive client UI |
+| **Frontend Desktop** | Flutter Windows (`.exe`)     | ✅ Passed | Native C++ Impeller Desktop Runner |
+| **Frontend Android** | Physical Phone (OnePlus/Oppo)| ✅ Passed | Native Vulkan Impeller Android Runner |
+| **Windows Installer**| `IT_Helpdesk-Setup.exe` (10.7MB)| ✅ Passed | Inno Setup 6 standalone single-file installer |
 
 ---
 
