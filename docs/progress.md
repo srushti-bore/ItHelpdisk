@@ -62,6 +62,19 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
   - Compiled release binaries and packaged into standalone 10.7MB single-file installer at `installer_output/IT_Helpdesk-Setup.exe`.
   - Configured automated desktop and Start Menu shortcut creation with bundled uninstaller.
 
+### E. Client Network Resilience & Error Handling (21 Sep 2026 — Evening)
+- **ApiClient Network Error Handling (`_executeRequest()` wrapper):**
+  - Added centralized network-level exception handling in `client/lib/shared/api_client.dart`.
+  - Catches `SocketException`, `TimeoutException`, and `http.ClientException` at the API client layer.
+  - Converts raw network failures into structured `ApiException` with user-friendly messages.
+  - All HTTP methods (`get`, `post`, `patch`, `delete`) route through `_executeRequest()` with a 15-second timeout.
+  - Eliminates vague "unexpected connection error" across all screens (login, cases, reports, knowledge base).
+  - Added `debugPrint` logging for network-level failures in Flutter debug console.
+- **ADB Reverse Port Bridge Re-establishment:**
+  - Re-established physical Android device (`e19e717f`) connectivity via `adb reverse tcp:8000 tcp:8000`.
+  - ADB path confirmed at `C:\Users\bores\AppData\Local\Android\Sdk\platform-tools\adb.exe`.
+  - Hot restart verified on physical device (1,985ms restart time).
+
 ---
 
 ## 3. Verified API & Workflow Testing Matrix (All 24 Phase 1 Features)
@@ -83,6 +96,7 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **Frontend Desktop** | Flutter Windows (`.exe`)     | ✅ Passed | Native C++ Impeller Desktop Runner |
 | **Frontend Android** | Physical Phone (`CPH2757`)   | ✅ Passed | Native Vulkan Impeller Android Runner |
 | **Windows Installer**| `IT_Helpdesk-Setup.exe` (10.7MB)| ✅ Passed | Inno Setup 6 standalone single-file installer |
+| **Network Error Handling** | `ApiClient._executeRequest()` | ✅ Passed | SocketException, TimeoutException, ClientException caught & structured |
 
 ---
 

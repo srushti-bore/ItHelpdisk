@@ -28,6 +28,10 @@ This document tracks identified areas of technical debt, resolved platform patch
 - **Issue:** Windows desktop builds required raw `.dll` folder distribution.
 - **Resolution:** Built Inno Setup 6 packaging script `IT_Helpdesk_Setup.iss` outputting single-file installer `IT_Helpdesk-Setup.exe` (10.7MB).
 
+### ✅ 2.5 ApiClient Network Error Handling (Fixed — 21 Sep 2026)
+- **Issue:** Raw `SocketException`, `TimeoutException`, and `http.ClientException` propagated uncaught through `ApiClient` HTTP methods. On physical Android devices (or whenever the backend was unreachable), every screen showed a vague "An unexpected connection error occurred" with no actionable detail.
+- **Resolution:** Added `_executeRequest()` wrapper method in `client/lib/shared/api_client.dart` that catches all three network-level exception types and converts them into structured `ApiException` with user-friendly messages and `debugPrint` console logging. All four HTTP methods (`get`, `post`, `patch`, `delete`) now route through this wrapper with a 15-second timeout. Every screen (auth, cases, reports, knowledge) benefits automatically without needing individual catch blocks.
+
 ---
 
 ## 3. High-Priority Items (Near-Term / Phase 2 Roadmap)
