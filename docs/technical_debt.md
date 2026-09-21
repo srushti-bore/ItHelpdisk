@@ -1,12 +1,12 @@
 # AI IT Helpdesk - Technical Debt & Architectural Assessment
 
-**Date:** 17 September 2026  
+**Date:** 21 September 2026  
 **Scope:** Backend (FastAPI / PostgreSQL), Client (Flutter), AI Integration (Gemini), DevOps & Deployment
 
 ---
 
 ## 1. Overview
-This document tracks identified areas of technical debt, architectural trade-offs made during rapid development/prototyping, and recommended refactorings for future production milestones.
+This document tracks identified areas of technical debt, architectural trade-offs made during development, and recommended refactorings for future production milestones.
 
 ---
 
@@ -32,7 +32,7 @@ This document tracks identified areas of technical debt, architectural trade-off
 ## 3. Medium-Priority Items (Code & Architecture)
 
 ### 3.1 Strict Typing & Pydantic Config Validation
-- **Current State:** Schemas now use `Union[UUID, str]` for compatibility between SQLAlchemy UUID objects and API input strings.
+- **Current State:** Schemas use `Union[UUID, str]` for compatibility between SQLAlchemy UUID objects and API input strings.
 - **Improvement:** Implement custom Pydantic V2 `Annotated[UUID, PlainSerializer(...)]` types to standardize all ID representations across the codebase without repeating `Union[UUID, str]`.
 
 ### 3.2 WebSocket Live Updates for Case Timeline
@@ -42,6 +42,10 @@ This document tracks identified areas of technical debt, architectural trade-off
 ### 3.3 Flutter Client State Management Refactoring
 - **Current State:** `CaseDetailScreen` manages message sending, status transition, and assignment with local `setState`.
 - **Improvement:** Extract case details logic into dedicated `CaseController` / `Provider` to keep UI components purely declarative and simplify component-level widget testing.
+
+### 3.4 Local Web Port / Process Lifecycle Management
+- **Current State:** Flutter Web debug runner socket binding may collide with prior background `dartvm.exe` instances on port 3000.
+- **Improvement:** Add automated pre-launch port check or graceful kill routine in `scripts/dev.bat` to ensure seamless 1-click startup.
 
 ---
 
@@ -59,7 +63,7 @@ This document tracks identified areas of technical debt, architectural trade-off
 
 ## 5. Security & Compliance Checklist
 
-- [x] Passwords hashed using bcrypt (`pwd_context.hash`).
+- [x] Passwords hashed using bcrypt / Argon2id (`pwd_context.hash`).
 - [x] JWT token expiration enforced (15-min access token in production, 24-hr dev token).
 - [x] CORS restricted by regex pattern to localhost origins.
 - [x] `.env` secrets excluded from version control via `.gitignore`.

@@ -1,25 +1,27 @@
 # AI IT Helpdesk - Project Progress Report
 
-**Date:** 17 September 2026  
+**Date:** 21 September 2026  
 **Active Branch:** `dev`  
 **System Architecture:** FastAPI Async Backend (Python 3.13) + PostgreSQL (Alembic) + Flutter Multiplatform Client (Web, Windows, Android) + Google Gemini AI Integration
 
 ---
 
 ## 1. Executive Summary
-The **AI IT Helpdesk** enterprise platform has been brought to a fully functional, verified state locally across both backend services and frontend multiplatform runners. All core workflows—from user authentication and 24/7 wall-clock SLA tracking to AI Triage, Smart Operator Assignment, Contextual Communication Drafts, and Knowledge Base Management—have been tested and verified.
+The **AI IT Helpdesk** enterprise platform is fully operational, verified, and running locally across both backend services and frontend multiplatform runners. All core workflows—from user authentication and 24/7 wall-clock SLA tracking to AI Triage, Smart Operator Assignment, Contextual Communication Drafts, Knowledge Base Management, and In-Process Background Sweeps—have been tested and verified.
 
 ---
 
 ## 2. Key Accomplishments & Deliverables
 
-### A. Environment & SDK Setup
-- **Flutter SDK Installation & Configuration:**
+### A. Environment, Multiplatform & Runtime Execution
+- **Flutter Multiplatform SDK Configuration:**
   - Initialized Flutter 3.47.4 • Dart 3.13.3 at `D:\flutter`.
-  - Configured platform runners for `web` (HTML/CanvasKit), `windows` (Desktop C++ runner), and `android`.
-  - Executed `flutter pub get` resolving all 78 frontend dependencies.
-- **Python Virtual Environment:**
+  - Configured platform runners for `web` (Chrome / CanvasKit), `windows` (Desktop C++ runner), and `android`.
+  - Frontend web client verified and actively running on `http://localhost:3000`.
+- **FastAPI Backend Server & In-Process Scheduler:**
   - Configured `.venv` with FastAPI, SQLAlchemy 2.0 (asyncpg & psycopg2), Alembic, Pydantic v2, Google GenAI SDK, and APScheduler.
+  - Backend API server verified and running on `http://0.0.0.0:8000` with Swagger docs at `http://localhost:8000/docs`.
+  - In-process APScheduler ("The Sweep") successfully registered and actively executing SLA/risk checks every 5 minutes.
 
 ### B. Database Schema & Migration Fixes
 - **Circular Foreign Key Dependency Resolution:**
@@ -43,7 +45,7 @@ The **AI IT Helpdesk** enterprise platform has been brought to a fully functiona
 
 ### D. Frontend Features & Enhancements
 - **AI Smart Assignment Dialog (`AssignCaseDialog`):**
-  - Created interactive modal fetching `/api/v1/ai/cases/{id}/smart-assignment`.
+  - Interactive modal fetching `/api/v1/ai/cases/{id}/smart-assignment`.
   - Displays operator workload, site matching (e.g. Pune/BLR), availability status, and match score points.
   - Enables 1-click assignment via `PATCH /api/v1/cases/{id}/assign`.
 - **AI Communication Assistant (`AIDraftDialog`):**
@@ -69,16 +71,17 @@ The **AI IT Helpdesk** enterprise platform has been brought to a fully functiona
 | **AI Draft Send** | `POST /api/v1/ai/drafts/{id}/send` | ✅ Passed | Posts message & triggers AI summary |
 | **Knowledge Base** | `GET /api/v1/knowledge/articles` | ✅ Passed | Returns published SOP articles |
 | **The Sweep (Job)**| APScheduler 5-min interval | ✅ Passed | Evaluates SLA breaches & risk signals |
+| **Frontend Runner**| Flutter Web (Chrome `:3000`) | ✅ Passed | Live interactive client UI |
 
 ---
 
 ## 4. Demo Login Credentials Reference
 
-| Role | Email | Password | Site |
+| Role | Email | Password | Site / Scope |
 | :--- | :--- | :--- | :--- |
-| **Admin** | `admin@ithelpdesk.com` | `AdminPassword123!` | Pune |
-| **Manager** | `manager@ithelpdesk.com` | `ManagerPassword123!` | Pune |
-| **Operator (Pune)** | `operator.pune@ithelpdesk.com` | `OperatorPassword123!` | Pune |
-| **Operator (BLR)** | `operator.blr@ithelpdesk.com` | `OperatorPassword123!` | Bengaluru |
-| **Knowledge Owner**| `knowledge.owner@ithelpdesk.com` | `KnowledgePassword123!` | Pune |
-| **Requester** | `requester@ithelpdesk.com` | `RequesterPassword123!` | Pune |
+| **Admin** | `admin@ithelpdesk.com` | `AdminPassword123!` | System Settings & Audit Logs |
+| **Manager** | `manager@ithelpdesk.com` | `ManagerPassword123!` | Cross-team Telemetry & Operations |
+| **Operator (Pune)** | `operator.pune@ithelpdesk.com` | `OperatorPassword123!` | Pune Desk / Tier 1 Service Desk |
+| **Operator (BLR)** | `operator.blr@ithelpdesk.com` | `OperatorPassword123!` | Bengaluru / NOC Operations |
+| **Knowledge Owner**| `knowledge.owner@ithelpdesk.com` | `KnowledgePassword123!` | SOP & Knowledge Base Authoring |
+| **Requester** | `requester@ithelpdesk.com` | `RequesterPassword123!` | Self-Service Case Submission |
