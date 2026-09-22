@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign in — AI IT Helpdesk</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Space Grotesk & Public Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+            "body-lg": ["14px", { "lineHeight": "21px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "17px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "500" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "mono-data": ["13px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xs": ["16px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+</head>
+<body class="bg-[#F7F6F3] text-[#2B2A28] antialiased min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Main Container / Mobile viewport width wrapper -->
+<main class="w-full max-w-[420px] mx-auto min-h-screen px-6 py-8 flex flex-col justify-between">
+<!-- Header Block -->
+<div>
+<header class="flex items-center gap-3 pt-2 mb-8">
+<div class="w-12 h-12 rounded-lg border border-[#E7E4DC] bg-surface-container-lowest flex items-center justify-center overflow-hidden flex-shrink-0">
+<img alt="AI IT Helpdesk App Icon" class="w-12 h-12 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Wq7xUMeTUI_xfhb02TXakbc0OdyBKiMSHLrZV30xDTzGseiPpWrve_wv6E2U-mZhCz-JIEX6b8euBb4TlICHilbZDE4hKSeFIzjCEoWumSmRaMDHqP_m3koBasxEXQ_3BXSkDDvDAuXcY0A9ZLpSLlzJrbPjXbV8rdM2YBrIG-bXuoJPGxCxE7HujIYkBLB0lARf3liWX5w4T0h-VMHJ4qhrUc0OLxkw7ANe5fvJTZE9hzR_VUnmldO7FH"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-xs text-headline-xs text-[#2B2A28] tracking-tight">AI IT Helpdesk</span>
+<span class="font-label-sm text-label-sm text-[#6B6862]">Internal technical operations</span>
+</div>
+</header>
+<!-- Welcome & Intent -->
+<section class="mb-8">
+<h1 class="font-headline-md text-headline-md text-[#2B2A28] tracking-tight mb-2">Sign in</h1>
+<p class="font-body-md text-body-md text-[#6B6862]">
+          Enter your institutional credentials to access assigned triage queues and device fleets.
+        </p>
+</section>
+<!-- Form Section -->
+<form class="space-y-4" id="auth-form" onsubmit="event.preventDefault(); handleFormSubmit();">
+<!-- Work Email Field -->
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm text-[#2B2A28]" for="work-email">
+            Work email
+          </label>
+<div class="relative">
+<input autocomplete="email" class="w-full h-11 px-3.5 rounded-xl bg-surface-container-lowest border border-[#E7E4DC] font-body-md text-body-md text-[#2B2A28] placeholder-[#9C9890] transition-colors duration-120 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-[#E4E6FA]" id="work-email" name="email" placeholder="alex@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-sm text-label-sm text-[#2B2A28]" for="account-password">
+              Password
+            </label>
+<button class="font-label-sm text-label-sm text-primary-container hover:text-primary transition-colors duration-120 focus:outline-none" id="btn-forgot-password" type="button">
+              Forgot password
+            </button>
+</div>
+<div class="relative">
+<input autocomplete="current-password" class="w-full h-11 px-3.5 pr-10 rounded-xl bg-surface-container-lowest border border-[#E7E4DC] font-body-md text-body-md text-[#2B2A28] placeholder-[#9C9890] transition-colors duration-120 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-[#E4E6FA]" id="account-password" name="password" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#6B6862] hover:text-[#2B2A28] flex items-center justify-center p-1 rounded transition-colors duration-120" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility" id="password-icon">visibility</span>
+</button>
+</div>
+<!-- Inline Error State Preview (Desaturated Rose) -->
+<div class="flex items-center gap-1.5 pt-1 text-[#D8848C]" id="password-error">
+<span class="material-symbols-outlined text-[14px]" data-icon="info">info</span>
+<span class="font-body-sm text-body-sm">Unrecognized single sign-on hash. Verify your hardware security token.</span>
+</div>
+</div>
+<!-- Session Persistence -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded border-[#DCD9D0] text-primary-container focus:ring-0 focus:ring-offset-0 focus:outline-none cursor-pointer" id="remember-session" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-[#6B6862]">Keep session verified for 12 hours</span>
+</label>
+</div>
+<!-- Primary Action Button -->
+<div class="pt-2">
+<button class="w-full h-[44px] rounded-lg bg-primary-container hover:bg-[#7980D4] active:bg-[#686EC4] text-on-primary font-label-md text-label-md transition-colors duration-120 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-[#E4E6FA]" type="submit">
+            Sign in
+          </button>
+</div>
+</form>
+<!-- Subtle Divider -->
+<div class="relative my-6 flex items-center justify-center">
+<div class="w-full border-t border-[#E7E4DC]"></div>
+<span class="absolute bg-[#F7F6F3] px-3 font-label-sm text-label-sm text-[#6B6862]">
+          or
+        </span>
+</div>
+<!-- Secondary OAuth Button -->
+<button class="w-full h-[44px] rounded-lg bg-surface-container-lowest border border-[#E7E4DC] hover:bg-[#FAF9F7] active:bg-surface-container font-label-md text-label-md text-[#2B2A28] transition-colors duration-120 flex items-center justify-center gap-3 focus:outline-none focus:border-outline-variant" type="button">
+<!-- Authentic Google SVG (No gradient, exact geometry) -->
+<svg aria-hidden="true" class="w-4 h-4 flex-shrink-0" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- AI Infrastructure Status Note (Architectural 2px border) -->
+<div class="mt-6 p-3 bg-surface-container-lowest rounded-xl border border-[#E7E4DC] border-l-2 border-l-primary-container">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-[#6B6862]">AI suggestion</span>
+<span class="font-label-sm text-label-sm text-[#965743] bg-[#F7E5DE] px-2 py-0.5 rounded flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E39B84]"></span>
+<span>Gateway active</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#2B2A28]">
+          Automated triage copilot is currently indexing ticket queues in tier-1 enterprise clusters.
+        </p>
+</div>
+</div>
+<!-- Bottom Switcher & Security Stamp -->
+<footer class="pt-8 pb-2 space-y-4">
+<div class="text-center">
+<p class="font-body-md text-body-md text-[#6B6862]">
+          Don't have an account? 
+          <a class="text-primary-container font-label-md text-label-md hover:underline ml-1" href="#signup">
+            Sign up
+          </a>
+</p>
+</div>
+<!-- Compliance & Archival Node Reference -->
+<div class="flex items-center justify-center gap-4 text-[#9C9890] font-mono-data text-body-sm">
+<span>Node: 09-LON-PRD</span>
+<span>•</span>
+<span>TLS 1.3 / Hardware SSO</span>
+</div>
+</footer>
+</main>
+<!-- Interaction Logic for Password Reveal & Quiet Feedback -->
+<script>
+    const passwordInput = document.getElementById('account-password');
+    const toggleBtn = document.getElementById('toggle-password');
+    const passwordIcon = document.getElementById('password-icon');
+
+    toggleBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      passwordIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+    });
+
+    function handleFormSubmit() {
+      const errorMsg = document.getElementById('password-error');
+      // Subtle pulse demonstration
+      errorMsg.classList.add('opacity-50');
+      setTimeout(() => {
+        errorMsg.classList.remove('opacity-50');
+      }, 180);
+    }
+  </script>
+</body></html>

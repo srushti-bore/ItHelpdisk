@@ -1,0 +1,24 @@
+class AppConstants {
+  static const String appName = 'AI IT Helpdesk';
+
+  // API Configuration (FastAPI backend base url)
+  static String get defaultApiBaseUrl {
+    return 'http://localhost:8000/api/v1';
+  }
+
+  static List<String> get candidateApiBaseUrls => [
+    'http://localhost:8000/api/v1',
+    'http://10.76.69.178:8000/api/v1',
+    'http://10.0.2.2:8000/api/v1',
+  ];
+
+  // Breakpoints for Responsive Design (Mobile vs Tablet vs Desktop/Web)
+  static const double mobileBreakpoint = 600.0;
+  static const double tabletBreakpoint = 1024.0;
+
+  // Local Storage Keys
+  static const String keyAccessToken = 'it_helpdesk_access_token';
+  static const String keyRefreshToken = 'it_helpdesk_refresh_token';
+  static const String keyUserData = 'it_helpdesk_user_data';
+  static const String keyThemeMode = 'it_helpdesk_theme_mode';
+}

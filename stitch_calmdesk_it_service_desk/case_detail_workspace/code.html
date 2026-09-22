@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Desk — INC-4091 Detail</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "500"}],
+            "body-lg": ["14px", {"lineHeight": "21px", "fontWeight": "400"}],
+            "label-md": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+            "body-md": ["13px", {"lineHeight": "19px", "fontWeight": "400"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "body-sm": ["12px", {"lineHeight": "17px", "fontWeight": "400"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+            "headline-xl-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+            "headline-sm": ["18px", {"lineHeight": "22px", "fontWeight": "500"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+            "mono-data": ["13px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "headline-xs": ["16px", {"lineHeight": "20px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    /* Hide scrollbars cleanly for horizontal lifecycle stepper */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md text-body-md min-h-screen pb-44 selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Header Contextual Top Bar (Mobile Focus Shell) -->
+<header class="bg-surface border-b border-surface-variant fixed top-0 left-0 right-0 h-12 z-40 px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Go back" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="flex items-baseline gap-space-2xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">INC-4091</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant inline-block"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Desk</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Search cases" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button aria-label="More actions" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Concurrency Banner -->
+<aside class="fixed top-12 left-0 right-0 z-30 bg-surface-container-lowest border-b border-surface-variant px-space-md py-space-xs flex items-center justify-between text-body-sm shadow-[0_2px_8px_rgba(43,42,40,0.03)]">
+<div class="flex items-center gap-space-xs pr-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container shrink-0"></span>
+<p class="text-on-surface-variant leading-tight">This case was updated by someone else — Reload to see the latest</p>
+</div>
+<button class="text-primary-container hover:text-primary font-label-sm text-label-sm font-semibold shrink-0 px-space-xs py-1 transition-colors duration-120">
+      Reload
+    </button>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-space-md space-y-space-md max-w-lg mx-auto">
+<!-- Case Meta Card -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant p-space-md space-y-space-md">
+<!-- Title & Reference Header -->
+<div class="space-y-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-mono-data text-on-surface-variant">Reference INC-4091</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reported 2h ago</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">
+          Laptop external display flickering after update
+        </h1>
+</div>
+<!-- Lifecycle Stepper (Horizontal) -->
+<div class="border-t border-b border-surface-variant py-space-xs">
+<div class="flex items-center justify-between gap-1 overflow-x-auto no-scrollbar py-1">
+<!-- Step 1 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Draft</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Step 2 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">New</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Step 3 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">In assessment</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Step 4 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Assigned</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Active Step -->
+<div class="flex items-center gap-1.5 px-space-xs py-0.5 rounded bg-primary-fixed shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-on-primary-fixed-variant font-semibold">Awaiting requester</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Step 6 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Resolved</span>
+</div>
+<span class="text-outline-variant font-label-sm shrink-0">·</span>
+<!-- Step 7 -->
+<div class="flex items-center gap-1 shrink-0 opacity-40">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Closed</span>
+</div>
+</div>
+</div>
+<!-- Status & Priority Chips -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<!-- Status: Warning/Degraded amber -->
+<div class="inline-flex items-center gap-1.5 px-space-xs py-1 rounded bg-[#F8ECD6] text-[#966F2A]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E3B15C]"></span>
+<span class="font-label-sm text-label-sm font-medium">Awaiting requester</span>
+</div>
+<!-- Priority: Pending/Info muted clay-coral -->
+<div class="inline-flex items-center gap-1.5 px-space-xs py-1 rounded bg-[#F7E5DE] text-[#965743]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E39B84]"></span>
+<span class="font-label-sm text-label-sm font-medium">P2 Normal</span>
+</div>
+<div class="inline-flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span>Tier 2 hardware</span>
+</div>
+</div>
+<!-- SLA Countdown Progress Dual-Bar -->
+<div class="bg-surface-container-low rounded-lg p-space-sm space-y-space-sm border border-surface-variant">
+<div>
+<div class="flex justify-between items-center mb-1 text-label-sm font-label-sm">
+<span class="text-on-surface-variant">First response SLA</span>
+<span class="text-[#4D7574] font-medium">Met (18m elapsed)</span>
+</div>
+<div class="w-full bg-[#DDEBEA] h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#6E9C9B] h-full rounded-full w-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1 text-label-sm font-label-sm">
+<span class="text-on-surface-variant">Resolution target</span>
+<span class="text-[#966F2A] font-medium">4h 12m remaining</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#E3B15C] h-full rounded-full w-3/5"></div>
+</div>
+</div>
+</div>
+<!-- Assignment & Context Metadata -->
+<div class="pt-space-xs space-y-space-xs text-body-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-sm text-label-sm text-on-surface font-semibold border border-surface-variant">
+              ER
+            </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-medium leading-none">Elena Rostova</p>
+<p class="text-on-surface-variant text-label-sm font-label-sm">Assigned owner · IT Tier 2</p>
+</div>
+</div>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-space-xs py-1 rounded transition-colors duration-120">
+            Reassign
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs border-t border-surface-variant text-label-sm font-label-sm">
+<div>
+<span class="text-on-surface-variant block">Site</span>
+<span class="text-on-surface font-medium">Building C, Floor 3</span>
+</div>
+<div>
+<span class="text-on-surface-variant block">Service category</span>
+<span class="text-on-surface font-medium">Hardware / Workstation</span>
+</div>
+</div>
+</div>
+</article>
+<!-- AI Case Summary Block -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-variant border-l-2 border-l-primary-container p-space-md space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">AI summary · Updated 2 min ago</span>
+<button class="text-on-surface-variant hover:text-on-surface text-label-sm font-label-sm">Inspect telemetry</button>
+</div>
+<p class="text-on-surface leading-relaxed font-body-md text-body-md">
+        User upgraded to macOS 14.4 yesterday. DisplayPort handshake fails intermittently on Dell WD19 docks. Similar issue reported in INC-4082.
+      </p>
+</section>
+<!-- Communication & Activity Thread -->
+<section class="space-y-space-sm">
+<!-- Segmented Tab Header -->
+<div class="flex items-center border-b border-surface-variant">
+<button class="pb-space-xs px-space-xs font-label-md text-label-md font-semibold text-primary border-b-2 border-primary -mb-px">
+          Activity (4)
+        </button>
+<button class="pb-space-xs px-space-xs font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors duration-120">
+          Internal notes (2)
+        </button>
+</div>
+<!-- Thread Container -->
+<div class="space-y-space-sm pt-space-2xs">
+<!-- Message 1 (Operator) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant p-space-md space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Elena Rostova</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">10:45 AM</span>
+</div>
+<span class="px-space-2xs py-0.5 rounded border border-surface-variant text-label-sm font-label-sm text-on-surface-variant">
+              Visible to requester
+            </span>
+</div>
+<p class="text-on-surface font-body-md text-body-md">
+            Hi Alex, could you send over your system display logs or verify if unplugging dock power resets the port?
+          </p>
+</article>
+<!-- Message 2 (AI Draft Card) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-variant border-l-2 border-l-primary-container p-space-md space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">AI draft · Not sent</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Generated from email thread</span>
+</div>
+<div class="bg-[#FBFBF9] p-space-sm rounded-lg border border-surface-variant">
+<p class="text-on-surface font-body-md text-body-md">
+              Thank you Elena. I have attached the display diagnostic log file. The power cycle did not resolve the flicker.
+            </p>
+</div>
+<div class="flex items-center justify-end gap-space-xs pt-space-2xs">
+<button class="px-space-md py-1.5 rounded-lg border border-surface-variant bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-surface-container-low transition-colors duration-120">
+              Edit
+            </button>
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-white font-label-sm text-label-sm hover:bg-[#7980D4] active:bg-[#686EC4] transition-colors duration-120">
+              Send
+            </button>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Message Composer (Docked above BottomNavBar) -->
+<div class="fixed bottom-12 left-0 right-0 bg-surface-container-lowest border-t border-surface-variant p-space-sm z-30 shadow-[0_-4px_16px_rgba(43,42,40,0.04)] max-w-lg mx-auto">
+<div class="flex items-center justify-between pb-space-xs">
+<!-- Visibility Pill -->
+<button class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span>Visible to requester</span>
+</button>
+<!-- Draft with AI ghost action -->
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-container font-label-sm text-label-sm transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+<span>Draft with AI</span>
+</button>
+</div>
+<!-- Text Input Area & Action Row -->
+<div class="relative rounded-lg border border-surface-variant bg-surface focus-within:border-primary-container focus-within:ring-2 focus-within:ring-[#E4E6FA] transition-all">
+<textarea class="w-full bg-transparent border-0 resize-none px-space-sm pt-space-xs pb-8 text-on-surface placeholder:text-outline text-body-md focus:ring-0 focus:outline-none" placeholder="Type an update or paste error traces..." rows="2"></textarea>
+<div class="absolute bottom-1 left-space-xs right-space-xs flex items-center justify-between border-t border-surface-container pt-1">
+<div class="flex items-center gap-1">
+<button aria-label="Attach file" class="p-1 rounded text-on-surface-variant hover:bg-surface-container transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<button aria-label="Insert template" class="p-1 rounded text-on-surface-variant hover:bg-surface-container transition-colors duration-120">
+<span class="material-symbols-outlined" data-icon="data_object">data_object</span>
+</button>
+</div>
+<button class="px-space-md py-1 rounded bg-primary-container text-white font-label-sm text-label-sm hover:bg-[#7980D4] active:bg-[#686EC4] transition-colors duration-120">
+          Send
+        </button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Shared Component strictly mapped) -->
+<nav class="bg-surface-container-lowest fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-xs border-t border-outline-variant h-12">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- My cases (Active Destination) -->
+<a class="flex flex-col items-center justify-center text-primary p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#">
+<span class="material-symbols-outlined" data-icon="inbox">inbox</span>
+<span class="font-label-sm text-label-sm font-semibold">My cases</span>
+</a>
+<!-- Notifications -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-sm text-label-sm">Notifications</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

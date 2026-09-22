@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications &amp; Settings · Desk</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+            "body-lg": ["14px", { "lineHeight": "21px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "17px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "500" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "mono-data": ["13px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xs": ["16px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-24 selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Shared TopAppBar Anchor (JSON-mapped) -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-space-md h-12 fixed top-0 left-0 z-50 transition-colors duration-120">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface text-[20px]" data-icon="search">search</span>
+<h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Notifications &amp; settings</h1>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Alerts" class="p-space-2xs text-on-surface-variant hover:bg-surface-container rounded transition-colors duration-120 relative">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</button>
+</div>
+</header>
+<!-- Mobile Screen Content Container -->
+<main class="pt-16 px-space-md max-w-md mx-auto">
+<!-- Segmented Filter Control -->
+<div class="my-space-md bg-surface-container-high p-1 rounded-lg flex items-center gap-1 border border-outline-variant">
+<button class="flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 bg-surface-container-lowest text-on-surface shadow-none border border-outline-variant" id="tab-notifications" onclick="switchTab('notifications')">
+        Notifications
+      </button>
+<button class="flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 text-on-surface-variant hover:bg-surface-container" id="tab-settings" onclick="switchTab('settings')">
+        Settings
+      </button>
+</div>
+<!-- SECTION 1: Notifications Canvas -->
+<section class="space-y-space-lg block" id="pane-notifications">
+<!-- Operational Meta Header -->
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant">
+<span class="font-headline-xs text-headline-xs text-on-surface">Recent alerts (2 unread)</span>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors duration-120">
+          Mark all as read
+        </button>
+</div>
+<!-- Group: Today -->
+<div class="space-y-space-xs">
+<div class="font-mono-data text-mono-data text-on-surface-variant px-space-2xs">Today</div>
+<!-- Alert Item 1 (Unread) -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md relative pl-space-md flex flex-col gap-space-2xs transition-colors duration-120 hover:bg-surface-container-low">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary-container rounded-l"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ticket note</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</div>
+<span class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">14m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+            Elena Rostova replied to INC-4091: "Could you send over display logs..."
+          </p>
+<div class="pt-space-2xs flex items-center gap-space-xs text-on-surface-variant">
+<span class="font-mono-data text-mono-data text-[11px] bg-surface-container-high px-1.5 py-0.5 rounded">INC-4091</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Display flicker · Docking station</span>
+</div>
+</article>
+<!-- Alert Item 2 (Unread SLA Warning) -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md relative pl-space-md flex flex-col gap-space-2xs transition-colors duration-120 hover:bg-surface-container-low">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary-container rounded-l"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<!-- Warning Chip according to Brand spec -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#F8ECD6] text-[#966F2A] font-label-sm text-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#E3B15C]"></span>
+                Warning
+              </span>
+</div>
+<span class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">28m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+            SLA warning: INC-4094 resolution target in 45m
+          </p>
+<div class="pt-space-2xs flex items-center justify-between">
+<span class="font-mono-data text-mono-data text-[11px] bg-surface-container-high px-1.5 py-0.5 rounded text-on-surface-variant">INC-4094</span>
+<span class="font-label-sm text-label-sm text-primary">Review queue</span>
+</div>
+</article>
+</div>
+<!-- Group: Earlier -->
+<div class="space-y-space-xs pt-space-xs">
+<div class="font-mono-data text-mono-data text-on-surface-variant px-space-2xs">Earlier</div>
+<!-- Alert Item 3 (Read) -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md flex flex-col gap-space-2xs transition-colors duration-120 hover:bg-surface-container-low">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Routing dispatch</span>
+<span class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-snug">
+            Ticket REQ-8820 was assigned to IT Tier 1
+          </p>
+<div class="pt-space-2xs flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data text-[11px] bg-surface-container-high px-1.5 py-0.5 rounded text-on-surface-variant">REQ-8820</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hardware provisioning request</span>
+</div>
+</article>
+</div>
+<!-- Dignified Calm AI Triage Note -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-space-md relative pl-space-md">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary-container rounded-l"></div>
+<div class="font-label-sm text-label-sm text-on-surface-variant pb-space-2xs">AI draft</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+          Elena's crash logs suggest kernel panic on USB-C hub handoff. Recommended quick-resolve article KB-1092 attached to workspace.
+        </p>
+</div>
+</section>
+<!-- SECTION 2: Settings Canvas -->
+<section class="space-y-space-lg hidden" id="pane-settings">
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md space-y-space-md">
+<div class="flex items-start gap-space-md">
+<img class="w-14 h-14 rounded-lg object-cover border border-outline-variant bg-surface-container-high" data-alt="A clean, minimalist portrait photograph of Alex Mercer, a staff product designer in an airy architectural office environment with subtle neutral background tones, soft diffused illumination, and understated styling perfectly aligned with an editorial design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5CEQWtScIKPeox13LAdCuWU3oQVVEs--EOyrSwS59uhHgXwyQXKUGtzzGjQnFVvYMqTvPuIa3HRt1HE9bmSPS3fWdK-HhTNfBHPcP4Cm6uplmHHDvKbzUhgtuotM8w91lwIsfoUG4Bp2bu-Rda9bXmXbx-65KMTu20F1U35hoCehx0iFA_AnaVY94d-uSd1UbsYZYYHHGBt8fqLXD3JIC7Ldk3OUczLct6AXt9s60k0BQcZS5QgKtQA"/>
+<div class="flex-1 min-w-0">
+<h2 class="font-headline-xs text-headline-xs text-on-surface truncate">Alex Mercer</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Staff Product Designer · Building C</p>
+<p class="font-mono-data text-mono-data text-[11px] text-on-surface-variant truncate mt-0.5">alex@company.com</p>
+</div>
+</div>
+<button class="w-full h-9 bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md text-label-md rounded-lg transition-colors duration-120 text-center">
+          Edit profile
+        </button>
+</div>
+<!-- Theme Mode Segmented Pill -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md space-y-space-sm">
+<div class="font-label-md text-label-md text-on-surface">Interface theme</div>
+<div class="grid grid-cols-3 gap-1.5 p-1 bg-surface-container rounded-lg border border-outline-variant">
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded transition-colors duration-120 bg-primary-container text-on-primary font-medium">
+            Light
+          </button>
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded transition-colors duration-120 text-on-surface-variant hover:bg-surface-container-lowest">
+            Dark
+          </button>
+<button class="py-1.5 text-center font-label-sm text-label-sm rounded transition-colors duration-120 text-on-surface-variant hover:bg-surface-container-lowest">
+            System
+          </button>
+</div>
+</div>
+<!-- Notification Channels Switches -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md divide-y divide-outline-variant">
+<div class="pb-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Notification dispatch channels</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configure where critical alerts are routed</p>
+</div>
+<!-- Toggle 1: Email notifications (Active) -->
+<div class="py-space-sm flex items-center justify-between">
+<div>
+<div class="font-body-md text-body-md text-on-surface">Email notifications</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Primary operational email dispatch</div>
+</div>
+<button aria-checked="true" class="w-10 h-6 bg-primary-container rounded-full p-0.5 transition-colors duration-120 focus:outline-none" role="switch" type="button">
+<div class="w-5 h-5 bg-surface-container-lowest rounded-full shadow-none translate-x-4 transition-transform duration-120"></div>
+</button>
+</div>
+<!-- Toggle 2: Slack instant alerts (Active) -->
+<div class="py-space-sm flex items-center justify-between">
+<div>
+<div class="font-body-md text-body-md text-on-surface">Slack instant alerts</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Direct mention in #it-triage</div>
+</div>
+<button aria-checked="true" class="w-10 h-6 bg-primary-container rounded-full p-0.5 transition-colors duration-120 focus:outline-none" role="switch" type="button">
+<div class="w-5 h-5 bg-surface-container-lowest rounded-full shadow-none translate-x-4 transition-transform duration-120"></div>
+</button>
+</div>
+<!-- Toggle 3: AI weekly digest (Inactive) -->
+<div class="pt-space-sm flex items-center justify-between">
+<div>
+<div class="font-body-md text-body-md text-on-surface">AI weekly digest</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Summary of ticket deflection trends</div>
+</div>
+<button aria-checked="false" class="w-10 h-6 bg-surface-container-highest rounded-full p-0.5 transition-colors duration-120 focus:outline-none" role="switch" type="button">
+<div class="w-5 h-5 bg-surface-container-lowest rounded-full shadow-none translate-x-0 transition-transform duration-120"></div>
+</button>
+</div>
+</div>
+<!-- Security & Connected Accounts -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md space-y-space-md">
+<div class="font-label-md text-label-md text-on-surface">Security &amp; single sign-on</div>
+<!-- Google Workspace Connection Item -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-lg border border-outline-variant">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-surface-container-lowest border border-outline-variant flex items-center justify-center font-mono-data text-mono-data text-on-surface font-semibold">
+              G
+            </div>
+<div>
+<div class="font-body-md text-body-md text-on-surface">Google Workspace</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">enterprise SSO</div>
+</div>
+</div>
+<!-- Slate-teal chip (Verified - NO GREEN ALLOWED) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#DDEBEA] text-[#4D7574] font-label-sm text-label-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#6E9C9B]"></span>
+            Verified
+          </span>
+</div>
+<!-- Password Action Button -->
+<div class="flex items-center justify-between pt-space-2xs">
+<div>
+<div class="font-body-md text-body-md text-on-surface">Account credentials</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Last updated 42 days ago</div>
+</div>
+<button class="h-9 px-space-md bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md text-label-md rounded-lg transition-colors duration-120">
+            Change password
+          </button>
+</div>
+</div>
+<!-- Sign out utilitarian control -->
+<div class="pt-space-xs text-center">
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors duration-120">
+          Sign out of all workstation sessions
+        </button>
+</div>
+</section>
+</main>
+<!-- Shared BottomNavBar Component (JSON Execution) -->
+<!-- Target screen represents 'Notifications & Settings' / 'Profile' context -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-xs bg-surface-container-lowest border-t border-outline-variant transition-colors duration-120">
+<!-- Item: Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#home">
+<span class="material-symbols-outlined text-[20px]" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Item: My cases -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#cases">
+<span class="material-symbols-outlined text-[20px]" data-icon="inbox">inbox</span>
+<span class="font-label-sm text-label-sm">My cases</span>
+</a>
+<!-- Item: Notifications (Direct match / Active) -->
+<a class="flex flex-col items-center justify-center text-primary p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#notifications" onclick="switchTab('notifications'); return false;">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications" data-weight="fill" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-label-sm text-label-sm">Notifications</span>
+</a>
+<!-- Item: Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#profile" onclick="switchTab('settings'); return false;">
+<span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Tab Switch Script for mobile viewport interaction -->
+<script>
+    function switchTab(tab) {
+      const paneNotifications = document.getElementById('pane-notifications');
+      const paneSettings = document.getElementById('pane-settings');
+      const tabNotifications = document.getElementById('tab-notifications');
+      const tabSettings = document.getElementById('tab-settings');
+
+      if (tab === 'notifications') {
+        paneNotifications.classList.remove('hidden');
+        paneSettings.classList.add('hidden');
+        tabNotifications.className = 'flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 bg-surface-container-lowest text-on-surface shadow-none border border-outline-variant';
+        tabSettings.className = 'flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 text-on-surface-variant hover:bg-surface-container';
+      } else {
+        paneNotifications.classList.add('hidden');
+        paneSettings.classList.remove('hidden');
+        tabSettings.className = 'flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 bg-surface-container-lowest text-on-surface shadow-none border border-outline-variant';
+        tabNotifications.className = 'flex-1 py-1.5 px-space-sm rounded text-center font-label-md text-label-md transition-colors duration-120 text-on-surface-variant hover:bg-surface-container';
+      }
+    }
+  </script>
+</body></html>

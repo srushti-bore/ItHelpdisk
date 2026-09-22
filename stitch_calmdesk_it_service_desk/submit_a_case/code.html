@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Submit a Case - AI IT Helpdesk</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..700;1,300..700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+            "body-lg": ["14px", { "lineHeight": "21px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "17px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "500" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "mono-data": ["13px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xs": ["16px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Architectural Hairline Rules & Reset of Ambient Shadowing */
+    body {
+      background-color: #f7f6f3;
+      color: #2b2a28;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .hairline-border {
+      border: 1px solid #e7e4dc;
+    }
+    .hairline-border-b {
+      border-bottom: 1px solid #e7e4dc;
+    }
+    .hairline-border-t {
+      border-top: 1px solid #e7e4dc;
+    }
+    .ai-anchor-border {
+      border-left: 2px solid #8c93e8;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #e7e4dc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen font-body-md text-body-md text-on-surface bg-[#F7F6F3] flex justify-center selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Mobile Viewport Shell (Constraint Max 480px) -->
+<div class="w-full max-w-md min-h-screen bg-[#F7F6F3] flex flex-col relative pb-28">
+<!-- Top Navigation Bar: Task-focused (Back + Title + Close) suppressing global bottom nav -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest hairline-border-b px-space-md h-12 flex items-center justify-between transition-colors duration-120">
+<button aria-label="Go back" class="p-space-2xs -ml-1 text-on-surface-variant hover:text-on-surface rounded transition-colors duration-120 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-xs text-headline-xs text-on-surface font-semibold tracking-tight">New request</h1>
+<button aria-label="Close" class="p-space-2xs -mr-1 text-on-surface-variant hover:text-on-surface rounded transition-colors duration-120 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</header>
+<!-- Main Content Canvas (Single Scrollable Flow) -->
+<main class="flex-1 px-space-md py-space-md flex flex-col gap-y-space-md">
+<!-- Step 1: Request Type Switcher -->
+<section class="flex flex-col gap-y-space-xs">
+<span class="font-label-sm text-label-sm text-[#6B6862]">Step 1 · Request type</span>
+<div aria-label="Request type selection" class="grid grid-cols-2 gap-space-xs" role="radiogroup">
+<!-- Card 1: Selected (Incident) -->
+<div aria-checked="true" class="cursor-pointer bg-[#F4F5FD] border border-primary-container rounded-lg p-space-sm flex flex-col justify-between transition-colors duration-120 focus:outline-none focus:ring-1 focus:ring-primary-container" role="radio" tabindex="0">
+<div class="flex items-start justify-between mb-space-xs">
+<span class="font-headline-xs text-headline-xs text-on-surface">Report an issue</span>
+<span class="w-4 h-4 rounded-full border border-primary-container flex items-center justify-center bg-surface-container-lowest mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#6B6862] leading-tight">Incident — something is broken</p>
+</div>
+<!-- Card 2: Unselected (Service Request) -->
+<div aria-checked="false" class="cursor-pointer bg-surface-container-lowest hairline-border rounded-lg p-space-sm flex flex-col justify-between hover:bg-[#FAF9F7] transition-colors duration-120 focus:outline-none focus:border-primary-container" role="radio" tabindex="0">
+<div class="flex items-start justify-between mb-space-xs">
+<span class="font-headline-xs text-headline-xs text-on-surface">Request a service</span>
+<span class="w-4 h-4 rounded-full border border-[#DCD9D0] bg-surface-container-lowest mt-0.5"></span>
+</div>
+<p class="font-body-sm text-body-sm text-[#6B6862] leading-tight">Need new software or hardware</p>
+</div>
+</div>
+</section>
+<!-- Step 2: Continuous Form Section -->
+<section class="flex flex-col gap-y-space-md mt-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-[#6B6862]">Step 2 · Details</span>
+<span class="font-label-sm text-label-sm text-[#6B6862]">All fields required unless noted</span>
+</div>
+<!-- Title Field -->
+<div class="flex flex-col gap-y-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface font-medium" for="case-title">Title</label>
+<span class="font-mono-data text-body-sm text-[#6B6862]">42/200</span>
+</div>
+<input class="h-10 w-full px-space-sm bg-surface-container-lowest hairline-border rounded-lg text-on-surface placeholder:text-[#9E9B94] focus:border-primary-container focus:outline-none transition-colors duration-120" id="case-title" placeholder="Brief summary of the issue" type="text" value="Dual monitor flickering after Sonoma 14.4 update"/>
+</div>
+<!-- Description Field -->
+<div class="flex flex-col gap-y-1.5">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface font-medium" for="case-description">Description</label>
+<span class="font-mono-data text-body-sm text-[#6B6862]">310/10,000</span>
+</div>
+<textarea class="w-full p-space-sm bg-surface-container-lowest hairline-border rounded-lg text-on-surface placeholder:text-[#9E9B94] focus:border-primary-container focus:outline-none transition-colors duration-120 resize-none font-body-md leading-relaxed" id="case-description" placeholder="What happened and when did it start?" rows="5">Secondary 4K display connects via Thunderbolt 4 dock and cuts out every 30 to 45 seconds. Occurs directly following OS update restart this morning. Resetting cable connections and power cycling the dock did not remedy the behavior.</textarea>
+</div>
+<!-- AI Marker Panel 1: Clarifying Questions -->
+<section class="bg-surface-container-lowest hairline-border rounded-lg p-space-sm ai-anchor-border flex flex-col gap-y-space-sm">
+<div class="flex items-center gap-x-1.5">
+<span class="font-label-sm text-label-sm text-[#6B6862]">AI suggestion · Optional clarifying questions</span>
+</div>
+<!-- Question 1 -->
+<div class="flex flex-col gap-y-2 pt-1 border-t border-[#F1EDE8]">
+<p class="font-body-sm text-body-sm text-on-surface">Does this happen when connected to Ethernet or Wi-Fi only?</p>
+<div aria-label="Connection type" class="flex flex-wrap gap-1.5" role="group">
+<button class="px-2.5 py-1 rounded bg-[#F7F6F3] hairline-border font-label-sm text-label-sm text-[#2B2A28] hover:bg-[#ECE7E4] transition-colors duration-120" type="button">Ethernet</button>
+<button class="px-2.5 py-1 rounded bg-[#F7F6F3] hairline-border font-label-sm text-label-sm text-[#2B2A28] hover:bg-[#ECE7E4] transition-colors duration-120" type="button">Wi-Fi only</button>
+<button class="px-2.5 py-1 rounded bg-[#E4E6FA] border border-primary-container font-label-sm text-label-sm text-[#212878] font-medium transition-colors duration-120" type="button">Both</button>
+</div>
+</div>
+<!-- Question 2 -->
+<div class="flex flex-col gap-y-2 pt-1 border-t border-[#F1EDE8]">
+<p class="font-body-sm text-body-sm text-on-surface">Are other colleagues in your area experiencing this?</p>
+<div aria-label="Colleagues affected" class="flex flex-wrap gap-1.5" role="group">
+<button class="px-2.5 py-1 rounded bg-[#F7F6F3] hairline-border font-label-sm text-label-sm text-[#2B2A28] hover:bg-[#ECE7E4] transition-colors duration-120" type="button">Yes</button>
+<button class="px-2.5 py-1 rounded bg-[#F7F6F3] hairline-border font-label-sm text-label-sm text-[#2B2A28] hover:bg-[#ECE7E4] transition-colors duration-120" type="button">No</button>
+<button class="px-2.5 py-1 rounded bg-[#E4E6FA] border border-primary-container font-label-sm text-label-sm text-[#212878] font-medium transition-colors duration-120" type="button">Not sure</button>
+</div>
+</div>
+</section>
+<!-- AI Marker Panel 2: Possibly Related Cases / Knowledge -->
+<section class="bg-surface-container-lowest hairline-border rounded-lg p-space-sm ai-anchor-border flex flex-col gap-y-space-xs">
+<div class="flex items-center">
+<span class="font-label-sm text-label-sm text-[#6B6862]">AI suggestion · Possibly related knowledge</span>
+</div>
+<div class="pt-1 flex items-center justify-between gap-x-2">
+<div class="flex items-start gap-x-2">
+<span class="material-symbols-outlined text-[18px] text-[#6B6862] mt-0.5" data-icon="article">article</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">KB-102: macOS Sonoma external display firmware update guide</p>
+</div>
+<button class="shrink-0 font-label-sm text-label-sm text-primary font-medium hover:underline focus:outline-none" type="button">View solution</button>
+</div>
+</section>
+<!-- Attachments Drop Zone -->
+<div class="flex flex-col gap-y-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-medium">Attachments</label>
+<div class="bg-surface-container-lowest border border-dashed border-[#C7C5D3] rounded-lg p-space-md flex flex-col items-center justify-center text-center cursor-pointer hover:bg-[#FAF9F7] transition-colors duration-120">
+<span class="material-symbols-outlined text-[24px] text-[#6B6862] mb-1" data-icon="upload_file">upload_file</span>
+<span class="font-label-md text-label-md text-on-surface">Tap to upload logs or screenshots</span>
+<span class="font-body-sm text-body-sm text-[#6B6862] mt-0.5">jpg, png, pdf, log up to 10MB each (max 50MB)</span>
+</div>
+<!-- Included File Chip -->
+<div class="flex items-center justify-between bg-surface-container-lowest hairline-border rounded-lg px-space-sm py-2 mt-1">
+<div class="flex items-center gap-x-2 overflow-hidden">
+<span class="material-symbols-outlined text-[18px] text-[#6B6862]" data-icon="description">description</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">system_log.txt</span>
+<span class="font-body-sm text-body-sm text-[#6B6862] shrink-0">(420 KB)</span>
+</div>
+<button aria-label="Remove system_log.txt" class="text-[#6B6862] hover:text-on-surface p-1 rounded transition-colors duration-120 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Optional Structured Fields -->
+<details class="group bg-surface-container-lowest hairline-border rounded-lg transition-colors duration-120 overflow-hidden">
+<summary class="cursor-pointer px-space-sm py-3 flex items-center justify-between select-none list-none text-on-surface font-label-md text-label-md font-medium">
+<div class="flex items-center gap-x-2">
+<span class="material-symbols-outlined text-[18px] text-[#6B6862]" data-icon="tune">tune</span>
+<span>Additional routing details (optional)</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-[#6B6862] transition-transform duration-120 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="p-space-sm pt-1 hairline-border-t flex flex-col gap-y-space-sm">
+<!-- Category -->
+<div class="flex flex-col gap-y-1">
+<label class="font-label-sm text-label-sm text-[#6B6862]" for="case-category">Category</label>
+<select class="h-9 w-full px-space-sm bg-surface-container-lowest hairline-border rounded-lg font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none" id="case-category">
+<option selected="">Hardware / Peripherals &amp; Monitors</option>
+<option>Operating System / macOS</option>
+<option>Network / Connectivity</option>
+<option>Identity / Access Management</option>
+</select>
+</div>
+<!-- Urgency -->
+<div class="flex flex-col gap-y-1">
+<label class="font-label-sm text-label-sm text-[#6B6862]" for="case-urgency">Urgency</label>
+<select class="h-9 w-full px-space-sm bg-surface-container-lowest hairline-border rounded-lg font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none" id="case-urgency">
+<option>P3 · Moderate (normal business flow)</option>
+<option selected="">P2 · Elevated (work obstructed but viable workaround)</option>
+<option>P1 · Critical (immediate operational stoppage)</option>
+</select>
+</div>
+<!-- Asset Tag -->
+<div class="flex flex-col gap-y-1">
+<label class="font-label-sm text-label-sm text-[#6B6862]" for="asset-tag">Asset tag / Device identifier</label>
+<input class="h-9 w-full px-space-sm bg-surface-container-lowest hairline-border rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-[#9E9B94] focus:border-primary-container focus:outline-none" id="asset-tag" placeholder="e.g. MB-CORP-9841" type="text" value="MB-CORP-4882"/>
+</div>
+</div>
+</details>
+</section>
+</main>
+<!-- Sticky Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 bg-surface-container-lowest hairline-border-t px-space-md py-3 flex items-center justify-between gap-x-space-sm">
+<button class="flex-1 h-10 px-space-md bg-surface-container-lowest hairline-border text-[#2B2A28] rounded-lg font-label-md text-label-md hover:bg-[#F7F6F3] transition-colors duration-120 flex items-center justify-center" type="button">
+        Cancel
+      </button>
+<button class="flex-1 h-10 px-space-md bg-primary-container text-on-primary rounded-lg font-label-md text-label-md hover:bg-[#7980D4] active:bg-[#686EC4] transition-colors duration-120 flex items-center justify-center font-medium shadow-none" type="submit">
+        Submit case
+      </button>
+</footer>
+</div>
+</body></html>

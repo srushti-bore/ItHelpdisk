@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Desk - Operator Queue</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "500"}],
+            "body-lg": ["14px", {"lineHeight": "21px", "fontWeight": "400"}],
+            "label-md": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+            "body-md": ["13px", {"lineHeight": "19px", "fontWeight": "400"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "body-sm": ["12px", {"lineHeight": "17px", "fontWeight": "400"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+            "headline-xl-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+            "headline-sm": ["18px", {"lineHeight": "22px", "fontWeight": "500"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+            "mono-data": ["13px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "headline-xs": ["16px", {"lineHeight": "20px", "fontWeight": "600"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased selection:bg-primary-fixed min-h-screen pb-20">
+<!-- Top App Bar (Mobile View) -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-space-md h-12 fixed top-0 left-0 z-50">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface dark:text-inverse-on-surface">Operator queue</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button aria-label="Filter queue" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-120" type="button">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button aria-label="Search" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-120" type="button">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button aria-label="Notifications" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-120 relative" type="button">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pt-14 px-space-md max-w-lg mx-auto flex flex-col gap-space-md">
+<!-- Quick Stat Tiles (2x2 Plain Metric Grid) -->
+<section aria-label="Operational Metrics" class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<!-- Metric 1: Assigned to me -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md flex flex-col justify-between h-24">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Assigned to me</span>
+<span class="font-headline-lg text-headline-lg font-medium text-on-surface">6</span>
+</div>
+<!-- Metric 2: Team unassigned -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md flex flex-col justify-between h-24">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Team unassigned</span>
+<span class="font-headline-lg text-headline-lg font-medium text-on-surface">14</span>
+</div>
+<!-- Metric 3: At risk -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md flex flex-col justify-between h-24">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">At risk</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+</div>
+<span class="font-headline-lg text-headline-lg font-medium text-on-surface">2</span>
+</div>
+<!-- Metric 4: Awaiting my reply -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-md flex flex-col justify-between h-24">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Awaiting my reply</span>
+<span class="font-headline-lg text-headline-lg font-medium text-on-surface">3</span>
+</div>
+</section>
+<!-- AI Operator Briefing (Architectural Accent, Strictly Sentence Case, Calm) -->
+<section class="bg-surface-container-lowest border border-outline-variant border-l-2 border-l-primary-container rounded-xl p-space-md flex flex-col gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">AI suggestion</span>
+<p class="font-body-md text-body-md text-on-surface">Prioritize INC-4094 first; VPN gateway timeout impacts 42 remote engineering sessions in US-West.</p>
+</section>
+<!-- Segment Controls & Queue Filters -->
+<section class="flex flex-col gap-space-xs">
+<!-- Queue Segment Tabs -->
+<div class="flex items-center border-b border-outline-variant font-label-md text-label-md">
+<button class="pb-space-xs px-space-xs text-primary border-b-2 border-primary font-semibold transition-colors duration-120" type="button">
+          My cases (6)
+        </button>
+<button class="pb-space-xs px-space-xs text-on-surface-variant hover:text-on-surface transition-colors duration-120" type="button">
+          Unassigned (14)
+        </button>
+<button class="pb-space-xs px-space-xs text-on-surface-variant hover:text-on-surface transition-colors duration-120" type="button">
+          Awaiting response (3)
+        </button>
+</div>
+<!-- Horizontal Scroll Filter Chips -->
+<div class="flex items-center gap-space-2xs overflow-x-auto py-space-2xs custom-scrollbar">
+<button class="shrink-0 font-label-sm text-label-sm px-space-sm py-1 rounded-lg bg-surface-container-high text-on-surface font-medium border border-outline-variant" type="button">
+          All priorities
+        </button>
+<button class="shrink-0 font-label-sm text-label-sm px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant border border-outline-variant hover:bg-surface-container transition-colors duration-120" type="button">
+          High risk only
+        </button>
+<button class="shrink-0 font-label-sm text-label-sm px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant border border-outline-variant hover:bg-surface-container transition-colors duration-120" type="button">
+          Hardware
+        </button>
+<button class="shrink-0 font-label-sm text-label-sm px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant border border-outline-variant hover:bg-surface-container transition-colors duration-120" type="button">
+          Building C
+        </button>
+</div>
+</section>
+<!-- Queue Items List -->
+<section aria-label="Incident and request queue" class="bg-surface-container-lowest border border-outline-variant rounded-xl divide-y divide-outline-variant overflow-hidden">
+<!-- Queue Item 1: INC-4091 -->
+<article class="p-space-md flex flex-col gap-space-xs hover:bg-surface-container-low transition-colors duration-120">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data font-medium text-primary">INC-4091</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Alex Mercer</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">14m ago</span>
+</div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface font-medium leading-tight">Laptop external display flickering after update</h2>
+<div class="flex items-center gap-space-xs flex-wrap pt-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">P2 Normal</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SLA 2h 15m</span>
+<!-- Risk Chip: Moderate Risk (Dusty Amber) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Moderate risk
+          </span>
+</div>
+</article>
+<!-- Queue Item 2: INC-4094 -->
+<article class="p-space-md flex flex-col gap-space-xs hover:bg-surface-container-low transition-colors duration-120">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data font-medium text-primary">INC-4094</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sarah Lin</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3m ago</span>
+</div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface font-medium leading-tight">VPN tunnel gateway timeout on US-West</h2>
+<div class="flex items-center gap-space-xs flex-wrap pt-space-2xs">
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-fixed px-2 py-0.5 rounded font-medium">P1 Urgent</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SLA 45m</span>
+<!-- Risk Chip: High Risk (Rose tone) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            High risk
+          </span>
+</div>
+</article>
+<!-- Queue Item 3: REQ-8831 -->
+<article class="p-space-md flex flex-col gap-space-xs hover:bg-surface-container-low transition-colors duration-120">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data font-medium text-primary">REQ-8831</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Daniel Vance</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1h ago</span>
+</div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface font-medium leading-tight">GitHub Copilot Enterprise seat provision</h2>
+<div class="flex items-center gap-space-xs flex-wrap pt-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">P3 Low</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SLA 1d 8h</span>
+<!-- Risk Chip: Low Risk (Slate-Teal, No green) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+            Low risk
+          </span>
+</div>
+</article>
+<!-- Queue Item 4: INC-4078 -->
+<article class="p-space-md flex flex-col gap-space-xs hover:bg-surface-container-low transition-colors duration-120">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data font-medium text-primary">INC-4078</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Marcus Brody</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2h ago</span>
+</div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface font-medium leading-tight">Keycard reader failure Floor 2 main entrance</h2>
+<div class="flex items-center gap-space-xs flex-wrap pt-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">P2 Normal</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SLA 3h 10m</span>
+<!-- Status Chip: Resolved (Muted Slate-Teal, No green) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+            Resolved
+          </span>
+</div>
+</article>
+</section>
+</main>
+<!-- Bottom Nav Bar (Mobile Docked Navigation Shell) -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-xs">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120 rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">Home</span>
+</a>
+<!-- My cases (Active) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120 rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inbox</span>
+<span class="font-label-sm text-label-sm font-semibold mt-0.5">My cases</span>
+</a>
+<!-- Notifications (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120 rounded-lg" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-sm text-label-sm mt-0.5">Notifications</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120 rounded-lg" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-0.5">Profile</span>
+</a>
+</nav>
+</body></html>

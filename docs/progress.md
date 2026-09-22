@@ -98,6 +98,21 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **Windows Installer**| `IT_Helpdesk-Setup.exe` (10.7MB)| ✅ Passed | Inno Setup 6 standalone single-file installer |
 | **Network Error Handling** | `ApiClient._executeRequest()` | ✅ Passed | SocketException, TimeoutException, ClientException caught & structured |
 
+### E. Calmdesk Design System UI/UX Overhaul (September 2026)
+- **Complete Frontend Modernization (`stitch_calmdesk_it_service_desk`):**
+  - Migrated entire Flutter frontend to Calmdesk Mineral Design System with 100% zero-green policy (using slate-teal `#6E9C9B` for resolution tokens).
+  - Adopted dual typography standard: **Space Grotesk** for headings/KPI stats and **Public Sans** for body/forms/labels.
+  - Implemented 1px hairline rules (`#E7E4DC`), 0 elevation cards, and standardized 8px radii.
+- **Redesigned All Primary Screens & Modals:**
+  - `Sign in` (`sign_in_sign_up`): Institutional layout, 2.5px left accent AI suggestion card, and 1-tap quick demo login chips.
+  - `Service Desk Dashboard` (`operator_dashboard` / `requester_dashboard`): 4 Space Grotesk KPI tiles, AI operator briefing card, and horizontally scrollable queue segment tabs.
+  - `Case Ledger`: Space Grotesk IDs, 6px solid dot priority pills (`P1 critical`, `P3 medium`), and sentence-case status badges.
+  - `Case Detail Workspace`: Horizontal lifecycle stepper (`• new`, `• in assessment`, `• assigned`), continuous AI triage summary banner, tabbed activity vs internal notes, and AI communication drafting copilot.
+  - `Submit a Case`: Step 1 radio switcher, Step 2 character counters (`0/200`, `0/5,000`), and interactive AI clarifying question chips.
+  - `Knowledge Base & Manager Insights`: Filterable SOP directory with instant markdown copy and fleet telemetry KPI analytics with Gemini 2.5 synthesis.
+- **Physical Hardware Verification:**
+  - Built debug APK, installed on physical Android device (`CPH2757`), verified live over ADB reverse bridge with zero errors and zero warnings.
+
 ---
 
 ## 4. Demo Login Credentials Reference
@@ -110,4 +125,5 @@ The **AI IT Helpdesk** enterprise platform is fully operational, verified, and r
 | **Operator (BLR)** | `operator.blr@ithelpdesk.com` | `OperatorPassword123!` | Bengaluru / NOC Operations |
 | **Knowledge Owner**| `knowledge.owner@ithelpdesk.com` | `KnowledgePassword123!` | SOP & Knowledge Base Authoring |
 | **Requester** | `requester@ithelpdesk.com` | `RequesterPassword123!` | Self-Service Case Submission |
+
 

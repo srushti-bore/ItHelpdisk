@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Desk - Requester Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdbd0",
+            "on-secondary-fixed": "#360e03",
+            "on-tertiary-fixed-variant": "#1e4e4d",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464651",
+            "secondary-fixed-dim": "#ffb59d",
+            "outline": "#767682",
+            "on-primary-container": "#212878",
+            "secondary-container": "#fdb29a",
+            "primary-fixed-dim": "#bec2ff",
+            "on-primary-fixed-variant": "#383e8d",
+            "primary": "#5057a7",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#013838",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#74a2a1",
+            "surface-variant": "#e6e2de",
+            "surface-dim": "#ddd9d6",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#f4f0ec",
+            "tertiary": "#386665",
+            "tertiary-fixed": "#bcecea",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f7f3ef",
+            "on-primary-fixed": "#050a62",
+            "on-tertiary-fixed": "#002020",
+            "surface-tint": "#5057a7",
+            "on-surface": "#1c1b1a",
+            "primary-container": "#8c93e8",
+            "on-secondary-container": "#794230",
+            "surface-bright": "#fdf9f5",
+            "primary-fixed": "#e0e0ff",
+            "background": "#fdf9f5",
+            "on-secondary-fixed-variant": "#6d3827",
+            "inverse-surface": "#31302e",
+            "on-background": "#1c1b1a",
+            "tertiary-fixed-dim": "#a0cfce",
+            "surface-container-high": "#ece7e4",
+            "surface": "#fdf9f5",
+            "surface-container": "#f1edea",
+            "inverse-primary": "#bec2ff",
+            "outline-variant": "#c7c5d3",
+            "surface-container-highest": "#e6e2de",
+            "secondary": "#894f3c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.5rem",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "margin": "1rem",
+            "gutter": "1rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "gutter-desktop": "1.5rem",
+            "space-2xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "gutter-tablet": "1rem",
+            "margin-desktop": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk"],
+            "body-lg": ["Public Sans"],
+            "label-md": ["Public Sans"],
+            "body-md": ["Public Sans"],
+            "label-sm": ["Public Sans"],
+            "body-sm": ["Public Sans"],
+            "headline-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "mono-data": ["Space Grotesk"],
+            "headline-xs": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+            "body-lg": ["14px", { "lineHeight": "21px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "17px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "500" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "fontWeight": "500" }],
+            "mono-data": ["13px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "headline-xs": ["16px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    body {
+      background-color: #fdf9f5;
+      color: #1c1b1a;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md text-body-md antialiased pb-20">
+<!-- Shared TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-space-md h-12 fixed top-0 left-0 z-50 transition-colors duration-120">
+<div class="flex items-center gap-space-xs">
+<img alt="AI IT Helpdesk App Icon" class="w-6 h-6 rounded object-cover border border-outline-variant dark:border-outline" src="https://lh3.googleusercontent.com/aida/AEtjO1Wq7xUMeTUI_xfhb02TXakbc0OdyBKiMSHLrZV30xDTzGseiPpWrve_wv6E2U-mZhCz-JIEX6b8euBb4TlICHilbZDE4hKSeFIzjCEoWumSmRaMDHqP_m3koBasxEXQ_3BXSkDDvDAuXcY0A9ZLpSLlzJrbPjXbV8rdM2YBrIG-bXuoJPGxCxE7HujIYkBLB0lARf3liWX5w4T0h-VMHJ4qhrUc0OLxkw7ANe5fvJTZE9hzR_VUnmldO7FH"/>
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-inverse-on-surface font-semibold tracking-tight">Desk</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button aria-label="Search" class="p-space-xs text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-dim rounded transition-colors duration-120 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</button>
+<button aria-label="Notifications" class="p-space-xs text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-dim rounded relative transition-colors duration-120 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full" style="background-color: #D8848C;"></span>
+</button>
+<button aria-label="Toggle theme" class="p-space-xs text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-dim rounded transition-colors duration-120 flex items-center justify-center" id="themeToggle">
+<span class="material-symbols-outlined text-[20px]" data-icon="contrast">contrast</span>
+</button>
+</div>
+</header>
+<!-- Mobile Viewport Canvas -->
+<main class="w-full px-space-md pt-16 flex-1 max-w-md mx-auto flex flex-col gap-space-lg">
+<!-- Workspace Greeting Context -->
+<section class="pt-space-xs">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface font-medium">IT service desk</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Assistance, equipment, and automated operations</p>
+</section>
+<!-- Two Stacked Action Cards -->
+<section aria-label="Quick ticket creation" class="flex flex-col gap-space-sm">
+<!-- Action 1: Report an issue -->
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-xl p-[20px] transition-colors duration-120 hover:bg-surface-container-low cursor-pointer flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-xs text-headline-xs text-on-surface">Report an issue</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">Incident</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hardware, software, or outage disruptions</p>
+</div>
+<!-- Action 2: Request a service -->
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-xl p-[20px] transition-colors duration-120 hover:bg-surface-container-low cursor-pointer flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-headline-xs text-headline-xs text-on-surface">Request a service</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">Request</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">New equipment, software access, or account permissions</p>
+</div>
+</section>
+<!-- Needs your attention alert section -->
+<section aria-label="Action required" class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-xs text-headline-xs text-on-surface">Needs your attention</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">1 case waiting</span>
+</div>
+<!-- Alert Card with 2px accent anchor -->
+<div class="bg-surface-container-lowest border border-surface-container-highest border-l-[2px] border-l-primary-container rounded-lg p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-mono-data text-mono-data text-primary">INC-4091</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium leading-none" style="background-color: #F8ECD6; color: #966F2A;">
+<span class="w-1.5 h-1.5 rounded-full" style="background-color: #E3B15C;"></span>
+              Awaiting requester
+            </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">14m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">Need VPN diagnostic log file to complete diagnosis</p>
+<div class="pt-space-2xs flex justify-end">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-md text-label-md hover:bg-surface-container-low transition-colors duration-120" type="button">
+            Reply to operator
+          </button>
+</div>
+</div>
+</section>
+<!-- Your open cases section -->
+<section aria-label="Case ledger" class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between pb-space-2xs">
+<h2 class="font-headline-xs text-headline-xs text-on-surface">Your open cases</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 total</span>
+</div>
+<!-- Architectural Table Ledger Container -->
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-xl overflow-hidden">
+<!-- Row 1: INC-4091 -->
+<div class="p-space-md border-b border-surface-container-highest flex flex-col gap-space-2xs hover:bg-surface-bright transition-colors duration-120 cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-mono-data text-primary">INC-4091</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium leading-none" style="background-color: #F8ECD6; color: #966F2A;">
+<span class="w-1.5 h-1.5 rounded-full" style="background-color: #E3B15C;"></span>
+              Awaiting requester
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Laptop external display flickering after update</p>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-0.5">
+<span class="font-mono-data text-mono-data">P2 Normal</span>
+<span class="font-mono-data text-mono-data">2h 15m remaining</span>
+<span>14m ago</span>
+</div>
+</div>
+<!-- Row 2: REQ-8820 -->
+<div class="p-space-md border-b border-surface-container-highest flex flex-col gap-space-2xs hover:bg-surface-bright transition-colors duration-120 cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-mono-data text-primary">REQ-8820</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium leading-none" style="background-color: #E4E6FA; color: #5057A7;">
+<span class="w-1.5 h-1.5 rounded-full" style="background-color: #8C93E8;"></span>
+              In assessment
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Figma enterprise workspace seat</p>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-0.5">
+<span class="font-mono-data text-mono-data">P3 Low</span>
+<span class="font-mono-data text-mono-data">1d 4h remaining</span>
+<span>2h ago</span>
+</div>
+</div>
+<!-- Row 3: INC-3990 (Strictly No Green: muted slate-teal #6E9C9B) -->
+<div class="p-space-md flex flex-col gap-space-2xs hover:bg-surface-bright transition-colors duration-120 cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-mono-data text-primary">INC-3990</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium leading-none" style="background-color: #DDEBEA; color: #4D7574;">
+<span class="w-1.5 h-1.5 rounded-full" style="background-color: #6E9C9B;"></span>
+              Resolved
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Office Wi-Fi certificate re-enrollment</p>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-0.5">
+<span class="font-mono-data text-mono-data">P3 Low</span>
+<span>Yesterday</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Shared BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-xs bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline transition-colors duration-120">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed p-space-2xs transition-colors duration-120" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm font-medium">Home</span>
+</a>
+<!-- My cases (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="inbox">inbox</span>
+<span class="font-label-sm text-label-sm">My cases</span>
+</a>
+<!-- Notifications (Inactive with unread dot) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120 relative" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="notifications">notifications</span>
+<span class="font-label-sm text-label-sm">Notifications</span>
+<span class="absolute top-1.5 right-4 w-1.5 h-1.5 rounded-full" style="background-color: #D8848C;"></span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-space-2xs hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors duration-120" href="#">
+<span class="material-symbols-outlined text-[22px]" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+    const themeToggleBtn = document.getElementById('themeToggle');
+    themeToggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+    });
+  </script>
+</body></html>

@@ -32,6 +32,10 @@ This document tracks identified areas of technical debt, resolved platform patch
 - **Issue:** Raw `SocketException`, `TimeoutException`, and `http.ClientException` propagated uncaught through `ApiClient` HTTP methods. On physical Android devices (or whenever the backend was unreachable), every screen showed a vague "An unexpected connection error occurred" with no actionable detail.
 - **Resolution:** Added `_executeRequest()` wrapper method in `client/lib/shared/api_client.dart` that catches all three network-level exception types and converts them into structured `ApiException` with user-friendly messages and `debugPrint` console logging. All four HTTP methods (`get`, `post`, `patch`, `delete`) now route through this wrapper with a 15-second timeout. Every screen (auth, cases, reports, knowledge) benefits automatically without needing individual catch blocks.
 
+### ✅ 2.6 Root `.gitignore` Pattern Overlap with Flutter `client/lib/` (Fixed — 22 Sep 2026)
+- **Issue:** Generic Python `.gitignore` rule `lib/` inadvertently ignored Flutter frontend source directory `client/lib/`.
+- **Resolution:** Anchored root-only ignores to `/lib/` and `/lib64/`, enabling full tracking and versioning of all Flutter client features, models, constants, and Calmdesk screens.
+
 ---
 
 ## 3. High-Priority Items (Near-Term / Phase 2 Roadmap)

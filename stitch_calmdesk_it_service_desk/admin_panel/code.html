@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System administration</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#ffdbd0",
+          "on-secondary-fixed": "#360e03",
+          "on-tertiary-fixed-variant": "#1e4e4d",
+          "on-tertiary": "#ffffff",
+          "error": "#ba1a1a",
+          "on-surface-variant": "#464651",
+          "secondary-fixed-dim": "#ffb59d",
+          "outline": "#767682",
+          "on-primary-container": "#212878",
+          "secondary-container": "#fdb29a",
+          "primary-fixed-dim": "#bec2ff",
+          "on-primary-fixed-variant": "#383e8d",
+          "primary": "#5057a7",
+          "error-container": "#ffdad6",
+          "on-error-container": "#93000a",
+          "on-tertiary-container": "#013838",
+          "surface-container-lowest": "#ffffff",
+          "tertiary-container": "#74a2a1",
+          "surface-variant": "#e6e2de",
+          "surface-dim": "#ddd9d6",
+          "on-error": "#ffffff",
+          "inverse-on-surface": "#f4f0ec",
+          "tertiary": "#386665",
+          "tertiary-fixed": "#bcecea",
+          "on-primary": "#ffffff",
+          "surface-container-low": "#f7f3ef",
+          "on-primary-fixed": "#050a62",
+          "on-tertiary-fixed": "#002020",
+          "surface-tint": "#5057a7",
+          "on-surface": "#1c1b1a",
+          "primary-container": "#8c93e8",
+          "on-secondary-container": "#794230",
+          "surface-bright": "#fdf9f5",
+          "primary-fixed": "#e0e0ff",
+          "background": "#fdf9f5",
+          "on-secondary-fixed-variant": "#6d3827",
+          "inverse-surface": "#31302e",
+          "on-background": "#1c1b1a",
+          "tertiary-fixed-dim": "#a0cfce",
+          "surface-container-high": "#ece7e4",
+          "surface": "#fdf9f5",
+          "surface-container": "#f1edea",
+          "inverse-primary": "#bec2ff",
+          "outline-variant": "#c7c5d3",
+          "surface-container-highest": "#e6e2de",
+          "secondary": "#894f3c"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-xs": "0.5rem",
+          "space-2xl": "3rem",
+          "space-lg": "1.5rem",
+          "margin": "1rem",
+          "gutter": "1rem",
+          "space-sm": "0.75rem",
+          "space-md": "1rem",
+          "gutter-desktop": "1.5rem",
+          "space-2xs": "0.25rem",
+          "margin-tablet": "1.5rem",
+          "gutter-tablet": "1rem",
+          "margin-desktop": "2rem",
+          "space-xl": "2rem"
+        },
+        "fontFamily": {
+          "headline-xl": ["Space Grotesk"],
+          "body-lg": ["Public Sans"],
+          "label-md": ["Public Sans"],
+          "body-md": ["Public Sans"],
+          "label-sm": ["Public Sans"],
+          "body-sm": ["Public Sans"],
+          "headline-md": ["Space Grotesk"],
+          "headline-xl-mobile": ["Space Grotesk"],
+          "headline-sm": ["Space Grotesk"],
+          "headline-lg": ["Space Grotesk"],
+          "mono-data": ["Space Grotesk"],
+          "headline-xs": ["Space Grotesk"]
+        },
+        "fontSize": {
+          "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "500"}],
+          "body-lg": ["14px", {"lineHeight": "21px", "fontWeight": "400"}],
+          "label-md": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+          "body-md": ["13px", {"lineHeight": "19px", "fontWeight": "400"}],
+          "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+          "body-sm": ["12px", {"lineHeight": "17px", "fontWeight": "400"}],
+          "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+          "headline-xl-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+          "headline-sm": ["18px", {"lineHeight": "22px", "fontWeight": "500"}],
+          "headline-lg": ["28px", {"lineHeight": "34px", "fontWeight": "500"}],
+          "mono-data": ["13px", {"lineHeight": "16px", "fontWeight": "500"}],
+          "headline-xs": ["16px", {"lineHeight": "20px", "fontWeight": "600"}]
+        }
+      }
+    }
+  }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-24">
+<!-- Mobile Top App Bar -->
+<header class="bg-surface text-primary border-b border-outline-variant/30 flex justify-between items-center w-full px-space-md h-12 fixed top-0 left-0 z-50">
+<div class="flex items-center space-x-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">System administration</span>
+</div>
+<button aria-label="System settings" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors duration-120 rounded" type="button">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main View Container -->
+<main class="pt-14 px-space-md max-w-lg mx-auto space-y-space-lg">
+<!-- Sub-navigation horizontal scroll pills -->
+<nav aria-label="Sections" class="overflow-x-auto no-scrollbar -mx-space-md px-space-md py-space-2xs flex space-x-space-xs">
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-full bg-primary-fixed text-on-primary-container font-label-md text-label-md font-medium transition-colors duration-120" type="button">
+        Users
+      </button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 font-label-md text-label-md transition-colors duration-120 hover:bg-surface-container" type="button">
+        Audit log
+      </button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 font-label-md text-label-md transition-colors duration-120 hover:bg-surface-container" type="button">
+        Service targets
+      </button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 font-label-md text-label-md transition-colors duration-120 hover:bg-surface-container" type="button">
+        Categories
+      </button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 font-label-md text-label-md transition-colors duration-120 hover:bg-surface-container" type="button">
+        Teams
+      </button>
+</nav>
+<!-- Section: User Access Management -->
+<section aria-labelledby="user-access-title" class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface" id="user-access-title">User access management</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Active personnel rosters and roles</p>
+</div>
+<span class="font-mono-data text-mono-data text-on-surface-variant">3 total</span>
+</div>
+<div class="space-y-space-xs">
+<!-- User Row 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md transition-colors duration-120">
+<div class="flex justify-between items-start gap-2">
+<div class="space-y-1">
+<div class="font-headline-xs text-headline-xs text-on-surface leading-tight">Elena Rostova</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-mono">elena@company.com</div>
+</div>
+<!-- Status Chip Active (Slate Teal) -->
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed/30 text-on-tertiary-fixed-variant font-label-sm text-label-sm shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Active</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center justify-between">
+<div class="flex flex-wrap items-center gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Operator (Tier 2)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Infrastructure</span>
+</div>
+<button class="font-label-sm text-label-sm text-secondary hover:text-on-secondary-container transition-colors duration-120" type="button">
+              Deactivate
+            </button>
+</div>
+</div>
+<!-- User Row 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md transition-colors duration-120">
+<div class="flex justify-between items-start gap-2">
+<div class="space-y-1">
+<div class="font-headline-xs text-headline-xs text-on-surface leading-tight">Marcus Vance</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-mono">marcus@company.com</div>
+</div>
+<!-- Status Chip Active (Slate Teal) -->
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed/30 text-on-tertiary-fixed-variant font-label-sm text-label-sm shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Active</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center justify-between">
+<div class="flex flex-wrap items-center gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Team lead</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Infrastructure</span>
+</div>
+<button class="font-label-sm text-label-sm text-secondary hover:text-on-secondary-container transition-colors duration-120" type="button">
+              Deactivate
+            </button>
+</div>
+</div>
+<!-- User Row 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-space-md transition-colors duration-120">
+<div class="flex justify-between items-start gap-2">
+<div class="space-y-1">
+<div class="font-headline-xs text-headline-xs text-on-surface leading-tight">Chloe Martin</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-mono">chloe@company.com</div>
+</div>
+<!-- Status Chip Inactive (Muted Neutral/Gray) -->
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Inactive</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center justify-between">
+<div class="flex flex-wrap items-center gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">Requester</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Product Design</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary hover:text-on-primary-container transition-colors duration-120" type="button">
+              Activate
+            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Service Targets (SLA Configuration) -->
+<section aria-labelledby="sla-title" class="space-y-space-sm">
+<div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface" id="sla-title">Service targets (SLA configuration)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Threshold limits partitioned by ticket severity</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/40">
+<th class="py-2.5 px-3 font-headline-xs text-label-sm text-on-surface-variant font-medium" scope="col">Priority</th>
+<th class="py-2.5 px-3 font-headline-xs text-label-sm text-on-surface-variant font-medium" scope="col">Response</th>
+<th class="py-2.5 px-3 font-headline-xs text-label-sm text-on-surface-variant font-medium text-right" scope="col">Resolution</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20 font-body-sm text-body-sm">
+<tr class="hover:bg-surface-container-low/40 transition-colors duration-120">
+<td class="py-3 px-3">
+<span class="font-mono-data text-mono-data text-on-surface font-medium">P1 Urgent</span>
+</td>
+<td class="py-3 px-3 text-on-surface-variant font-mono">15m</td>
+<td class="py-3 px-3 text-right text-on-surface font-mono">2h</td>
+</tr>
+<tr class="hover:bg-surface-container-low/40 transition-colors duration-120">
+<td class="py-3 px-3">
+<span class="font-mono-data text-mono-data text-on-surface font-medium">P2 High</span>
+</td>
+<td class="py-3 px-3 text-on-surface-variant font-mono">30m</td>
+<td class="py-3 px-3 text-right text-on-surface font-mono">8h</td>
+</tr>
+<tr class="hover:bg-surface-container-low/40 transition-colors duration-120">
+<td class="py-3 px-3">
+<span class="font-mono-data text-mono-data text-on-surface font-medium">P3 Normal</span>
+</td>
+<td class="py-3 px-3 text-on-surface-variant font-mono">2h</td>
+<td class="py-3 px-3 text-right text-on-surface font-mono">24h</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Section: Recent Audit Events (Append-only Read-only) -->
+<section aria-labelledby="audit-title" class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-xs text-headline-xs text-on-surface" id="audit-title">Recent audit events</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Immutable administrative log</p>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="lock">lock</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl divide-y divide-outline-variant/20">
+<!-- Log Row 1 -->
+<div class="p-space-md space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-label-sm text-on-surface-variant font-mono">10:14 AM</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-container font-label-sm text-label-sm font-medium">System</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Auto-triaged INC-4091 to Tier 2 Hardware</p>
+</div>
+<!-- Log Row 2 -->
+<div class="p-space-md space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="font-mono-data text-label-sm text-on-surface-variant font-mono">09:30 AM</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-medium">Alex Mercer</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Submitted ticket INC-4091</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Shared Component: BottomNavBar -->
+<nav aria-label="Primary Navigation" class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-md py-space-xs bg-surface-container-lowest border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#home">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-0.5">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#my-cases">
+<span class="material-symbols-outlined" data-icon="inbox">inbox</span>
+<span class="font-label-sm text-label-sm mt-0.5">My cases</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#notifications">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-sm text-label-sm mt-0.5">Notifications</span>
+</a>
+<!-- Active navigation mapped contextually to Profile / System Admin destination -->
+<a aria-current="page" class="flex flex-col items-center justify-center text-primary p-space-2xs hover:bg-surface-container-low transition-colors duration-120" href="#profile">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-0.5 font-medium">Profile</span>
+</a>
+</nav>
+</body></html>
