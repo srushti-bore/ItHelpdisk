@@ -74,16 +74,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'AI IT Helpdesk',
+                              'NexAssist',
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary,
-                                letterSpacing: -0.3,
                               ),
                             ),
                             Text(
-                              'Internal technical operations',
+                              'Enterprise AI technical operations',
                               style: GoogleFonts.publicSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,

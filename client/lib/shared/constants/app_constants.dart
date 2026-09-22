@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String appName = 'AI IT Helpdesk';
+  static const String appName = 'NexAssist';
 
   // API Configuration (FastAPI backend base url)
   static String get defaultApiBaseUrl {

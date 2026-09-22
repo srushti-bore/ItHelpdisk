@@ -162,12 +162,11 @@ class ResponsiveLayout extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'AI IT Helpdesk',
+                            'NexAssist',
                             style: GoogleFonts.spaceGrotesk(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
-                              letterSpacing: -0.3,
                             ),
                           ),
                           Text(

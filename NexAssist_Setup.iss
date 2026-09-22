@@ -1,15 +1,15 @@
-; Inno Setup Script for AI IT Helpdesk Desktop Client
-; Builds a standalone installer: IT_Helpdesk-Setup.exe
+; Inno Setup Script for NexAssist Desktop Client
+; Builds a standalone installer: NexAssist-Setup.exe
 
-#define MyAppName "AI IT Helpdesk"
+#define MyAppName "NexAssist"
 #define MyAppVersion "1.0.0"
-#define MyAppPublisher "AI IT Helpdesk Team"
+#define MyAppPublisher "NexAssist Enterprise Systems"
 #define MyAppExeName "it_helpdesk_client.exe"
 #define MyAppSourceDir "client\build\windows\x64\runner\Release"
 #define MyAppIcon "client\windows\runner\resources\app_icon.ico"
 
 [Setup]
-; Unique GUID for AI IT Helpdesk Application
+; Unique GUID for NexAssist Application
 AppId={{C8D3E5B2-39E4-48FE-950F-D409951FA211}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
@@ -18,7 +18,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 DefaultGroupName={#MyAppName}
 OutputDir=installer_output
-OutputBaseFilename=IT_Helpdesk-Setup
+OutputBaseFilename=NexAssist-Setup
 SetupIconFile={#MyAppIcon}
 Compression=lzma2/ultra64
 SolidCompression=yes
