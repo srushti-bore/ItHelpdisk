@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:it_helpdesk_client/shared/constants/app_constants.dart';
@@ -87,17 +86,9 @@ class ApiClient {
 
     for (final candidate in candidates) {
       try {
-        final response = await requestBuilder(candidate).timeout(const Duration(seconds: 6));
+        final response = await requestBuilder(candidate).timeout(const Duration(seconds: 15));
         _activeBaseUrl = candidate;
         return _handleResponse(response);
-      } on SocketException catch (e) {
-        debugPrint('[ApiClient] SocketException for $candidate: $e');
-        lastException = ApiException(
-          code: 'CONNECTION_ERROR',
-          message: 'Could not connect to the server. Please check that the backend is running.',
-          details: {'original': e.message, 'host': candidate},
-          statusCode: 0,
-        );
       } on TimeoutException {
         debugPrint('[ApiClient] TimeoutException for $candidate');
         lastException = ApiException(
@@ -107,7 +98,7 @@ class ApiClient {
           statusCode: 0,
         );
       } on http.ClientException catch (e) {
-        debugPrint('[ApiClient] ClientException for $candidate: $e');
+        debugPrint('[ApiClient] ClientException for $candidate: ${e.message}');
         lastException = ApiException(
           code: 'CONNECTION_ERROR',
           message: 'Connection failed. Please verify the server is reachable.',
@@ -115,7 +106,13 @@ class ApiClient {
           statusCode: 0,
         );
       } catch (e) {
-        debugPrint('[ApiClient] Unexpected error for $candidate: $e');
+        debugPrint('[ApiClient] Error for $candidate: $e');
+        lastException = ApiException(
+          code: 'CONNECTION_ERROR',
+          message: 'Could not connect to backend server.',
+          details: {'host': candidate, 'error': e.toString()},
+          statusCode: 0,
+        );
       }
     }
 

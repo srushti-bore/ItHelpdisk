@@ -51,18 +51,25 @@ def create_application() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # Configure CORS (allow all localhost origins & ports in local dev)
+    # Configure CORS (allow local dev, Vercel deployments, and custom configured origins)
+    cors_origins = list(settings.ALLOWED_ORIGINS) if isinstance(settings.ALLOWED_ORIGINS, list) else []
+    for origin in [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost",
+        "http://127.0.0.1",
+        "https://nex-assist-five.vercel.app",
+        "https://nexassist.vercel.app",
+    ]:
+        if origin not in cors_origins:
+            cors_origins.append(origin)
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[
-            "http://localhost:3000",
-            "http://127.0.0.1:3000",
-            "http://localhost:8000",
-            "http://127.0.0.1:8000",
-            "http://localhost",
-            "http://127.0.0.1",
-        ],
-        allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+        allow_origins=cors_origins,
+        allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.vercel\.app$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
