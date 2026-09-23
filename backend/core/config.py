@@ -46,6 +46,26 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgrespassword@localhost:5432/it_helpdesk"
     SYNC_DATABASE_URL: str = "postgresql://postgres:postgrespassword@localhost:5432/it_helpdesk"
 
+    @field_validator("DATABASE_URL", mode="before")
+    def assemble_async_db_url(cls, v: str) -> str:
+        if isinstance(v, str) and v.strip():
+            v = v.strip()
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql+asyncpg://", 1)
+            elif v.startswith("postgresql://") and not v.startswith("postgresql+asyncpg://"):
+                return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return v
+
+    @field_validator("SYNC_DATABASE_URL", mode="before")
+    def assemble_sync_db_url(cls, v: str) -> str:
+        if isinstance(v, str) and v.strip():
+            v = v.strip()
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql://", 1)
+            elif v.startswith("postgresql+asyncpg://"):
+                return v.replace("postgresql+asyncpg://", "postgresql://", 1)
+        return v
+
     # Supabase Storage
     SUPABASE_URL: str = ""
     SUPABASE_KEY: str = ""
