@@ -3,6 +3,7 @@ import 'package:it_helpdesk_client/app/router.dart';
 import 'package:it_helpdesk_client/app/theme.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/constants/app_constants.dart';
+import 'package:it_helpdesk_client/shared/theme_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthController()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
       ],
       child: const AIITHelpdeskApp(),
     ),
@@ -23,6 +25,7 @@ class AIITHelpdeskApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = context.watch<AuthController>();
+    final themeController = context.watch<ThemeController>();
     final router = createRouter(authController);
 
     return MaterialApp.router(
@@ -30,7 +33,7 @@ class AIITHelpdeskApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: themeController.themeMode,
       routerConfig: router,
     );
   }

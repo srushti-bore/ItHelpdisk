@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
 import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
+import 'package:it_helpdesk_client/shared/theme_controller.dart';
 import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
 import 'package:it_helpdesk_client/shared/widgets/interactive_card.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Brand Header Block
+                    // Brand Header Block with Theme Switcher
                     GSAPFadeSlide(
                       direction: SlideDirection.down,
                       child: Row(
@@ -82,27 +83,67 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(width: AppSpacing.md),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'NexAssist',
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
-                                  letterSpacing: -0.3,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'NexAssist',
+                                  style: GoogleFonts.spaceGrotesk(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                    letterSpacing: -0.3,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Enterprise AI Technical Operations',
-                                style: GoogleFonts.publicSans(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                Text(
+                                  'Enterprise AI Technical Operations',
+                                  style: GoogleFonts.publicSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ),
+                          // Theme Toggle Button
+                          Consumer<ThemeController>(
+                            builder: (context, themeCtrl, _) {
+                              return InkWell(
+                                onTap: () => themeCtrl.toggleTheme(),
+                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: isDark ? AppColors.cardDark : AppColors.surface,
+                                    border: Border.all(
+                                      color: isDark ? AppColors.borderDark : AppColors.border,
+                                    ),
+                                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                                        size: 16,
+                                        color: isDark ? AppColors.warning : AppColors.primary,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        isDark ? 'Light' : 'Dark',
+                                        style: GoogleFonts.publicSans(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

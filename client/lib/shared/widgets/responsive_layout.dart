@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
 import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
+import 'package:it_helpdesk_client/shared/theme_controller.dart';
 import 'package:it_helpdesk_client/shared/widgets/notification_panel.dart';
 import 'package:provider/provider.dart';
 
@@ -54,8 +55,9 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
     final isMobile = width < AppBreakpoints.mobile;
     final isTablet = width >= AppBreakpoints.mobile && width < AppBreakpoints.tablet;
     final auth = context.watch<AuthController>();
+    final theme = context.watch<ThemeController>();
     final user = auth.currentUser;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = theme.isDarkMode;
 
     // Base Scaffold colors from Design.md: #FAFAFA Light / #0F172A Dark
     final scaffoldBg = isDark ? AppColors.bgDark : AppColors.background;
@@ -94,6 +96,16 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
             ],
           ),
           actions: [
+            // Theme Mode Toggle Button
+            IconButton(
+              icon: Icon(
+                isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                size: 20,
+                color: isDark ? AppColors.warning : AppColors.primary,
+              ),
+              tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+              onPressed: () => theme.toggleTheme(),
+            ),
             // Notification Bell with unread badge
             IconButton(
               icon: Stack(
@@ -260,6 +272,17 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                         onTap: () => _onNavigate(context, 3),
                       ),
                       const Spacer(),
+                      // Theme toggle
+                      IconButton(
+                        icon: Icon(
+                          isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                          size: 20,
+                          color: isDark ? AppColors.warning : AppColors.primary,
+                        ),
+                        tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+                        onPressed: () => theme.toggleTheme(),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
                       IconButton(
                         icon: Stack(
                           clipBehavior: Clip.none,
@@ -286,7 +309,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                         tooltip: 'Notifications',
                         onPressed: _toggleNotificationPanel,
                       ),
-                      const SizedBox(height: AppSpacing.sm),
+                      const SizedBox(height: AppSpacing.xs),
                       IconButton(
                         icon: Icon(
                           Icons.logout_rounded,
@@ -326,7 +349,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
       );
     }
 
-    // --- DESKTOP & WEB SHELL (Clean Spacious Sidebar + Top Header) ---
+    // --- DESKTOP & WEB SHELL (Clean Spacious Sidebar + Top Header Bar) ---
     return Scaffold(
       backgroundColor: scaffoldBg,
       body: Stack(
@@ -547,6 +570,39 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                             ),
                           ),
                           const SizedBox(width: AppSpacing.md),
+
+                          // Theme Toggle Button (Light / Dark mode switcher)
+                          InkWell(
+                            onTap: () => theme.toggleTheme(),
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                                    size: 16,
+                                    color: isDark ? AppColors.warning : AppColors.primary,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    isDark ? 'Light' : 'Dark',
+                                    style: GoogleFonts.publicSans(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
 
                           // Notification Trigger
                           InkWell(
