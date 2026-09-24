@@ -198,3 +198,18 @@ class AppColors {
   static const Color accentBlue = Color(0xFF6366F1);
   static const Color card = Color(0xFFFFFFFF);
 }
+
+/// Dynamic Context Extension for Responsive Zero-Hardcoding Theming
+extension AppThemeContextExtension on BuildContext {
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+  Color get surfaceColor => isDarkMode ? AppColors.surfaceDark : AppColors.surface;
+  Color get cardColor => isDarkMode ? AppColors.cardDark : AppColors.surface;
+  Color get scaffoldBg => isDarkMode ? AppColors.bgDark : AppColors.background;
+  Color get textPrimary => isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimary;
+  Color get textSecondary => isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondary;
+  Color get textTertiary => isDarkMode ? AppColors.textTertiaryDark : AppColors.textTertiary;
+  Color get borderColor => isDarkMode ? AppColors.borderDark : AppColors.hairlineBorder;
+  Color get hoverBg => isDarkMode ? AppColors.cardDark : AppColors.surfaceContainerLow;
+  Color get containerBg => isDarkMode ? AppColors.cardDark : AppColors.surfaceContainerLow;
+}
+

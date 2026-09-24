@@ -762,13 +762,13 @@ class _SidebarItem extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           isSelected ? activeIcon : icon,
-          color: isSelected ? AppColors.primary : AppColors.textSecondary,
+          color: isSelected ? AppColors.primary : context.textSecondary,
           size: 19,
         ),
         title: Text(
           title,
           style: GoogleFonts.publicSans(
-            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+            color: isSelected ? AppColors.primary : context.textPrimary,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             fontSize: 13,
           ),

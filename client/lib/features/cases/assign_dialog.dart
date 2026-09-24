@@ -70,7 +70,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
               'Case assigned successfully',
               style: GoogleFonts.publicSans(color: Colors.white, fontSize: 13),
             ),
-            backgroundColor: AppColors.textPrimary,
+            backgroundColor: AppColors.slateTeal,
           ),
         );
       }
@@ -88,10 +88,10 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.surfaceColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.borderColor),
       ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 540),
@@ -111,23 +111,23 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                         letterSpacing: -0.3,
                       ),
                     ),
                     Text(
                       'Smart AI assignment by workload, site & availability',
-                      style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                      style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(Icons.close_rounded, size: 18, color: context.textSecondary),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),
-            const Divider(color: AppColors.border, height: 24),
+            Divider(color: context.borderColor, height: 24),
 
             if (_isLoading)
               Container(
@@ -145,7 +145,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                 child: Text(
                   'No available operators found in this cluster.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 13),
+                  style: GoogleFonts.publicSans(color: context.textSecondary, fontSize: 13),
                 ),
               )
             else ...[
@@ -154,7 +154,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryContainer.withValues(alpha: 0.35),
+                    color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryContainer.withValues(alpha: 0.35),
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
                   ),
@@ -164,7 +164,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                       const SizedBox(width: 6),
                       Text(
                         'Recommended team: ',
-                        style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                        style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                       ),
                       Text(
                         _recommendedTeam!,
@@ -176,7 +176,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
 
               Text(
                 'Candidate operators',
-                style: GoogleFonts.publicSans(fontWeight: FontWeight.w500, fontSize: 12, color: AppColors.textPrimary),
+                style: GoogleFonts.publicSans(fontWeight: FontWeight.w500, fontSize: 12, color: context.textPrimary),
               ),
               const SizedBox(height: 8),
 
@@ -196,10 +196,10 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: isSelected ? AppColors.primaryContainer.withValues(alpha: 0.3) : AppColors.surface,
+                          color: isSelected ? (context.isDarkMode ? AppColors.primary.withValues(alpha: 0.25) : AppColors.primaryContainer.withValues(alpha: 0.3)) : context.cardColor,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: isSelected ? AppColors.primary : AppColors.border,
+                            color: isSelected ? AppColors.primary : context.borderColor,
                             width: isSelected ? 1.5 : 1.0,
                           ),
                         ),
@@ -211,10 +211,10 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: isSelected ? AppColors.primary : AppColors.border,
+                                  color: isSelected ? AppColors.primary : context.borderColor,
                                   width: isSelected ? 4 : 1.5,
                                 ),
-                                color: isSelected ? AppColors.surface : Colors.transparent,
+                                color: isSelected ? (context.isDarkMode ? AppColors.cardDark : AppColors.surface) : Colors.transparent,
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -226,7 +226,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                                     children: [
                                       Text(
                                         op['full_name'],
-                                        style: GoogleFonts.publicSans(fontWeight: FontWeight.w600, fontSize: 13),
+                                        style: GoogleFonts.publicSans(fontWeight: FontWeight.w600, fontSize: 13, color: context.textPrimary),
                                       ),
                                       if (idx == 0) ...[
                                         const SizedBox(width: 6),
@@ -246,7 +246,7 @@ class _AssignCaseDialogState extends State<AssignCaseDialog> {
                                   ),
                                   Text(
                                     '${op['email']} · ${op['site'] ?? 'Remote'} · ${op['active_case_count']} active',
-                                    style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textSecondary),
+                                    style: GoogleFonts.publicSans(fontSize: 11, color: context.textSecondary),
                                   ),
                                 ],
                               ),

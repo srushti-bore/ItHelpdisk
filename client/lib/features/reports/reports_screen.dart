@@ -161,7 +161,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return RefreshIndicator(
       onRefresh: _fetchOperationalInsights,
       color: AppColors.primary,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.surfaceColor,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: ResponsiveContentShell(
@@ -185,7 +185,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 26,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.textPrimary,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -194,7 +194,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                             'Continuous SLA telemetry, resolution velocity, and fleet health',
                             style: GoogleFonts.publicSans(
                               fontSize: 13,
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -262,8 +262,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 delay: const Duration(milliseconds: 100),
                 child: LiquidGlassPanel(
                   padding: AppSpacing.cardPadding,
-                  backgroundColor: AppColors.surface.withValues(alpha: 0.92),
-                  borderColor: AppColors.primaryContainer.withValues(alpha: 0.35),
+                  backgroundColor: context.isDarkMode ? AppColors.glassSurfaceDark : AppColors.glassSurfaceLight,
+                  borderColor: context.isDarkMode ? AppColors.glassBorderDarkAccent : AppColors.glassBorderLightAccent,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -271,7 +271,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppColors.primaryTint,
+                          color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                           borderRadius: BorderRadius.circular(AppRadius.md),
                           border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                         ),
@@ -290,12 +290,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                   style: GoogleFonts.spaceGrotesk(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textPrimary,
+                                    color: context.textPrimary,
                                   ),
                                 ),
                                 Text(
                                   DateFormat('HH:mm, dd MMM').format(generatedAt),
-                                  style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textTertiary),
+                                  style: GoogleFonts.publicSans(fontSize: 11, color: context.textTertiary),
                                 ),
                               ],
                             ),
@@ -304,7 +304,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                               aiSummary,
                               style: GoogleFonts.publicSans(
                                 fontSize: 13,
-                                color: AppColors.textPrimary,
+                                color: context.textPrimary,
                                 height: 1.45,
                               ),
                             ),
@@ -352,7 +352,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             children: [
               Text(
                 title,
-                style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
+                style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textSecondary),
               ),
               Container(
                 width: 8,
@@ -366,13 +366,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 26,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
           Text(
             subtitle,
-            style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textTertiary),
+            style: GoogleFonts.publicSans(fontSize: 11, color: context.textTertiary),
           ),
         ],
       ),
@@ -391,7 +391,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -399,7 +399,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             Padding(
               padding: const EdgeInsets.all(AppSpacing.lg),
               child: Center(
-                child: Text('No data recorded for this metric', style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textTertiary)),
+                child: Text('No data recorded for this metric', style: GoogleFonts.publicSans(fontSize: 12, color: context.textTertiary)),
               ),
             )
           else
@@ -411,14 +411,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   children: [
                     Text(
                       entry.key.toUpperCase(),
-                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceContainerLow,
+                        color: context.containerBg,
                         borderRadius: BorderRadius.circular(AppRadius.xs),
-                        border: Border.all(color: AppColors.hairlineBorder),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Text(
                         '${entry.value} tickets',

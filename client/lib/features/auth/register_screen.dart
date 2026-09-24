@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             'Account created successfully. Please sign in.',
             style: GoogleFonts.publicSans(color: Colors.white, fontSize: 13),
           ),
-          backgroundColor: AppColors.textPrimary,
+          backgroundColor: AppColors.slateTeal,
         ),
       );
       context.go('/login');
@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final auth = context.watch<AuthController>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBg,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -77,9 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: 48,
                           height: 48,
                           decoration: BoxDecoration(
-                            color: AppColors.surface,
+                            color: context.cardColor,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(color: context.borderColor),
                           ),
                           child: const Icon(
                             Icons.support_agent_rounded,
@@ -96,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
+                                color: context.textPrimary,
                               ),
                             ),
                             Text(
@@ -104,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               style: GoogleFonts.publicSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                color: AppColors.textSecondary,
+                                color: context.textSecondary,
                               ),
                             ),
                           ],
@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       'Get automated support for your devices and service fleet access.',
                       style: GoogleFonts.publicSans(
                         fontSize: 13,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         height: 1.45,
                       ),
                     ),
@@ -154,12 +154,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Full Name
                     Text(
                       'Full name',
-                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                     ),
                     const SizedBox(height: 6),
                     TextFormField(
                       controller: _nameController,
-                      style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                       decoration: const InputDecoration(hintText: 'Alex Mercer'),
                       validator: (v) => v == null || v.trim().isEmpty ? 'Enter your full name' : null,
                     ),
@@ -168,13 +168,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Work Email
                     Text(
                       'Work email',
-                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                     ),
                     const SizedBox(height: 6),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                       decoration: const InputDecoration(hintText: 'alex@company.com'),
                       validator: (v) => v == null || !v.contains('@') ? 'Enter a valid institutional email' : null,
                     ),
@@ -183,20 +183,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Password
                     Text(
                       'Password (min. 12 characters)',
-                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                     ),
                     const SizedBox(height: 6),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                       decoration: InputDecoration(
                         hintText: '••••••••••••',
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                             size: 18,
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                           ),
                           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                         ),
@@ -208,12 +208,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Site / Office
                     Text(
                       'Office site',
-                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                     ),
                     const SizedBox(height: 6),
                     TextFormField(
                       controller: _siteController,
-                      style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                      style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                       decoration: const InputDecoration(hintText: 'Pune, London, New York'),
                     ),
                     const SizedBox(height: 24),
@@ -238,7 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           Text(
                             'Already have an account?',
-                            style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textSecondary),
+                            style: GoogleFonts.publicSans(fontSize: 13, color: context.textSecondary),
                           ),
                           TextButton(
                             onPressed: () => context.go('/login'),

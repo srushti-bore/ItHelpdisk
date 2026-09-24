@@ -87,7 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           : RefreshIndicator(
               onRefresh: _fetchDashboardData,
               color: AppColors.primary,
-              backgroundColor: AppColors.surface,
+              backgroundColor: context.surfaceColor,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: ResponsiveContentShell(
@@ -110,7 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     style: GoogleFonts.spaceGrotesk(
                                       fontSize: 26,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.textPrimary,
+                                      color: context.textPrimary,
                                       letterSpacing: -0.5,
                                     ),
                                   ),
@@ -121,7 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         : 'Assistance, equipment, and automated operations',
                                     style: GoogleFonts.publicSans(
                                       fontSize: 13,
-                                      color: AppColors.textSecondary,
+                                      color: context.textSecondary,
                                     ),
                                   ),
                                 ],
@@ -238,8 +238,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         delay: const Duration(milliseconds: 140),
                         child: LiquidGlassPanel(
                           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-                          backgroundColor: AppColors.surface.withValues(alpha: 0.9),
-                          borderColor: AppColors.primaryContainer.withValues(alpha: 0.3),
+                          backgroundColor: context.isDarkMode
+                              ? AppColors.glassSurfaceDark
+                              : AppColors.glassSurfaceLight,
+                          borderColor: context.isDarkMode
+                              ? AppColors.glassBorderDarkAccent
+                              : AppColors.glassBorderLightAccent,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -247,7 +251,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 width: 34,
                                 height: 34,
                                 decoration: BoxDecoration(
-                                  color: AppColors.primaryTint,
+                                  color: context.isDarkMode
+                                      ? AppColors.primary.withValues(alpha: 0.2)
+                                      : AppColors.primaryTint,
                                   borderRadius: BorderRadius.circular(AppRadius.md),
                                   border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                                 ),
@@ -265,14 +271,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           style: GoogleFonts.spaceGrotesk(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600,
-                                            color: AppColors.textPrimary,
+                                            color: context.textPrimary,
                                           ),
                                         ),
                                         const SizedBox(width: AppSpacing.xs),
                                         Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                                           decoration: BoxDecoration(
-                                            color: AppColors.primaryTint,
+                                            color: context.isDarkMode
+                                                ? AppColors.primary.withValues(alpha: 0.2)
+                                                : AppColors.primaryTint,
                                             borderRadius: BorderRadius.circular(AppRadius.pill),
                                           ),
                                           child: Text(
@@ -289,7 +297,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           : 'All queues healthy. Automated triage copilot is indexing incoming requests and monitoring SLA thresholds.',
                                       style: GoogleFonts.publicSans(
                                         fontSize: 13,
-                                        color: AppColors.textSecondary,
+                                        color: context.textSecondary,
                                         height: 1.45,
                                       ),
                                     ),
@@ -331,47 +339,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 padding: const EdgeInsets.all(AppSpacing.xxxl),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: AppColors.surface,
+                                  color: context.cardColor,
                                   borderRadius: BorderRadius.circular(AppRadius.lg),
-                                  border: Border.all(color: AppColors.hairlineBorder),
+                                  border: Border.all(color: context.borderColor),
                                 ),
                                 child: Column(
                                   children: [
-                                    const Icon(Icons.inbox_outlined, size: 42, color: AppColors.textTertiary),
+                                    Icon(Icons.inbox_outlined, size: 42, color: context.textTertiary),
                                     const SizedBox(height: AppSpacing.md),
                                     Text(
                                       'No cases in this queue',
                                       style: GoogleFonts.spaceGrotesk(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15,
-                                        color: AppColors.textPrimary,
+                                        color: context.textPrimary,
                                       ),
                                     ),
                                     const SizedBox(height: AppSpacing.xs),
                                     Text(
                                       'New tickets will appear here once submitted.',
-                                      style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+                                      style: GoogleFonts.publicSans(color: context.textSecondary, fontSize: 12),
                                     ),
                                   ],
                                 ),
                               )
                             : Container(
                                 decoration: BoxDecoration(
-                                  color: AppColors.surface,
+                                  color: context.cardColor,
                                   borderRadius: BorderRadius.circular(AppRadius.lg),
-                                  border: Border.all(color: AppColors.hairlineBorder),
+                                  border: Border.all(color: context.borderColor),
                                 ),
                                 clipBehavior: Clip.antiAlias,
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: _filteredCases.length,
-                                  separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+                                  separatorBuilder: (_, __) => Divider(color: context.borderColor, height: 1),
                                   itemBuilder: (context, index) {
                                     final c = _filteredCases[index];
                                     return InkWell(
                                       onTap: () => context.go('/cases/${c.id}'),
-                                      hoverColor: AppColors.surfaceContainerLow,
+                                      hoverColor: context.hoverBg,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
                                         child: Column(
@@ -396,7 +404,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                       c.requesterEmail,
                                                       style: GoogleFonts.publicSans(
                                                         fontSize: 12,
-                                                        color: AppColors.textSecondary,
+                                                        color: context.textSecondary,
                                                       ),
                                                     ),
                                                   ],
@@ -405,7 +413,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                   DateFormat('dd MMM').format(c.createdAt),
                                                   style: GoogleFonts.publicSans(
                                                     fontSize: 11,
-                                                    color: AppColors.textTertiary,
+                                                    color: context.textTertiary,
                                                   ),
                                                 ),
                                               ],
@@ -418,7 +426,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               style: GoogleFonts.publicSans(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
-                                                color: AppColors.textPrimary,
+                                                color: context.textPrimary,
                                               ),
                                             ),
                                             const SizedBox(height: AppSpacing.sm),
@@ -435,7 +443,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                   Container(
                                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                                     decoration: BoxDecoration(
-                                                      color: AppColors.roseTint,
+                                                      color: AppColors.dangerTint,
                                                       borderRadius: BorderRadius.circular(AppRadius.xs),
                                                     ),
                                                     child: Row(
@@ -446,7 +454,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                           height: 5,
                                                           decoration: const BoxDecoration(
                                                             shape: BoxShape.circle,
-                                                            color: AppColors.rose,
+                                                            color: AppColors.dangerRose,
                                                           ),
                                                         ),
                                                         const SizedBox(width: 4),
@@ -455,7 +463,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                           style: GoogleFonts.publicSans(
                                                             fontSize: 10,
                                                             fontWeight: FontWeight.w600,
-                                                            color: AppColors.rose,
+                                                            color: AppColors.dangerRose,
                                                           ),
                                                         ),
                                                       ],
@@ -466,7 +474,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     'SLA active',
                                                     style: GoogleFonts.publicSans(
                                                       fontSize: 11,
-                                                      color: AppColors.textTertiary,
+                                                      color: context.textTertiary,
                                                     ),
                                                   ),
                                               ],
@@ -545,22 +553,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimary,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
+                  color: context.containerBg,
                   borderRadius: BorderRadius.circular(AppRadius.xs),
-                  border: Border.all(color: AppColors.hairlineBorder),
+                  border: Border.all(color: context.borderColor),
                 ),
                 child: Text(
                   badge,
                   style: GoogleFonts.publicSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ),
               ),
@@ -571,7 +579,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             description,
             style: GoogleFonts.publicSans(
               fontSize: 12,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
             ),
           ),
         ],
@@ -600,7 +608,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: GoogleFonts.publicSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
+                  color: context.textSecondary,
                 ),
               ),
               if (hasDot)
@@ -619,7 +627,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 26,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -636,16 +644,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.surface : Colors.transparent,
+          color: isActive ? context.cardColor : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          border: Border.all(color: isActive ? AppColors.border : Colors.transparent),
+          border: Border.all(color: isActive ? context.borderColor : Colors.transparent),
         ),
         child: Text(
           label,
           style: GoogleFonts.publicSans(
             fontSize: 12,
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive ? AppColors.textPrimary : AppColors.textSecondary,
+            color: isActive ? context.textPrimary : context.textSecondary,
           ),
         ),
       ),

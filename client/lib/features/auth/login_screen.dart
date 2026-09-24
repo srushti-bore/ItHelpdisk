@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
 import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
-import 'package:it_helpdesk_client/shared/theme_controller.dart';
 import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
 import 'package:it_helpdesk_client/shared/widgets/interactive_card.dart';
 import 'package:provider/provider.dart';
@@ -42,10 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.bgDark : AppColors.background,
+      backgroundColor: context.scaffoldBg,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -57,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Brand Header Block with Theme Switcher
+                    // Brand Header Block
                     GSAPFadeSlide(
                       direction: SlideDirection.down,
                       child: Row(
@@ -83,67 +81,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(width: AppSpacing.md),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'NexAssist',
-                                  style: GoogleFonts.spaceGrotesk(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
-                                    letterSpacing: -0.3,
-                                  ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'NexAssist',
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: context.textPrimary,
+                                  letterSpacing: -0.3,
                                 ),
-                                Text(
-                                  'Enterprise AI Technical Operations',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
-                                  ),
+                              ),
+                              Text(
+                                'Enterprise AI Technical Operations',
+                                style: GoogleFonts.publicSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: context.textSecondary,
                                 ),
-                              ],
-                            ),
-                          ),
-                          // Theme Toggle Button
-                          Consumer<ThemeController>(
-                            builder: (context, themeCtrl, _) {
-                              return InkWell(
-                                onTap: () => themeCtrl.toggleTheme(),
-                                borderRadius: BorderRadius.circular(AppRadius.sm),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    color: isDark ? AppColors.cardDark : AppColors.surface,
-                                    border: Border.all(
-                                      color: isDark ? AppColors.borderDark : AppColors.border,
-                                    ),
-                                    borderRadius: BorderRadius.circular(AppRadius.sm),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                                        size: 16,
-                                        color: isDark ? AppColors.warning : AppColors.primary,
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        isDark ? 'Light' : 'Dark',
-                                        style: GoogleFonts.publicSans(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -166,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w700,
-                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                color: context.textPrimary,
                                 letterSpacing: -0.5,
                               ),
                             ),
@@ -175,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Enter your institutional credentials to access assigned triage queues.',
                               style: GoogleFonts.publicSans(
                                 fontSize: 13,
-                                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                color: context.textSecondary,
                                 height: 1.45,
                               ),
                             ),
@@ -216,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: GoogleFonts.publicSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                color: context.textPrimary,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.xs),
@@ -242,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: GoogleFonts.publicSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                color: context.textPrimary,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.xs),
@@ -257,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: Icon(
                                     _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                                     size: 18,
-                                    color: AppColors.textTertiary,
+                                    color: context.textTertiary,
                                   ),
                                   onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                                 ),
@@ -290,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       'Remember session',
                                       style: GoogleFonts.publicSans(
                                         fontSize: 12,
-                                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                        color: context.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -352,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                           const SizedBox(height: AppSpacing.sm),
@@ -377,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'NexAssist Operations Core v3.3 · SOC2 Compliant',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 11,
-                          color: isDark ? AppColors.textTertiaryDark : AppColors.textTertiary,
+                          color: context.textTertiary,
                         ),
                       ),
                     ),

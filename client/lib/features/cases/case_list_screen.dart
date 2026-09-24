@@ -100,7 +100,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 26,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.textPrimary,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -109,7 +109,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                             'Track, prioritize, and resolve enterprise tickets',
                             style: GoogleFonts.publicSans(
                               fontSize: 13,
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -130,22 +130,22 @@ class _CaseListScreenState extends State<CaseListScreen> {
                 delay: const Duration(milliseconds: 60),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                   child: Row(
                     children: [
-                      const Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
+                      Icon(Icons.search_rounded, size: 18, color: context.textSecondary),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
-                          style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                          style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                           decoration: InputDecoration(
                             hintText: 'Search by case ID (INC-...) or keywords...',
-                            hintStyle: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textTertiary),
+                            hintStyle: GoogleFonts.publicSans(fontSize: 13, color: context.textTertiary),
                             border: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -157,7 +157,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                       ),
                       if (_searchController.text.isNotEmpty)
                         IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 16, color: AppColors.textTertiary),
+                          icon: Icon(Icons.clear_rounded, size: 16, color: context.textTertiary),
                           onPressed: () {
                             _searchController.clear();
                             _fetchCases();
@@ -205,26 +205,26 @@ class _CaseListScreenState extends State<CaseListScreen> {
                   padding: const EdgeInsets.all(AppSpacing.xxxl),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   child: Column(
                     children: [
-                      const Icon(Icons.inbox_outlined, size: 40, color: AppColors.textTertiary),
+                      Icon(Icons.inbox_outlined, size: 40, color: context.textTertiary),
                       const SizedBox(height: AppSpacing.md),
                       Text(
                         'No cases match filter',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         'Try clearing your search query or selecting a different status.',
-                        style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                        style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                       ),
                     ],
                   ),
@@ -232,21 +232,21 @@ class _CaseListScreenState extends State<CaseListScreen> {
               else
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: _filteredCases.length,
-                    separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+                    separatorBuilder: (_, __) => Divider(color: context.borderColor, height: 1),
                     itemBuilder: (context, index) {
                       final c = _filteredCases[index];
                       return InkWell(
                         onTap: () => context.go('/cases/${c.id}'),
-                        hoverColor: AppColors.surfaceContainerLow,
+                        hoverColor: context.hoverBg,
                         child: Padding(
                           padding: const EdgeInsets.all(AppSpacing.lg),
                           child: Column(
@@ -271,7 +271,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                         c.requesterEmail,
                                         style: GoogleFonts.publicSans(
                                           fontSize: 12,
-                                          color: AppColors.textSecondary,
+                                          color: context.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -280,7 +280,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                     DateFormat('dd MMM yyyy, HH:mm').format(c.createdAt),
                                     style: GoogleFonts.publicSans(
                                       fontSize: 11,
-                                      color: AppColors.textTertiary,
+                                      color: context.textTertiary,
                                     ),
                                   ),
                                 ],
@@ -293,7 +293,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                 style: GoogleFonts.publicSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.textPrimary,
+                                  color: context.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: AppSpacing.sm),
@@ -311,7 +311,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                       'Owner: ${c.owner!.fullName ?? c.owner!.email}',
                                       style: GoogleFonts.publicSans(
                                         fontSize: 11,
-                                        color: AppColors.textSecondary,
+                                        color: context.textSecondary,
                                       ),
                                     )
                                   else
@@ -326,7 +326,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                                       decoration: BoxDecoration(
-                                        color: AppColors.roseTint,
+                                        color: AppColors.dangerTint,
                                         borderRadius: BorderRadius.circular(AppRadius.xs),
                                       ),
                                       child: Text(
@@ -334,7 +334,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
                                         style: GoogleFonts.publicSans(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
-                                          color: AppColors.rose,
+                                          color: AppColors.dangerRose,
                                         ),
                                       ),
                                     ),
@@ -362,16 +362,16 @@ class _CaseListScreenState extends State<CaseListScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.surface : Colors.transparent,
+          color: isActive ? context.cardColor : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          border: Border.all(color: isActive ? AppColors.border : Colors.transparent),
+          border: Border.all(color: isActive ? context.borderColor : Colors.transparent),
         ),
         child: Text(
           label,
           style: GoogleFonts.publicSans(
             fontSize: 12,
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive ? AppColors.textPrimary : AppColors.textSecondary,
+            color: isActive ? context.textPrimary : context.textSecondary,
           ),
         ),
       ),

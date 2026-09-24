@@ -78,10 +78,10 @@ class _AIDraftDialogState extends State<AIDraftDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.surfaceColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: context.borderColor),
       ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 560),
@@ -101,33 +101,33 @@ class _AIDraftDialogState extends State<AIDraftDialog> {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                         letterSpacing: -0.3,
                       ),
                     ),
                     Text(
                       'Automated response drafting · Human-in-the-loop',
-                      style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                      style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close_rounded, size: 18, color: AppColors.textSecondary),
+                  icon: Icon(Icons.close_rounded, size: 18, color: context.textSecondary),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),
-            const Divider(color: AppColors.border, height: 24),
+            Divider(color: context.borderColor, height: 24),
 
             // Message Purpose
             Text(
               'Message purpose',
-              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
             ),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
               initialValue: _draftType,
-              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+              style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               ),
@@ -157,13 +157,13 @@ class _AIDraftDialogState extends State<AIDraftDialog> {
             // Edit text area
             Text(
               'Review & edit draft',
-              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
             ),
             const SizedBox(height: 6),
             TextField(
               controller: _bodyController,
               maxLines: 5,
-              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+              style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
               decoration: const InputDecoration(
                 hintText: 'Generated draft will appear here. Edit any text before approval...',
               ),
@@ -175,7 +175,7 @@ class _AIDraftDialogState extends State<AIDraftDialog> {
               ElevatedButton(
                 onPressed: _isSending ? null : _sendDraft,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.statusResolved,
+                  backgroundColor: AppColors.slateTeal,
                   foregroundColor: Colors.white,
                 ),
                 child: _isSending

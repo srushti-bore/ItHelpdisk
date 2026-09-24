@@ -137,7 +137,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
 
     if (_isLoading) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.scaffoldBg,
         appBar: AppBar(title: const Text('Loading case details...')),
         body: const SingleChildScrollView(
           padding: EdgeInsets.all(AppSpacing.xl),
@@ -160,12 +160,12 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
 
     if (_case == null) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.scaffoldBg,
         appBar: AppBar(title: const Text('Not found')),
         body: Center(
           child: Text(
             'Case not found',
-            style: GoogleFonts.publicSans(color: AppColors.textSecondary),
+            style: GoogleFonts.publicSans(color: context.textSecondary),
           ),
         ),
       );
@@ -179,7 +179,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, size: 20, color: AppColors.textPrimary),
+          icon: Icon(Icons.arrow_back_rounded, size: 20, color: context.textPrimary),
           onPressed: () => context.go('/cases'),
         ),
         title: Row(
@@ -189,7 +189,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 letterSpacing: -0.3,
               ),
             ),
@@ -197,18 +197,18 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             Container(
               width: 4,
               height: 4,
-              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.textTertiary),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: context.textTertiary),
             ),
             const SizedBox(width: AppSpacing.sm),
             Text(
               'Desk workspace',
-              style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+              style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
             ),
           ],
         ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(color: AppColors.hairlineBorder, height: 1),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(color: context.borderColor, height: 1),
         ),
       ),
       body: SingleChildScrollView(
@@ -257,7 +257,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                     ),
                     Text(
                       'Created ${DateFormat('dd MMM yyyy').format(c.createdAt)}',
-                      style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textTertiary),
+                      style: GoogleFonts.publicSans(fontSize: 11, color: context.textTertiary),
                     ),
                   ],
                 ),
@@ -269,7 +269,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                     letterSpacing: -0.4,
                   ),
                 ),
@@ -280,7 +280,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   c.description,
                   style: GoogleFonts.publicSans(
                     fontSize: 13,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                     height: 1.5,
                   ),
                 ),
@@ -302,13 +302,13 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceContainerLow,
+                          color: context.containerBg,
                           borderRadius: BorderRadius.circular(AppRadius.xs),
-                          border: Border.all(color: AppColors.hairlineBorder),
+                          border: Border.all(color: context.borderColor),
                         ),
                         child: Text(
                           c.site!,
-                          style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textSecondary),
+                          style: GoogleFonts.publicSans(fontSize: 11, color: context.textSecondary),
                         ),
                       ),
                   ],
@@ -325,8 +325,8 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             delay: const Duration(milliseconds: 60),
             child: LiquidGlassPanel(
               padding: AppSpacing.cardPadding,
-              backgroundColor: AppColors.surface.withValues(alpha: 0.92),
-              borderColor: AppColors.primaryContainer.withValues(alpha: 0.3),
+              backgroundColor: context.isDarkMode ? AppColors.glassSurfaceDark : AppColors.glassSurfaceLight,
+              borderColor: context.isDarkMode ? AppColors.glassBorderDarkAccent : AppColors.glassBorderLightAccent,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -342,7 +342,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.textPrimary,
                             ),
                           ),
                         ],
@@ -350,7 +350,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                         decoration: BoxDecoration(
-                          color: AppColors.primaryTint,
+                          color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                           borderRadius: BorderRadius.circular(AppRadius.pill),
                         ),
                         child: Text(
@@ -363,7 +363,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   const SizedBox(height: AppSpacing.sm),
                   Text(
                     c.summaryText!,
-                    style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary, height: 1.45),
+                    style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary, height: 1.45),
                   ),
                 ],
               ),
@@ -404,34 +404,34 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
             padding: const EdgeInsets.all(AppSpacing.xxl),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.cardColor,
               borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(color: AppColors.hairlineBorder),
+              border: Border.all(color: context.borderColor),
             ),
             child: Text(
               'No messages or notes posted yet.',
-              style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+              style: GoogleFonts.publicSans(color: context.textSecondary, fontSize: 12),
             ),
           )
         else
           Container(
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.cardColor,
               borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(color: AppColors.hairlineBorder),
+              border: Border.all(color: context.borderColor),
             ),
             clipBehavior: Clip.antiAlias,
             child: ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: filteredMessages.length,
-              separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+              separatorBuilder: (_, __) => Divider(color: context.borderColor, height: 1),
               itemBuilder: (context, index) {
                 final m = filteredMessages[index];
                 final isInternal = m.visibility == 'internal_only';
 
                 return Container(
-                  color: isInternal ? AppColors.amberTint.withValues(alpha: 0.35) : Colors.transparent,
+                  color: isInternal ? AppColors.amberTint.withValues(alpha: context.isDarkMode ? 0.12 : 0.35) : Colors.transparent,
                   padding: const EdgeInsets.all(AppSpacing.md),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,9 +445,9 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                                 width: 24,
                                 height: 24,
                                 decoration: BoxDecoration(
-                                  color: AppColors.primaryTint,
+                                  color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                                   borderRadius: BorderRadius.circular(AppRadius.xs),
-                                  border: Border.all(color: AppColors.hairlineBorder),
+                                  border: Border.all(color: context.borderColor),
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
@@ -461,7 +461,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                                 style: GoogleFonts.publicSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.textPrimary,
+                                  color: context.textPrimary,
                                 ),
                               ),
                               if (isInternal) ...[
@@ -487,7 +487,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                                   decoration: BoxDecoration(
-                                    color: AppColors.primaryTint,
+                                    color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                                     borderRadius: BorderRadius.circular(AppRadius.xs),
                                   ),
                                   child: Text(
@@ -504,7 +504,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                           ),
                           Text(
                             DateFormat('dd MMM, HH:mm').format(m.createdAt),
-                            style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textTertiary),
+                            style: GoogleFonts.publicSans(fontSize: 11, color: context.textTertiary),
                           ),
                         ],
                       ),
@@ -513,7 +513,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                         m.body,
                         style: GoogleFonts.publicSans(
                           fontSize: 13,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                           height: 1.45,
                         ),
                       ),
@@ -543,13 +543,13 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               else
                 Text(
                   'Post update or reply to technician',
-                  style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
+                  style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textSecondary),
                 ),
               const SizedBox(height: AppSpacing.sm),
               TextField(
                 controller: _messageController,
                 maxLines: 3,
-                style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                 decoration: InputDecoration(
                   hintText: _visibility == 'internal_only'
                       ? 'Type internal note (only visible to operators and managers)...'
@@ -604,7 +604,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -614,11 +614,11 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                     children: [
                       Text(
                         'Target resolution',
-                        style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                        style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                       ),
                       Text(
                         DateFormat('dd MMM, HH:mm').format(c.sla!.targetResolveAt),
-                        style: GoogleFonts.spaceGrotesk(fontSize: 12, fontWeight: FontWeight.w600),
+                        style: GoogleFonts.spaceGrotesk(fontSize: 12, fontWeight: FontWeight.w600, color: context.textPrimary),
                       ),
                     ],
                   ),
@@ -628,7 +628,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                     children: [
                       Text(
                         'Resolution status',
-                        style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary),
+                        style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary),
                       ),
                       Text(
                         c.sla!.resolveBreached ? 'Breached' : 'On track',
@@ -644,7 +644,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('SLA health', style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary)),
+                      Text('SLA health', style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary)),
                       Text(
                         c.slaBreached ? 'Breached' : 'Within threshold',
                         style: GoogleFonts.publicSans(
@@ -657,11 +657,11 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   ),
                 ],
                 if (c.riskLevel != null) ...[
-                  const Divider(color: AppColors.hairlineBorder, height: 20),
+                  Divider(color: context.borderColor, height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Fleet risk index', style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textSecondary)),
+                      Text('Fleet risk index', style: GoogleFonts.publicSans(fontSize: 12, color: context.textSecondary)),
                       Text(
                         '${c.riskLevel} risk',
                         style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.amber),
@@ -689,7 +689,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -703,14 +703,14 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                       children: [
                         Text(
                           'Assigned operator',
-                          style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textSecondary),
+                          style: GoogleFonts.publicSans(fontSize: 11, color: context.textSecondary),
                         ),
                         Text(
                           c.owner?.fullName ?? c.owner?.email ?? 'Unassigned',
                           style: GoogleFonts.publicSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: c.owner != null ? AppColors.textPrimary : AppColors.coral,
+                            color: c.owner != null ? context.textPrimary : AppColors.coral,
                           ),
                         ),
                       ],
@@ -786,7 +786,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: isCurrent ? AppColors.primaryTint : Colors.transparent,
+                  color: isCurrent ? (context.isDarkMode ? AppColors.primary.withValues(alpha: 0.25) : AppColors.primaryTint) : Colors.transparent,
                   borderRadius: BorderRadius.circular(AppRadius.xs),
                   border: isCurrent ? Border.all(color: AppColors.primary) : null,
                 ),
@@ -798,7 +798,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                       height: 6,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isCurrent ? AppColors.primary : AppColors.textTertiary,
+                        color: isCurrent ? AppColors.primary : context.textTertiary,
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -807,7 +807,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
                       style: GoogleFonts.publicSans(
                         fontSize: 10,
                         fontWeight: isCurrent ? FontWeight.w600 : FontWeight.w400,
-                        color: isCurrent ? AppColors.primary : AppColors.textSecondary,
+                        color: isCurrent ? AppColors.primary : context.textSecondary,
                       ),
                     ),
                   ],
@@ -816,7 +816,7 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
               if (step != steps.last)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text('·', style: GoogleFonts.publicSans(color: AppColors.textTertiary, fontSize: 11)),
+                  child: Text('·', style: GoogleFonts.publicSans(color: context.textTertiary, fontSize: 11)),
                 ),
             ],
           );
@@ -833,16 +833,16 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.surface : Colors.transparent,
+          color: isActive ? context.cardColor : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          border: Border.all(color: isActive ? AppColors.border : Colors.transparent),
+          border: Border.all(color: isActive ? context.borderColor : Colors.transparent),
         ),
         child: Text(
           label,
           style: GoogleFonts.publicSans(
             fontSize: 11,
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive ? AppColors.textPrimary : AppColors.textSecondary,
+            color: isActive ? context.textPrimary : context.textSecondary,
           ),
         ),
       ),
@@ -857,13 +857,13 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
         style: GoogleFonts.publicSans(
           fontSize: 11,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-          color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+          color: isSelected ? context.textPrimary : context.textSecondary,
         ),
       ),
       selected: isSelected,
-      selectedColor: AppColors.primaryTint,
-      backgroundColor: AppColors.surfaceContainerLow,
-      side: BorderSide(color: isSelected ? AppColors.primary : AppColors.border),
+      selectedColor: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.3) : AppColors.primaryTint,
+      backgroundColor: context.containerBg,
+      side: BorderSide(color: isSelected ? AppColors.primary : context.borderColor),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       onSelected: (selected) {
         if (selected) setState(() => _visibility = val);

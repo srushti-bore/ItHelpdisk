@@ -83,9 +83,9 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
         minChildSize: 0.5,
         maxChildSize: 0.95,
         builder: (context, scrollController) => Container(
-          decoration: const BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+          decoration: BoxDecoration(
+            color: context.surfaceColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
           ),
           padding: const EdgeInsets.all(AppSpacing.xl),
           child: ListView(
@@ -97,7 +97,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryTint,
+                      color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                       borderRadius: BorderRadius.circular(AppRadius.xs),
                       border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                     ),
@@ -111,7 +111,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, size: 20, color: AppColors.textSecondary),
+                    icon: Icon(Icons.close_rounded, size: 20, color: context.textSecondary),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -122,22 +122,22 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimary,
                   letterSpacing: -0.4,
                 ),
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
                 'Updated on ${DateFormat('dd MMM yyyy').format(article.updatedAt)} · ${article.state}',
-                style: GoogleFonts.publicSans(color: AppColors.textTertiary, fontSize: 12),
+                style: GoogleFonts.publicSans(color: context.textTertiary, fontSize: 12),
               ),
-              const Divider(color: AppColors.hairlineBorder, height: 28),
+              Divider(color: context.borderColor, height: 28),
               SelectableText(
                 article.body,
                 style: GoogleFonts.publicSans(
                   fontSize: 14,
                   height: 1.6,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimary,
                 ),
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -168,11 +168,11 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: AppColors.surface,
+          backgroundColor: ctx.surfaceColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
           title: Text(
             'New Knowledge Article',
-            style: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+            style: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: ctx.textPrimary),
           ),
           content: SizedBox(
             width: 480,
@@ -268,7 +268,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 26,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textPrimary,
+                              color: context.textPrimary,
                               letterSpacing: -0.5,
                             ),
                           ),
@@ -277,7 +277,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                             'Standard operating procedures and verified remediation guides',
                             style: GoogleFonts.publicSans(
                               fontSize: 13,
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                         ],
@@ -298,22 +298,22 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                 delay: const Duration(milliseconds: 60),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                   child: Row(
                     children: [
-                      const Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
+                      Icon(Icons.search_rounded, size: 18, color: context.textSecondary),
                       const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: TextField(
                           controller: _searchController,
-                          style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                          style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                           decoration: InputDecoration(
                             hintText: 'Search SOPs, error codes, and troubleshooting guides...',
-                            hintStyle: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textTertiary),
+                            hintStyle: GoogleFonts.publicSans(fontSize: 13, color: context.textTertiary),
                             border: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -325,7 +325,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                       ),
                       if (_searchController.text.isNotEmpty)
                         IconButton(
-                          icon: const Icon(Icons.close_rounded, size: 16, color: AppColors.textSecondary),
+                          icon: Icon(Icons.close_rounded, size: 16, color: context.textSecondary),
                           onPressed: () {
                             _searchController.clear();
                             _fetchArticles();
@@ -351,15 +351,15 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                         child: ChoiceChip(
                           label: Text(cat),
                           selected: isSelected,
-                          selectedColor: AppColors.primaryTint,
-                          backgroundColor: AppColors.surface,
+                          selectedColor: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.3) : AppColors.primaryTint,
+                          backgroundColor: context.containerBg,
                           labelStyle: GoogleFonts.publicSans(
                             fontSize: 12,
                             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                            color: isSelected ? AppColors.primary : context.textSecondary,
                           ),
                           side: BorderSide(
-                            color: isSelected ? AppColors.primary : AppColors.hairlineBorder,
+                            color: isSelected ? AppColors.primary : context.borderColor,
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           onSelected: (selected) {
@@ -391,26 +391,26 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                   padding: const EdgeInsets.all(AppSpacing.xxxl),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   child: Column(
                     children: [
-                      const Icon(Icons.article_outlined, size: 40, color: AppColors.textTertiary),
+                      Icon(Icons.article_outlined, size: 40, color: context.textTertiary),
                       const SizedBox(height: AppSpacing.md),
                       Text(
                         'No articles found',
                         style: GoogleFonts.spaceGrotesk(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
                         'Try another search keyword or category.',
-                        style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+                        style: GoogleFonts.publicSans(color: context.textSecondary, fontSize: 12),
                       ),
                     ],
                   ),
@@ -418,21 +418,21 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
               else
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
-                    border: Border.all(color: AppColors.hairlineBorder),
+                    border: Border.all(color: context.borderColor),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: _articles.length,
-                    separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+                    separatorBuilder: (_, __) => Divider(color: context.borderColor, height: 1),
                     itemBuilder: (context, index) {
                       final art = _articles[index];
                       return InkWell(
                         onTap: () => _showArticleDetails(art),
-                        hoverColor: AppColors.surfaceContainerLow,
+                        hoverColor: context.hoverBg,
                         child: Padding(
                           padding: const EdgeInsets.all(AppSpacing.lg),
                           child: Column(
@@ -444,7 +444,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
                                     decoration: BoxDecoration(
-                                      color: AppColors.primaryTint,
+                                      color: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.2) : AppColors.primaryTint,
                                       borderRadius: BorderRadius.circular(AppRadius.xs),
                                       border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
                                     ),
@@ -461,7 +461,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                                     DateFormat('dd MMM yyyy').format(art.updatedAt),
                                     style: GoogleFonts.publicSans(
                                       fontSize: 11,
-                                      color: AppColors.textTertiary,
+                                      color: context.textTertiary,
                                     ),
                                   ),
                                 ],
@@ -472,7 +472,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                                 style: GoogleFonts.publicSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.textPrimary,
+                                  color: context.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: AppSpacing.xs),
@@ -482,7 +482,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.publicSans(
                                   fontSize: 12,
-                                  color: AppColors.textSecondary,
+                                  color: context.textSecondary,
                                   height: 1.45,
                                 ),
                               ),

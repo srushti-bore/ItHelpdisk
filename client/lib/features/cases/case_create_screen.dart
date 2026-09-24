@@ -66,7 +66,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
               'Case ${res['reference_number']} created successfully',
               style: GoogleFonts.publicSans(color: Colors.white, fontSize: 13),
             ),
-            backgroundColor: AppColors.textPrimary,
+            backgroundColor: AppColors.slateTeal,
           ),
         );
         context.go('/cases/${res['id']}');
@@ -88,12 +88,12 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.surfaceColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, size: 20, color: AppColors.textPrimary),
+          icon: Icon(Icons.arrow_back_rounded, size: 20, color: context.textPrimary),
           onPressed: () => context.go('/cases'),
         ),
         title: Text(
@@ -101,13 +101,13 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: context.textPrimary,
             letterSpacing: -0.3,
           ),
         ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(color: AppColors.border, height: 1),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Divider(color: context.borderColor, height: 1),
         ),
       ),
       body: Center(
@@ -126,7 +126,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                     style: GoogleFonts.publicSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
+                      color: context.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -162,14 +162,14 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                         style: GoogleFonts.publicSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
+                          color: context.textSecondary,
                         ),
                       ),
                       Text(
                         'All fields required unless noted',
                         style: GoogleFonts.publicSans(
                           fontSize: 11,
-                          color: AppColors.textTertiary,
+                          color: context.textTertiary,
                         ),
                       ),
                     ],
@@ -185,14 +185,14 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                         style: GoogleFonts.publicSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                         ),
                       ),
                       Text(
                         '${_titleController.text.length}/200',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 11,
-                          color: AppColors.textTertiary,
+                          color: context.textTertiary,
                         ),
                       ),
                     ],
@@ -202,7 +202,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                     controller: _titleController,
                     maxLength: 200,
                     buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
-                    style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                    style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                     decoration: const InputDecoration(
                       hintText: 'Brief summary of the issue',
                     ),
@@ -219,14 +219,14 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                         style: GoogleFonts.publicSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                         ),
                       ),
                       Text(
                         '${_descController.text.length}/5,000',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 11,
-                          color: AppColors.textTertiary,
+                          color: context.textTertiary,
                         ),
                       ),
                     ],
@@ -235,7 +235,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                   TextFormField(
                     controller: _descController,
                     maxLines: 4,
-                    style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                    style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                     decoration: const InputDecoration(
                       hintText: 'What happened and when did it start? Include error codes or affected systems...',
                     ),
@@ -247,9 +247,9 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: context.cardColor,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: context.borderColor),
                     ),
                     child: Container(
                       decoration: const BoxDecoration(
@@ -264,13 +264,13 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                             style: GoogleFonts.publicSans(
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             'Does this happen on Ethernet or Wi-Fi?',
-                            style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textPrimary),
+                            style: GoogleFonts.publicSans(fontSize: 12, color: context.textPrimary),
                           ),
                           const SizedBox(height: 6),
                           Wrap(
@@ -280,9 +280,9 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                               return ChoiceChip(
                                 label: Text(opt, style: GoogleFonts.publicSans(fontSize: 11, fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                                 selected: sel,
-                                selectedColor: AppColors.primaryContainer,
-                                backgroundColor: AppColors.surfaceContainerLow,
-                                side: BorderSide(color: sel ? AppColors.primary : AppColors.border),
+                                selectedColor: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.3) : AppColors.primaryContainer,
+                                backgroundColor: context.containerBg,
+                                side: BorderSide(color: sel ? AppColors.primary : context.borderColor),
                                 onSelected: (val) => setState(() => _q1Answer = val ? opt : null),
                               );
                             }).toList(),
@@ -290,7 +290,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                           const SizedBox(height: 10),
                           Text(
                             'Are colleagues in your location experiencing this?',
-                            style: GoogleFonts.publicSans(fontSize: 12, color: AppColors.textPrimary),
+                            style: GoogleFonts.publicSans(fontSize: 12, color: context.textPrimary),
                           ),
                           const SizedBox(height: 6),
                           Wrap(
@@ -300,9 +300,9 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                               return ChoiceChip(
                                 label: Text(opt, style: GoogleFonts.publicSans(fontSize: 11, fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                                 selected: sel,
-                                selectedColor: AppColors.primaryContainer,
-                                backgroundColor: AppColors.surfaceContainerLow,
-                                side: BorderSide(color: sel ? AppColors.primary : AppColors.border),
+                                selectedColor: context.isDarkMode ? AppColors.primary.withValues(alpha: 0.3) : AppColors.primaryContainer,
+                                backgroundColor: context.containerBg,
+                                side: BorderSide(color: sel ? AppColors.primary : context.borderColor),
                                 onSelected: (val) => setState(() => _q2Answer = val ? opt : null),
                               );
                             }).toList(),
@@ -323,13 +323,13 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                           children: [
                             Text(
                               'Urgency / Priority',
-                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                             ),
                             const SizedBox(height: 6),
                             DropdownButtonFormField<String>(
                               initialValue: _priority,
                               isExpanded: true,
-                              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                               decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                               ),
@@ -353,12 +353,12 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                           children: [
                             Text(
                               'Office site',
-                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: context.textPrimary),
                             ),
                             const SizedBox(height: 6),
                             TextFormField(
                               controller: _siteController,
-                              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 13, color: context.textPrimary),
                               decoration: const InputDecoration(
                                 hintText: 'e.g. Pune, London, New York',
                                 contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -417,10 +417,10 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryContainer.withValues(alpha: 0.35) : AppColors.surface,
+          color: isSelected ? (context.isDarkMode ? AppColors.primary.withValues(alpha: 0.25) : AppColors.primaryContainer.withValues(alpha: 0.35)) : context.cardColor,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.border,
+            color: isSelected ? AppColors.primary : context.borderColor,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -435,7 +435,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                 ),
                 Container(
@@ -444,10 +444,10 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isSelected ? AppColors.primary : AppColors.border,
+                      color: isSelected ? AppColors.primary : context.borderColor,
                       width: isSelected ? 4 : 1.5,
                     ),
-                    color: isSelected ? AppColors.surface : Colors.transparent,
+                    color: isSelected ? (context.isDarkMode ? AppColors.cardDark : AppColors.surface) : Colors.transparent,
                   ),
                 ),
               ],
@@ -457,7 +457,7 @@ class _CaseCreateScreenState extends State<CaseCreateScreen> {
               description,
               style: GoogleFonts.publicSans(
                 fontSize: 11,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 height: 1.3,
               ),
             ),
