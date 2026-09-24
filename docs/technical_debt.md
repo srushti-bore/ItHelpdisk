@@ -1,99 +1,36 @@
-# AI IT Helpdesk - Technical Debt & Architectural Assessment
+# NexAssist - Technical Debt & Architectural Resolutions
 
-**Date:** 21 September 2026  
-**Scope:** Backend (FastAPI / PostgreSQL), Client (Flutter), AI Integration (Gemini), DevOps & Deployment
-
----
-
-## 1. Overview
-This document tracks identified areas of technical debt, resolved platform patches, architectural trade-offs made during development, and recommended refactorings for future production milestones.
+**Last Updated:** 24 September 2026  
+**Status:** Managed / Production-Ready
 
 ---
 
-## 2. Resolved Technical Debt & Platform Fixes (September 2026)
+## 1. Resolved Technical Debt
 
-### ✅ 2.1 Kotlin Incremental Cache Cross-Drive Conflict (Fixed)
-- **Issue:** Project located on `D:\` with Gradle cache on `C:\` triggered `IllegalArgumentException: this and base files have different roots`.
-- **Resolution:** Added `kotlin.incremental=false` and `kotlin.incremental.android=false` in `client/android/gradle.properties`.
+### A. Dynamic API Base URL for Web Deployments
+- **Context:** Flutter Web compilation bakes `--dart-define` parameters at build time. Previously `AppConstants.defaultApiBaseUrl` was hardcoded to `http://localhost:8000/api/v1`, which caused browser security alerts on Vercel (`Access other devices on your local network`) and request timeouts.
+- **Resolution:**
+  1. Updated `AppConstants.defaultApiBaseUrl` to evaluate `const String.fromEnvironment('API_BASE_URL')` first.
+  2. Isolated `AppConstants.candidateApiBaseUrls` so Web exclusively targets the configured production URL and skips local private network probes (`10.x.x.x` / `10.0.2.2`).
+  3. Replaced `dart:io` in `ApiClient` with standard `http.ClientException` and 15s timeout to ensure 100% web-safe execution.
 
-### ✅ 2.2 Android SDK 36 `file_picker` Incompatibility (Fixed)
-- **Issue:** `flutter_plugin_android_lifecycle` required `compileSdk = 36`, breaking legacy `file_picker: 8.3.7`.
-- **Resolution:** Upgraded `file_picker` to `^10.0.0` in `pubspec.yaml` and set `compileSdk = 36` in `app/build.gradle.kts`.
+### B. Supabase PostgreSQL & pgBouncer Pooling Support
+- **Context:** Supabase uses pgBouncer transaction poolers on port 6543, which reject named prepared statements from `asyncpg`. Additionally, standard Supabase connection strings use the `postgresql://` scheme instead of `postgresql+asyncpg://`.
+- **Resolution:**
+  1. Added `@field_validator` in `backend/core/config.py` to auto-translate `postgresql://` and `postgres://` into `postgresql+asyncpg://` for async SQLAlchemy engine and `postgresql://` for sync Alembic engine.
+  2. Configured `connect_args={"statement_cache_size": 0}` in `backend/db/session.py` to disable prepared statement caching when using asyncpg with Supabase poolers.
 
-### ✅ 2.3 Physical Android Device Localhost Bridge (Fixed)
-- **Issue:** Physical mobile device threw connection errors attempting to reach PC emulator IP `10.0.2.2:8000`.
-- **Resolution:** Updated `AppConstants.defaultApiBaseUrl` to `http://localhost:8000/api/v1` and established reverse bridge via `adb reverse tcp:8000 tcp:8000`.
-
-### ✅ 2.4 Standalone Windows Distribution (Fixed)
-- **Issue:** Windows desktop builds required raw `.dll` folder distribution.
-- **Resolution:** Built Inno Setup 6 packaging script `IT_Helpdesk_Setup.iss` outputting single-file installer `IT_Helpdesk-Setup.exe` (10.7MB).
-
-### ✅ 2.5 ApiClient Network Error Handling (Fixed — 21 Sep 2026)
-- **Issue:** Raw `SocketException`, `TimeoutException`, and `http.ClientException` propagated uncaught through `ApiClient` HTTP methods. On physical Android devices (or whenever the backend was unreachable), every screen showed a vague "An unexpected connection error occurred" with no actionable detail.
-- **Resolution:** Added `_executeRequest()` wrapper method in `client/lib/shared/api_client.dart` that catches all three network-level exception types and converts them into structured `ApiException` with user-friendly messages and `debugPrint` console logging. All four HTTP methods (`get`, `post`, `patch`, `delete`) now route through this wrapper with a 15-second timeout. Every screen (auth, cases, reports, knowledge) benefits automatically without needing individual catch blocks.
-
-### ✅ 2.6 Root `.gitignore` Pattern Overlap with Flutter `client/lib/` (Fixed — 22 Sep 2026)
-- **Issue:** Generic Python `.gitignore` rule `lib/` inadvertently ignored Flutter frontend source directory `client/lib/`.
-- **Resolution:** Anchored root-only ignores to `/lib/` and `/lib64/`, enabling full tracking and versioning of all Flutter client features, models, constants, and Calmdesk screens.
+### C. Cross-Origin Resource Sharing (CORS) on Render
+- **Context:** Render backend initially allowed only localhost origins. Requests originating from `https://nex-assist-five.vercel.app` were blocked by browser pre-flight CORS checks.
+- **Resolution:** Updated `CORSMiddleware` in `backend/main.py` with `allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.vercel\.app$"` to dynamically allow all current and future Vercel preview/production deployments.
 
 ---
 
-## 3. High-Priority Items (Near-Term / Phase 2 Roadmap)
+## 2. Active Technical Debt & Planned Improvements
 
-### 2.1 Storage Provider Integration (Supabase S3)
-- **Current State:** File upload endpoints (`POST /cases/{id}/attachments`) use mock in-memory buffer handling when `SUPABASE_URL` is empty.
-- **Debt / Risk:** Local server restarts will lose non-persisted attachment binary files.
-- **Remediation:** Configure real Supabase Storage bucket with signed URL expiration (15 minutes) and integrate virus scanning (ClamAV) on upload per SRS §7.2.
-
-### 2.2 Redis / Distributed Caching Layer
-- **Current State:** Rate-limiting and duplicate detection queries hit PostgreSQL directly.
-- **Debt / Risk:** High concurrent traffic on search / duplicate detection can lead to database connection saturation.
-- **Remediation:** Introduce Redis for session revocation, token blacklisting, caching Knowledge Base search vectors, and distributed locks for background scheduler jobs.
-
-### 2.3 APScheduler Multi-Worker Concurrency
-- **Current State:** 'The Sweep' periodic job runs in-process using APScheduler inside the FastAPI lifespan process.
-- **Debt / Risk:** If uvicorn runs with multiple workers (`--workers 4`), multiple instances of 'The Sweep' will run concurrently and may attempt duplicate SLA breach evaluations.
-- **Remediation:** Migrate background job execution to Celery with Redis/RabbitMQ broker, or use database-level row locking (`SELECT FOR UPDATE SKIP LOCKED`) during sweep processing.
-
----
-
-## 3. Medium-Priority Items (Code & Architecture)
-
-### 3.1 Strict Typing & Pydantic Config Validation
-- **Current State:** Schemas use `Union[UUID, str]` for compatibility between SQLAlchemy UUID objects and API input strings.
-- **Improvement:** Implement custom Pydantic V2 `Annotated[UUID, PlainSerializer(...)]` types to standardize all ID representations across the codebase without repeating `Union[UUID, str]`.
-
-### 3.2 WebSocket Live Updates for Case Timeline
-- **Current State:** Case messages and status updates rely on manual screen refresh or polling upon action completion.
-- **Improvement:** Implement FastAPI WebSocket channels or Server-Sent Events (SSE) so operators and requesters see incoming messages and status changes in real-time.
-
-### 3.3 Flutter Client State Management Refactoring
-- **Current State:** `CaseDetailScreen` manages message sending, status transition, and assignment with local `setState`.
-- **Improvement:** Extract case details logic into dedicated `CaseController` / `Provider` to keep UI components purely declarative and simplify component-level widget testing.
-
-### 3.4 Local Web Port / Process Lifecycle Management
-- **Current State:** Flutter Web debug runner socket binding may collide with prior background `dartvm.exe` instances on port 3000.
-- **Improvement:** Add automated pre-launch port check or graceful kill routine in `scripts/dev.bat` to ensure seamless 1-click startup.
-
----
-
-## 4. Testing & Quality Assurance Debt
-
-### 4.1 Automated E2E & Integration Test Coverage
-- **Current State:** Unit and endpoint tests exist, but full headless browser integration tests are manual due to environment driver restrictions.
-- **Remediation:** Add GitHub Actions CI workflow running `pytest` with a dedicated PostgreSQL test container and `flutter test` for widget coverage.
-
-### 4.2 Seed Data vs Production Migrations
-- **Current State:** `backend/db/seed.py` creates demo accounts and static cases directly in the database.
-- **Remediation:** Ensure seed scripts are strictly isolated to dev/staging environments with environment flag checks (`ENVIRONMENT != 'production'`).
-
----
-
-## 5. Security & Compliance Checklist
-
-- [x] Passwords hashed using bcrypt / Argon2id (`pwd_context.hash`).
-- [x] JWT token expiration enforced (15-min access token in production, 24-hr dev token).
-- [x] CORS restricted by regex pattern to localhost origins.
-- [x] `.env` secrets excluded from version control via `.gitignore`.
-- [ ] Implement CSRF token protection for cookie-based sessions.
-- [ ] Configure Content Security Policy (CSP) headers on Flutter Web build output.
+| Area | Item | Impact | Recommended Resolution |
+|---|---|---|---|
+| **Storage** | Supabase Storage Attachment Upload | Low | Complete multi-part file upload direct to Supabase Storage S3 bucket instead of memory buffer. |
+| **Scheduler** | Multi-Worker Sweep Locking | Medium | Add `SELECT FOR UPDATE SKIP LOCKED` on case SLA queries if scaling backend horizontally to multiple Render instances. |
+| **Realtime** | WebSocket Case Updates | Low | Add Supabase Realtime / WebSocket stream to replace 30-second polling for active case queues. |
+| **Cache** | Redis Layer | Low | Optional Redis instance for token blacklisting and high-frequency knowledge base query caching. |
