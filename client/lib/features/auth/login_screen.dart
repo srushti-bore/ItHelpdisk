@@ -7,6 +7,7 @@ import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
 import 'package:it_helpdesk_client/shared/widgets/interactive_card.dart';
 import 'package:it_helpdesk_client/shared/widgets/liquid_glass_panel.dart';
+import 'package:it_helpdesk_client/shared/widgets/liquid_aurora_background.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -44,75 +45,81 @@ class _LoginScreenState extends State<LoginScreen> {
     final auth = context.watch<AuthController>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: AppSpacing.screenPadding(context),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 460),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Header Block with App Icon
-                    GSAPFadeSlide(
-                      direction: SlideDirection.down,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryTint,
-                              borderRadius: BorderRadius.circular(AppRadius.md),
-                              border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-                            ),
-                            child: const Icon(
-                              Icons.support_agent_rounded,
-                              size: 26,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.md),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'NexAssist',
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary,
-                                  letterSpacing: -0.3,
-                                ),
-                              ),
-                              Text(
-                                'Enterprise AI Technical Operations',
-                                style: GoogleFonts.publicSans(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xxl),
-
-                    // Login Card with Liquid Glass Panel
-                    GSAPFadeSlide(
-                      delay: const Duration(milliseconds: 60),
-                      child: LiquidGlassPanel(
-                        padding: const EdgeInsets.all(AppSpacing.xl),
-                        backgroundColor: AppColors.surface.withValues(alpha: 0.94),
-                        borderColor: AppColors.primaryContainer.withValues(alpha: 0.25),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: LiquidAuroraBackground(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: AppSpacing.screenPadding(context),
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 460),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Header Block with App Icon
+                      GSAPFadeSlide(
+                        direction: SlideDirection.down,
+                        child: Row(
                           children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                gradient: AppColors.primaryGradient,
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withValues(alpha: 0.35),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.support_agent_rounded,
+                                size: 28,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'NexAssist',
+                                  style: GoogleFonts.spaceGrotesk(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.textPrimary,
+                                    letterSpacing: -0.4,
+                                  ),
+                                ),
+                                Text(
+                                  'Enterprise AI Technical Operations',
+                                  style: GoogleFonts.publicSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // Login Card with Liquid Glass Panel
+                      GSAPFadeSlide(
+                        delay: const Duration(milliseconds: 60),
+                        child: LiquidGlassPanel(
+                          blur: 24,
+                          padding: const EdgeInsets.all(AppSpacing.xxl),
+                          borderRadius: BorderRadius.circular(AppRadius.xl),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
                             // Welcome Headline
                             Text(
                               'Sign In',
@@ -323,8 +330,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildDemoChip(String label, String email, String password, Color accentColor) {
     return ActionChip(

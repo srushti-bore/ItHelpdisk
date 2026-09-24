@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// NextAssist Design System — Pastel sRGB Palette & Glassmorphic Tokens
+/// NextAssist Design System — Pastel sRGB Palette & Liquid Glass Tokens
 /// Strictly adheres to `NextAssist — Design.md`:
-/// - Soft Lavender, Muted Blue, Warm Peach, Light Beige / Sand
+/// - Soft Lavender (#5B61B9 / #8C93E8), Muted Blue (#4B72C7), Warm Peach (#F4A28C), Sand/Beige (#F7F6F3)
 /// - Total Ban on Harsh Green & Neon Gradients
-/// - Low Saturation, Soft Contrast, High Readability
-/// - Liquid Glassmorphism & Subtle Glow Support
+/// - Mineral Slate-Teal (#5E9392 / #6E9C9B) for Health & Resolution
+/// - Liquid Glassmorphism, Ambient Aurora Light Orbs & Soft Glow Depth
 class AppColors {
   // --- 1. Canvas & Surface Foundations (Light Beige / Sand / Off-White) ---
   static const Color background = Color(0xFFF7F6F3); // Warm Sand/Off-White canvas
   static const Color backgroundSecondary = Color(0xFFFAF9F6);
-  static const Color surface = Color(0xFFFFFFFF); // Clean pure white card
+  static const Color surface = Color(0xFFFFFFFF); // Clean white card base
   static const Color surfaceDim = Color(0xFFEFECE6);
   static const Color surfaceBright = Color(0xFFFAF9F6);
 
@@ -65,7 +65,7 @@ class AppColors {
   // --- 7. Tertiary / Resolution / Health / Slate-Teal (ZERO PURE GREEN RULE) ---
   static const Color slateTeal = Color(0xFF6E9C9B); // Mineral Slate-Teal (Replaces harsh green)
   static const Color slateTealTint = Color(0xFFDDEBEA); // Resolution chip background
-  static const Color slateTealText = Color(0xFF416867);
+  static const Color slateTealText = Color(0xFF335E5D);
   static const Color tertiary = Color(0xFF6E9C9B);
   static const Color tertiaryContainer = Color(0xFF8CBAB9);
   static const Color onTertiary = Color(0xFFFFFFFF);
@@ -107,26 +107,84 @@ class AppColors {
   static const Color riskCritical = Color(0xFFD8848C);
   static const Color riskHigh = Color(0xFFF4A28C);
   static const Color riskModerate = Color(0xFFE3B15C);
-  static const Color riskLow = Color(0xFF6E9C9B);
+  static const Color riskLow = Color(0xFF5E9392);
 
   // --- 13. Liquid Glassmorphism & Soft Glow Tokens ---
-  static const Color glassSurface = Color(0xD8FFFFFF); // 85% transparent white
-  static const Color glassBorder = Color(0x60FFFFFF); // Soft white edge glow
-  static const Color glassBorderSubtle = Color(0x308C93E8); // Lavender glow border
-  static const Color glassTint = Color(0x158C93E8);
-  static const Color glassGlow = Color(0x208C93E8);
+  static const Color glassSurface = Color(0xD0FFFFFF); // 82% translucent frosted glass
+  static const Color glassSurfaceLight = Color(0xDCFFFFFF); // 86% translucent white
+  static const Color glassSurfaceSubtle = Color(0xB8FFFFFF); // 72% translucent
+  static const Color glassSurfaceDark = Color(0xCC181A20); // 80% translucent obsidian
+  static const Color glassBorder = Color(0x90FFFFFF); // Luminous white edge glow
+  static const Color glassBorderDark = Color(0x28FFFFFF);
+  static const Color glassBorderSubtle = Color(0x458C93E8); // Soft Lavender glow border
+  static const Color glassBorderHover = Color(0x998C93E8); // High hover glow
+  static const Color glassTint = Color(0x208C93E8);
+  static const Color glassGlow = Color(0x358C93E8);
 
-  // --- 14. Dark Mode Foundations ---
-  static const Color bgDark = Color(0xFF17181B);
-  static const Color surfaceDark = Color(0xFF1F2023);
-  static const Color cardDark = Color(0xFF1F2023);
-  static const Color borderDark = Color(0xFF2C2D31);
+  // --- 14. Ambient Aurora Light Orbs (Mesh Glow Foundations) ---
+  static const Color auroraLavender = Color(0x3A8C93E8);
+  static const Color auroraPeach = Color(0x30F4A28C);
+  static const Color auroraTeal = Color(0x2C6E9C9B);
+  static const Color auroraBlue = Color(0x284B72C7);
+  static const Color auroraAmber = Color(0x20E3B15C);
+
+  // --- 15. Liquid Glass Gradients ---
+  static const LinearGradient glassCardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xEAFFFFFF),
+      Color(0xC0FFFFFF),
+    ],
+  );
+
+  static const LinearGradient glassCardGradientDark = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xEA23252E),
+      Color(0xC0181A20),
+    ],
+  );
+
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF5B61B9),
+      Color(0xFF8C93E8),
+    ],
+  );
+
+  static const LinearGradient peachGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFF4A28C),
+      Color(0xFFF8B8A6),
+    ],
+  );
+
+  static const LinearGradient slateTealGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF5E9392),
+      Color(0xFF8CBAB9),
+    ],
+  );
+
+  // --- 16. Dark Mode Foundations ---
+  static const Color bgDark = Color(0xFF131417);
+  static const Color surfaceDark = Color(0xFF1A1B20);
+  static const Color cardDark = Color(0xFF1E1F26);
+  static const Color borderDark = Color(0xFF2E3038);
   static const Color textPrimaryDark = Color(0xFFEDEBE6);
   static const Color textSecondaryDark = Color(0xFFA3A19B);
   static const Color inverseSurface = Color(0xFF31302E);
   static const Color inverseOnSurface = Color(0xFFF4F0EC);
 
-  // --- 15. Convenient Palette Aliases ---
+  // --- 17. Convenient Palette Aliases ---
   static const Color rose = Color(0xFFD8848C);
   static const Color roseTint = Color(0xFFF6DEE1);
   static const Color coral = Color(0xFFF4A28C);

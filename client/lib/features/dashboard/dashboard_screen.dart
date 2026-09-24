@@ -81,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final isOperatorOrAdmin = user?.role == 'operator' || user?.role == 'team_lead' || user?.role == 'admin' || user?.role == 'manager';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
       body: _isLoading
           ? _buildLoadingSkeleton()
           : RefreshIndicator(

@@ -22,9 +22,11 @@ class AITriagePanel extends StatelessWidget {
     final confidenceTint = isHighConfidence ? AppColors.slateTealTint : AppColors.amberTint;
 
     return LiquidGlassPanel(
+      blur: 24,
       padding: AppSpacing.cardPadding,
-      backgroundColor: AppColors.surface.withValues(alpha: 0.92),
-      borderColor: AppColors.primaryContainer.withValues(alpha: 0.35),
+      backgroundColor: AppColors.glassSurface,
+      borderColor: AppColors.glassBorderSubtle,
+      borderWidth: 1.2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

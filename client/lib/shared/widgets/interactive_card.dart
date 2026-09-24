@@ -1,14 +1,15 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
 import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 
-/// NextAssist Interactive Elevated Card
-/// Strictly adheres to `NextAssist — Design.md` Sections 9 & 10:
-/// - GSAP-Style Ease-Based Hover Motion
-/// - Hover Lift (scale <= 1.02)
-/// - Smooth Shadow Expansion & Subtle 3D Depth
-/// - Tactile Click/Tap Response
-/// - 100% Flexible Sizing & Margin
+/// NextAssist Interactive Elevated Liquid Glass Card
+/// Strictly adheres to `NextAssist — Design.md`:
+/// - GSAP-Style Ease-Based Hover Motion (Curves.easeOutCubic)
+/// - Authentic Liquid Glassmorphism (BackdropFilter blur 18-24)
+/// - Sub-1.02 subtle scale lift on hover
+/// - Glowing border transition on mouse enter
+/// - Tactile click/tap response
 class InteractiveCard extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
@@ -21,6 +22,8 @@ class InteractiveCard extends StatefulWidget {
   final bool enableHover;
   final double hoverScale;
   final double hoverLift;
+  final double blur;
+  final Gradient? customGradient;
 
   const InteractiveCard({
     super.key,
@@ -35,6 +38,8 @@ class InteractiveCard extends StatefulWidget {
     this.enableHover = true,
     this.hoverScale = 1.012, // Sub-1.02 subtle scale per design system
     this.hoverLift = -3.0,
+    this.blur = 18.0,
+    this.customGradient,
   });
 
   @override
@@ -47,10 +52,18 @@ class _InteractiveCardState extends State<InteractiveCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final effectiveRadius = widget.borderRadius ?? AppRadius.borderLg;
-    final effectiveBg = widget.backgroundColor ?? AppColors.surface;
-    final isInteractive = widget.onTap != null || widget.enableHover;
+    
+    final effectiveBg = widget.backgroundColor ??
+        (isDark ? AppColors.glassSurfaceDark : AppColors.glassSurface);
+        
+    final effectiveBorder = widget.borderColor ??
+        (_isHovered
+            ? AppColors.glassBorderHover
+            : (isDark ? AppColors.glassBorderDark : AppColors.glassBorder));
 
+    final isInteractive = widget.onTap != null || widget.enableHover;
     final double targetTranslation = _isPressed ? 1.0 : (_isHovered ? widget.hoverLift : 0.0);
     final double targetScale = _isPressed ? 0.988 : (_isHovered ? widget.hoverScale : 1.0);
 
@@ -76,47 +89,74 @@ class _InteractiveCardState extends State<InteractiveCard> {
           if (widget.onTap != null) setState(() => _isPressed = false);
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
+          duration: const Duration(milliseconds: 240),
           curve: Curves.easeOutCubic,
           margin: widget.margin,
           transform: Matrix4.diagonal3Values(targetScale, targetScale, 1.0)
             ..setTranslationRaw(0.0, targetTranslation, 0.0),
           decoration: BoxDecoration(
-            color: effectiveBg,
             borderRadius: effectiveRadius,
-            border: Border.all(
-              color: _isHovered
-                  ? (widget.borderColor ?? AppColors.primaryContainer.withValues(alpha: 0.45))
-                  : (widget.borderColor ?? AppColors.border),
-              width: widget.borderWidth,
-            ),
             boxShadow: [
               if (_isHovered && isInteractive) ...[
                 BoxShadow(
-                  color: AppColors.primaryContainer.withValues(alpha: 0.12),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
+                  color: isDark
+                      ? AppColors.primaryContainer.withValues(alpha: 0.20)
+                      : AppColors.primaryContainer.withValues(alpha: 0.16),
+                  blurRadius: 24,
+                  offset: const Offset(0, 10),
                   spreadRadius: 0,
                 ),
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.30)
+                      : Colors.black.withValues(alpha: 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
                   spreadRadius: 0,
                 ),
               ] else ...[
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.02),
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.25)
+                      : AppColors.primaryContainer.withValues(alpha: 0.06),
+                  blurRadius: 18,
+                  offset: const Offset(0, 6),
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.15)
+                      : Colors.black.withValues(alpha: 0.02),
                   blurRadius: 6,
-                  offset: const Offset(0, 2),
+                  offset: const Offset(0, 1),
                   spreadRadius: 0,
                 ),
               ],
             ],
           ),
-          child: Padding(
-            padding: widget.padding ?? AppSpacing.cardPadding,
-            child: widget.child,
+          child: ClipRRect(
+            borderRadius: effectiveRadius,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: widget.blur, sigmaY: widget.blur),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 240),
+                curve: Curves.easeOutCubic,
+                padding: widget.padding ?? AppSpacing.cardPadding,
+                decoration: BoxDecoration(
+                  color: effectiveBg,
+                  gradient: widget.customGradient ??
+                      (isDark
+                          ? AppColors.glassCardGradientDark
+                          : AppColors.glassCardGradient),
+                  borderRadius: effectiveRadius,
+                  border: Border.all(
+                    color: effectiveBorder,
+                    width: widget.borderWidth,
+                  ),
+                ),
+                child: widget.child,
+              ),
+            ),
           ),
         ),
       ),

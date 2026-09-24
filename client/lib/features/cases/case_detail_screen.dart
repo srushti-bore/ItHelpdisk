@@ -174,9 +174,9 @@ class _CaseDetailScreenState extends State<CaseDetailScreen> {
     final c = _case!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, size: 20, color: AppColors.textPrimary),

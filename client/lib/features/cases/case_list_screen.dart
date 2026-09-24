@@ -78,7 +78,7 @@ class _CaseListScreenState extends State<CaseListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: ResponsiveContentShell(
           child: Column(
