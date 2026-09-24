@@ -63,3 +63,27 @@ The **NexAssist** (formerly AI IT Helpdesk) enterprise technical operations plat
 | **Operator (BLR)** | `operator.blr@ithelpdesk.com` | `OperatorPassword123!` | Bengaluru cloud/identity case handling |
 | **Knowledge Owner** | `knowledge.owner@ithelpdesk.com` | `KnowledgePassword123!` | SOP article curation & publishing |
 | **Requester** | `requester@ithelpdesk.com` | `RequesterPassword123!` | Self-service portal & ticket submission |
+
+---
+
+## 5. Production Diagnostic Session — 24 September 2026
+
+### A. Issue Detected
+- **Symptom:** Vercel frontend (`https://nex-assist-five.vercel.app`) displayed `"Connection failed. Please verify the server is reachable."` on the login page.
+- **Health Endpoint Response:** `{"status":"degraded","db":"error","environment":"local"}` — backend was live on Render but could not connect to Supabase database.
+
+### B. Root Cause Analysis
+| # | Finding | Severity |
+|---|---|---|
+| 1 | `DATABASE_URL` environment variable **missing** on Render. Only `SUPABASE_URL` (REST API URL) was set. Backend fell back to `localhost:5432` default, which doesn't exist on Render. | 🔴 Critical |
+| 2 | `ENVIRONMENT` env var not set on Render — defaulted to `local`, causing 24h JWT expiry and skipped production startup validation. | 🟡 Medium |
+
+### C. Resolution Plan
+1. **Add `DATABASE_URL`** to Render Environment tab with Supabase **Session pooler** connection string (port `5432`).
+2. **Add `SYNC_DATABASE_URL`** with the same connection string (backend auto-translates scheme for sync Alembic engine).
+3. **Set `ENVIRONMENT=production`** on Render.
+4. **Supabase project confirmed ACTIVE** — not paused (verified via Supabase Dashboard, project `hlbsbjqiuddvxqeamjft`).
+
+### D. Pooler Migration Decision
+- **Previous:** Transaction pooler (`port 6543`) documented in architecture.
+- **Current:** Migrated to **Session pooler** (`port 5432`) per user preference — supports prepared statements natively. `statement_cache_size=0` retained in `session.py` for backward compatibility (no-op on Session pooler).

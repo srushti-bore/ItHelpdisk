@@ -24,6 +24,17 @@
 - **Context:** Render backend initially allowed only localhost origins. Requests originating from `https://nex-assist-five.vercel.app` were blocked by browser pre-flight CORS checks.
 - **Resolution:** Updated `CORSMiddleware` in `backend/main.py` with `allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.vercel\.app$"` to dynamically allow all current and future Vercel preview/production deployments.
 
+### D. Missing DATABASE_URL on Render (Degraded Health)
+- **Context:** After Render deployment, the backend health endpoint returned `{"status":"degraded","db":"error","environment":"local"}`. The Vercel frontend displayed "Connection failed. Please verify the server is reachable."
+- **Root Cause:** Only `SUPABASE_URL` (REST API URL: `https://hlbsbjqiuddvxqeamjft.supabase.co`) was set on Render. The critical `DATABASE_URL` (direct PostgreSQL connection string) was missing, causing the backend to fall back to its default `localhost:5432` connection which doesn't exist on Render.
+- **Resolution:**
+  1. Add `DATABASE_URL` and `SYNC_DATABASE_URL` to Render Environment tab with Supabase Session pooler connection string.
+  2. Set `ENVIRONMENT=production` to enable strict startup validation and 15-minute JWT expiry.
+
+### E. Supabase Pooler Mode Migration (Transaction → Session)
+- **Context:** Architecture originally documented Transaction pooler (`port 6543`). Transaction pooler rejects named prepared statements, requiring `statement_cache_size=0` workaround in `asyncpg`.
+- **Resolution:** Migrated to **Session pooler** (`port 5432`) which natively supports prepared statements and provides per-connection session state. `statement_cache_size=0` retained in `backend/db/session.py` for backward compatibility — acts as a no-op on Session pooler and won't break anything.
+
 ---
 
 ## 2. Active Technical Debt & Planned Improvements
@@ -34,3 +45,5 @@
 | **Scheduler** | Multi-Worker Sweep Locking | Medium | Add `SELECT FOR UPDATE SKIP LOCKED` on case SLA queries if scaling backend horizontally to multiple Render instances. |
 | **Realtime** | WebSocket Case Updates | Low | Add Supabase Realtime / WebSocket stream to replace 30-second polling for active case queues. |
 | **Cache** | Redis Layer | Low | Optional Redis instance for token blacklisting and high-frequency knowledge base query caching. |
+| **Env Config** | Render Env Var Audit | Low | Periodically verify all required env vars (`DATABASE_URL`, `SYNC_DATABASE_URL`, `ENVIRONMENT`, `SECRET_KEY`, `GEMINI_API_KEY`, `SUPABASE_URL`, `SUPABASE_KEY`) are set and valid on Render dashboard. |
+
