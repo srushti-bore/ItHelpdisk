@@ -87,3 +87,51 @@ The **NexAssist** (formerly AI IT Helpdesk) enterprise technical operations plat
 ### D. Pooler Migration Decision
 - **Previous:** Transaction pooler (`port 6543`) documented in architecture.
 - **Current:** Migrated to **Session pooler** (`port 5432`) per user preference — supports prepared statements natively. `statement_cache_size=0` retained in `session.py` for backward compatibility (no-op on Session pooler).
+
+---
+
+## 6. Frontend Dynamic Theming & UI/UX Polish — 24 September 2026
+
+### A. Architectural Theming Refactor (Zero Hardcoded Colors)
+- **Problem Statement:** Incomplete theme transitions where static constants (`AppColors.surface`, `AppColors.background`, `AppColors.textPrimary`, `AppColors.textSecondary`, etc.) prevented dark mode palette application on cards, modals, and list items.
+- **Implementation:**
+  - Implemented `AppThemeContextExtension` on `BuildContext` in [`client/lib/shared/constants/app_colors.dart`](file:///d:/NexAssist/client/lib/shared/constants/app_colors.dart):
+    - `context.isDarkMode`: Resolves theme brightness dynamically.
+    - `context.surfaceColor`: Switches between `#FFFFFF` (Light) and `#0F172A` (Dark).
+    - `context.cardColor`: Switches between `#FFFFFF` (Light) and `#1E293B` (Dark).
+    - `context.scaffoldBg`: Switches between `#FAFAFA` (Light) and `#0F172A` (Dark).
+    - `context.textPrimary`: Switches between `#111827` (Light) and `#F8FAFC` (Dark).
+    - `context.textSecondary`: Switches between `#4B5563` (Light) and `#94A3B8` (Dark).
+    - `context.textTertiary`: Switches between `#9CA3AF` (Light) and `#64748B` (Dark).
+    - `context.borderColor`: Switches between `#E5E7EB` (Light) and `#334155` (Dark).
+    - `context.containerBg`: Switches between `#F9FAFB` (Light) and `#1E293B` (Dark).
+    - `context.hoverBg`: Dynamic card and row hover backdrop.
+  - Refactored all application screens to consume dynamic context tokens:
+    - [`dashboard_screen.dart`](file:///d:/NexAssist/client/lib/features/dashboard/dashboard_screen.dart)
+    - [`case_list_screen.dart`](file:///d:/NexAssist/client/lib/features/cases/case_list_screen.dart)
+    - [`case_detail_screen.dart`](file:///d:/NexAssist/client/lib/features/cases/case_detail_screen.dart)
+    - [`reports_screen.dart`](file:///d:/NexAssist/client/lib/features/reports/reports_screen.dart)
+    - [`knowledge_screen.dart`](file:///d:/NexAssist/client/lib/features/knowledge/knowledge_screen.dart)
+    - [`case_create_screen.dart`](file:///d:/NexAssist/client/lib/features/cases/case_create_screen.dart)
+    - [`assign_dialog.dart`](file:///d:/NexAssist/client/lib/features/cases/assign_dialog.dart)
+    - [`draft_dialog.dart`](file:///d:/NexAssist/client/lib/features/ai/draft_dialog.dart)
+    - [`login_screen.dart`](file:///d:/NexAssist/client/lib/features/auth/login_screen.dart)
+    - [`register_screen.dart`](file:///d:/NexAssist/client/lib/features/auth/register_screen.dart)
+
+### B. Shell & Post-Login Theme Switcher
+- **Login Shell Simplification:** Removed theme switcher icon from login view to keep initial authentication screen minimal, secure, and distraction-free.
+- **Post-Login Integration:** Positioned Light/Dark mode switcher icon inside [`responsive_layout.dart`](file:///d:/NexAssist/client/lib/shared/widgets/responsive_layout.dart) on:
+  - Desktop: Top Bar action tray.
+  - Mobile: App Bar header.
+  - Tablet: Navigation Rail trailing slot.
+- **Smooth Toggle:** Interacts with `ThemeController` via `Provider`, triggering instantaneous animated theme transitions across all widgets.
+
+### C. Motion & Liquid Glassmorphism
+- **LiquidGlassPanel:** Adaptive translucent backdrop filters (`sigmaX: 12, sigmaY: 12`) rendering pristine white glass tint in Light mode and deep obsidian glass tint in Dark mode.
+- **GSAP-style Choreography:** Micro-staggered `GSAPFadeSlide` animations and shimmer loaders (`GSAPShimmerLoader`) rendering on KPI cards, tables, and AI narrative summaries.
+- **Zero Pure Green Compliance:** All success states, resolution badges, and match chips strictly utilize Slate-Teal (`#0D9488`).
+
+### D. Quality Assurance & Validation
+- `flutter analyze lib`: **0 issues found** (Clean).
+- `flutter test`: **11/11 tests passed** (including Design System token compliance, model deserialization, widget interactions, and responsive layout tests).
+- Automated continuous delivery verified via Vercel GitHub integration on `main` branch.

@@ -35,6 +35,17 @@
 - **Context:** Architecture originally documented Transaction pooler (`port 6543`). Transaction pooler rejects named prepared statements, requiring `statement_cache_size=0` workaround in `asyncpg`.
 - **Resolution:** Migrated to **Session pooler** (`port 5432`) which natively supports prepared statements and provides per-connection session state. `statement_cache_size=0` retained in `backend/db/session.py` for backward compatibility — acts as a no-op on Session pooler and won't break anything.
 
+### F. Hardcoded Static UI Colors vs. Dark Mode Switcher
+- **Context:** Screens and widgets directly referenced static `AppColors` constants (`AppColors.surface`, `AppColors.background`, `AppColors.textPrimary`), which caused white backgrounds and dark text to persist when switching to Dark Mode.
+- **Resolution:**
+  1. Created `AppThemeContextExtension` on `BuildContext` with dynamic getters (`context.surfaceColor`, `context.cardColor`, `context.scaffoldBg`, `context.textPrimary`, `context.textSecondary`, `context.textTertiary`, `context.borderColor`, `context.containerBg`, `context.hoverBg`).
+  2. Refactored all screens (`Dashboard`, `CaseList`, `CaseDetail`, `Reports`, `Knowledge`, `CaseCreate`, `AssignDialog`, `DraftDialog`, `Login`, `Register`) to consume dynamic context tokens.
+  3. Eliminated all static hardcoded color dependencies.
+
+### G. Clean Post-Login Theme Control
+- **Context:** Theme mode toggle on the login page introduced unnecessary visual noise prior to authentication.
+- **Resolution:** Removed mode toggle from the login card and placed it cleanly in the post-login application header, desktop top bar, mobile app bar, and tablet rail within `ResponsiveLayout`.
+
 ---
 
 ## 2. Active Technical Debt & Planned Improvements
