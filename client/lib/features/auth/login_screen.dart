@@ -6,8 +6,6 @@ import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
 import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
 import 'package:it_helpdesk_client/shared/widgets/interactive_card.dart';
-import 'package:it_helpdesk_client/shared/widgets/liquid_glass_panel.dart';
-import 'package:it_helpdesk_client/shared/widgets/liquid_aurora_background.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -43,99 +41,100 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      body: LiquidAuroraBackground(
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: AppSpacing.screenPadding(context),
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 460),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Header Block with App Icon
-                      GSAPFadeSlide(
-                        direction: SlideDirection.down,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                gradient: AppColors.primaryGradient,
-                                borderRadius: BorderRadius.circular(AppRadius.md),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primary.withValues(alpha: 0.35),
-                                    blurRadius: 16,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.support_agent_rounded,
-                                size: 28,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(width: AppSpacing.md),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'NexAssist',
-                                  style: GoogleFonts.spaceGrotesk(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
-                                    letterSpacing: -0.4,
-                                  ),
-                                ),
-                                Text(
-                                  'Enterprise AI Technical Operations',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textSecondary,
-                                  ),
+      backgroundColor: isDark ? AppColors.bgDark : AppColors.background,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: AppSpacing.screenPadding(context),
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Brand Header Block
+                    GSAPFadeSlide(
+                      direction: SlideDirection.down,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              gradient: AppColors.primaryGradient,
+                              borderRadius: BorderRadius.circular(AppRadius.md),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.3),
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 4),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xl),
-
-                      // Login Card with Liquid Glass Panel
-                      GSAPFadeSlide(
-                        delay: const Duration(milliseconds: 60),
-                        child: LiquidGlassPanel(
-                          blur: 24,
-                          padding: const EdgeInsets.all(AppSpacing.xxl),
-                          borderRadius: BorderRadius.circular(AppRadius.xl),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            child: const Icon(
+                              Icons.support_agent_rounded,
+                              size: 24,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.md),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                'NexAssist',
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                                  letterSpacing: -0.3,
+                                ),
+                              ),
+                              Text(
+                                'Enterprise AI Technical Operations',
+                                style: GoogleFonts.publicSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xl),
+
+                    // Login Card
+                    GSAPFadeSlide(
+                      delay: const Duration(milliseconds: 60),
+                      child: InteractiveCard(
+                        padding: const EdgeInsets.all(AppSpacing.xxl),
+                        borderRadius: BorderRadius.circular(AppRadius.xl),
+                        enableHover: false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                             // Welcome Headline
                             Text(
                               'Sign In',
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w700,
+                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
                                 letterSpacing: -0.5,
                               ),
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             Text(
-                              'Enter your institutional credentials to access assigned triage queues and device fleets.',
+                              'Enter your institutional credentials to access assigned triage queues.',
                               style: GoogleFonts.publicSans(
                                 fontSize: 13,
-                                color: AppColors.textSecondary,
+                                color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                                 height: 1.45,
                               ),
                             ),
@@ -145,105 +144,155 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (auth.errorMessage != null) ...[
                               Container(
                                 padding: const EdgeInsets.all(AppSpacing.md),
+                                margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                                 decoration: BoxDecoration(
                                   color: AppColors.dangerTint,
                                   borderRadius: BorderRadius.circular(AppRadius.md),
-                                  border: Border.all(color: AppColors.dangerRose.withValues(alpha: 0.4)),
+                                  border: Border.all(color: AppColors.dangerRose.withValues(alpha: 0.3)),
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.error_outline_rounded, size: 18, color: AppColors.dangerText),
+                                    const Icon(Icons.error_outline_rounded, size: 18, color: AppColors.dangerRose),
                                     const SizedBox(width: AppSpacing.sm),
                                     Expanded(
                                       child: Text(
                                         auth.errorMessage!,
-                                        style: GoogleFonts.publicSans(color: AppColors.dangerText, fontSize: 12),
+                                        style: GoogleFonts.publicSans(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.dangerText,
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: AppSpacing.lg),
                             ],
 
-                            // Email input
+                            // Email Input Field
                             Text(
-                              'Institutional Email',
-                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
+                              'Email Address',
+                              style: GoogleFonts.publicSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                              ),
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             TextFormField(
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
-                              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 13),
                               decoration: const InputDecoration(
-                                hintText: 'operator@company.com',
+                                hintText: 'operator@nexassist.internal',
+                                prefixIcon: Icon(Icons.mail_outline_rounded, size: 18),
                               ),
-                              validator: (v) => v == null || v.isEmpty ? 'Enter your email' : null,
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) return 'Email is required';
+                                if (!v.contains('@')) return 'Enter a valid email address';
+                                return null;
+                              },
                             ),
-                            const SizedBox(height: AppSpacing.md),
+                            const SizedBox(height: AppSpacing.lg),
 
-                            // Password input
+                            // Password Input Field
                             Text(
                               'Password',
-                              style: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
+                              style: GoogleFonts.publicSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
+                              ),
                             ),
                             const SizedBox(height: AppSpacing.xs),
                             TextFormField(
                               controller: _passwordController,
                               obscureText: _obscurePassword,
-                              style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                              style: GoogleFonts.publicSans(fontSize: 13),
                               decoration: InputDecoration(
-                                hintText: '••••••••••••',
+                                hintText: '••••••••',
+                                prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                    _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                                     size: 18,
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.textTertiary,
                                   ),
                                   onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                                 ),
                               ),
-                              validator: (v) => v == null || v.isEmpty ? 'Enter your password' : null,
+                              validator: (v) {
+                                if (v == null || v.isEmpty) return 'Password is required';
+                                return null;
+                              },
                             ),
                             const SizedBox(height: AppSpacing.md),
 
-                            // Keep session verified checkbox
+                            // Remember Me & Forgot Password
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: Checkbox(
-                                    value: _rememberSession,
-                                    activeColor: AppColors.primary,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.xs)),
-                                    side: const BorderSide(color: AppColors.hairlineBorder, width: 1.2),
-                                    onChanged: (val) => setState(() => _rememberSession = val ?? true),
-                                  ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox(
+                                        value: _rememberSession,
+                                        activeColor: AppColors.primary,
+                                        onChanged: (v) => setState(() => _rememberSession = v ?? true),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.xs)),
+                                      ),
+                                    ),
+                                    const SizedBox(width: AppSpacing.xs),
+                                    Text(
+                                      'Remember session',
+                                      style: GoogleFonts.publicSans(
+                                        fontSize: 12,
+                                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: AppSpacing.sm),
-                                Text(
-                                  'Keep session verified for 12 hours',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 12,
-                                    color: AppColors.textSecondary,
+                                TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size.zero),
+                                  child: Text(
+                                    'Need Help?',
+                                    style: GoogleFonts.publicSans(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primary,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: AppSpacing.lg),
+                            const SizedBox(height: AppSpacing.xl),
 
-                            // Submit Button
+                            // Submit Action Button (Indigo)
                             ElevatedButton(
                               onPressed: auth.isLoading ? null : _submit,
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                              ),
                               child: auth.isLoading
                                   ? const SizedBox(
-                                      width: 18,
                                       height: 18,
-                                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                      width: 18,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      ),
                                     )
-                                  : const Text('Sign In'),
+                                  : Text(
+                                      'Sign in to Workspace',
+                                      style: GoogleFonts.publicSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                             ),
                           ],
                         ),
@@ -251,75 +300,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: AppSpacing.xl),
 
-                    // Quick Demo Logins Section (InteractiveCard)
+                    // Demo Accounts Quick Picker
                     GSAPFadeSlide(
-                      delay: const Duration(milliseconds: 100),
-                      child: InteractiveCard(
-                        enableHover: false,
-                        padding: AppSpacing.cardPadding,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Quick Demo Accounts',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            Wrap(
-                              spacing: AppSpacing.sm,
-                              runSpacing: AppSpacing.xs,
-                              children: [
-                                _buildDemoChip('Admin', 'admin@ithelpdesk.com', 'AdminPassword123!', AppColors.primary),
-                                _buildDemoChip('Manager', 'manager@ithelpdesk.com', 'ManagerPassword123!', AppColors.mutedBlue),
-                                _buildDemoChip('Operator Pune', 'operator.pune@ithelpdesk.com', 'OperatorPassword123!', AppColors.slateTeal),
-                                _buildDemoChip('Requester', 'requester@ithelpdesk.com', 'RequesterPassword123!', AppColors.warmPeach),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-
-                    // Register Link
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      delay: const Duration(milliseconds: 120),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Don't have an account?",
-                            style: GoogleFonts.publicSans(
-                              fontSize: 13,
-                              color: AppColors.textSecondary,
+                            'Institutional Quick-Access Profiles:',
+                            style: GoogleFonts.spaceGrotesk(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondary,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () => context.go('/register'),
-                            child: Text(
-                              'Sign up',
-                              style: GoogleFonts.publicSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
-                              ),
-                            ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Wrap(
+                            spacing: AppSpacing.xs,
+                            runSpacing: AppSpacing.xs,
+                            children: [
+                              _buildDemoChip('L1 Operator (Priya)', 'operator@nexassist.internal', 'Password123!', AppColors.primary),
+                              _buildDemoChip('Admin (Elena)', 'admin@nexassist.internal', 'Password123!', AppColors.secondary),
+                              _buildDemoChip('Requester (Rahul)', 'rahul.requester@nexassist.internal', 'Password123!', AppColors.purple),
+                              _buildDemoChip('Team Lead (Marcus)', 'teamlead@nexassist.internal', 'Password123!', AppColors.warning),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.xxl),
 
-                    // Node and Security Stamp
+                    // Compliance & Version Footer
                     Center(
                       child: Text(
-                        'Node: 09-LON-PRD  •  TLS 1.3 / Hardware SSO',
+                        'NexAssist Operations Core v3.3 · SOC2 Compliant',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 11,
-                          color: AppColors.textTertiary,
+                          color: isDark ? AppColors.textTertiaryDark : AppColors.textTertiary,
                         ),
                       ),
                     ),
@@ -330,18 +347,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildDemoChip(String label, String email, String password, Color accentColor) {
     return ActionChip(
       avatar: Icon(Icons.person_outline_rounded, size: 14, color: accentColor),
       label: Text(
         label,
-        style: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+        style: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w600),
       ),
-      backgroundColor: AppColors.surfaceContainerLow,
+      backgroundColor: accentColor.withValues(alpha: 0.1),
       side: BorderSide(color: accentColor.withValues(alpha: 0.25)),
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       onPressed: () {

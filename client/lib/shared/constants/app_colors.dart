@@ -1,140 +1,170 @@
 import 'package:flutter/material.dart';
 
-/// NextAssist Design System — Pastel sRGB Palette & Liquid Glass Tokens
-/// Strictly adheres to `NextAssist — Design.md`:
-/// - Soft Lavender (#5B61B9 / #8C93E8), Muted Blue (#4B72C7), Warm Peach (#F4A28C), Sand/Beige (#F7F6F3)
-/// - Total Ban on Harsh Green & Neon Gradients
-/// - Mineral Slate-Teal (#5E9392 / #6E9C9B) for Health & Resolution
-/// - Liquid Glassmorphism, Ambient Aurora Light Orbs & Soft Glow Depth
+/// NextAssist Design System — Advanced Professional Palette & Glassmorphic Tokens
+/// Strictly adheres to `Design.md`:
+/// - Primary Accent: Indigo (#6366F1)
+/// - Secondary Accents: Soft Blue (#3B82F6) & Soft Purple (#8B5CF6)
+/// - Base Light: Background (#FAFAFA), Surface (#FFFFFF), Text (#111827)
+/// - Base Dark: Background (#0F172A), Surface (#111827), Text (#E5E7EB)
+/// - Selective Glassmorphism: Highlight layer only (AI Panel, Notifications, Modals)
+/// - Total Prohibition on Harsh Green & Over-Pastel/Faded UI
 class AppColors {
-  // --- 1. Canvas & Surface Foundations (Light Beige / Sand / Off-White) ---
-  static const Color background = Color(0xFFF7F6F3); // Warm Sand/Off-White canvas
-  static const Color backgroundSecondary = Color(0xFFFAF9F6);
-  static const Color surface = Color(0xFFFFFFFF); // Clean white card base
-  static const Color surfaceDim = Color(0xFFEFECE6);
-  static const Color surfaceBright = Color(0xFFFAF9F6);
-
-  static const Color surfaceContainerLowest = Color(0xFFFFFFFF);
-  static const Color surfaceContainerLow = Color(0xFFF7F5F0);
-  static const Color surfaceContainer = Color(0xFFF1EFEA);
-  static const Color surfaceContainerHigh = Color(0xFFEAE6DF);
-  static const Color surfaceContainerHighest = Color(0xFFE2DDD5);
-
-  // --- 2. Hairline Framing & Outlines ---
-  static const Color hairlineBorder = Color(0xFFE5E2DA); // 1px subtle hairline rule
-  static const Color border = Color(0xFFE5E2DA);
-  static const Color borderLight = Color(0xFFECEAE3);
-  static const Color borderHover = Color(0xFFD4CFCA);
-  static const Color outline = Color(0xFF767682);
-  static const Color outlineVariant = Color(0xFFE5E2DA);
-
-  // --- 3. Typography Tones ---
-  static const Color onSurface = Color(0xFF2B2A28); // High readability dark charcoal
-  static const Color onSurfaceVariant = Color(0xFF6B6862); // Muted annotations
-  static const Color textPrimary = Color(0xFF2B2A28);
-  static const Color textSecondary = Color(0xFF6B6862);
-  static const Color textTertiary = Color(0xFF9E9B94);
-  static const Color textMuted = Color(0xFF9E9B94);
-  static const Color textPrimaryLight = Color(0xFF2B2A28);
-  static const Color textSecondaryLight = Color(0xFF6B6862);
-
-  // --- 4. Primary Accent — Soft Lavender (Pastel sRGB) ---
-  static const Color primary = Color(0xFF5B61B9); // Deep Soft Lavender for text/icons
-  static const Color primaryContainer = Color(0xFF8C93E8); // Soft Lavender accent
-  static const Color onPrimaryContainer = Color(0xFF212878);
-  static const Color primaryLight = Color(0xFFA5ABF2);
-  static const Color primaryTint = Color(0xFFECEEFE); // Soft Lavender background tint
-  static const Color primaryFixed = Color(0xFFE0E0FF);
+  // --- 1. Primary Accent — Indigo ---
+  static const Color primary = Color(0xFF6366F1); // Indigo
+  static const Color primaryContainer = Color(0xFF818CF8); // Soft Indigo
+  static const Color primaryDark = Color(0xFF4F46E5);
+  static const Color primaryLight = Color(0xFFA5B4FC);
+  static const Color primaryTint = Color(0xFFEEF2FF); // 50-tint Indigo
   static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color primaryDark = Color(0xFF3E4496);
+  static const Color onPrimaryContainer = Color(0xFF312E81);
 
-  // --- 5. Secondary Accent — Muted Blue ---
-  static const Color mutedBlue = Color(0xFF4B72C7);
-  static const Color mutedBlueTint = Color(0xFFE8EFFC);
-  static const Color secondary = Color(0xFF4B72C7);
-  static const Color secondaryContainer = Color(0xFF8EA9E8);
-  static const Color secondaryTint = Color(0xFFE8EFFC);
+  // --- 2. Secondary Accents — Soft Blue & Soft Purple ---
+  static const Color secondary = Color(0xFF3B82F6); // Soft Blue
+  static const Color secondaryContainer = Color(0xFF60A5FA);
+  static const Color secondaryTint = Color(0xFFEFF6FF);
   static const Color onSecondary = Color(0xFFFFFFFF);
 
-  // --- 6. Warm Accent — Warm Peach / Sand ---
-  static const Color warmPeach = Color(0xFFF4A28C);
-  static const Color warmPeachTint = Color(0xFFFDEEE9);
-  static const Color warmPeachText = Color(0xFFB85D47);
-  static const Color sandBeige = Color(0xFFF0ECE1);
+  static const Color purple = Color(0xFF8B5CF6); // Soft Purple
+  static const Color purpleTint = Color(0xFFF5F3FF);
 
-  // --- 7. Tertiary / Resolution / Health / Slate-Teal (ZERO PURE GREEN RULE) ---
-  static const Color slateTeal = Color(0xFF6E9C9B); // Mineral Slate-Teal (Replaces harsh green)
-  static const Color slateTealTint = Color(0xFFDDEBEA); // Resolution chip background
-  static const Color slateTealText = Color(0xFF335E5D);
-  static const Color tertiary = Color(0xFF6E9C9B);
-  static const Color tertiaryContainer = Color(0xFF8CBAB9);
+  // --- 3. Base Light Mode Foundations ---
+  static const Color background = Color(0xFFFAFAFA); // Crisp neutral light canvas
+  static const Color backgroundSecondary = Color(0xFFF3F4F6);
+  static const Color surface = Color(0xFFFFFFFF); // Pure white solid card
+  static const Color surfaceSecondary = Color(0xFFF3F4F6);
+  static const Color surfaceDim = Color(0xFFF3F4F6);
+  static const Color surfaceBright = Color(0xFFFFFFFF);
+
+  static const Color surfaceContainerLowest = Color(0xFFFFFFFF);
+  static const Color surfaceContainerLow = Color(0xFFF9FAFB);
+  static const Color surfaceContainer = Color(0xFFF3F4F6);
+  static const Color surfaceContainerHigh = Color(0xFFE5E7EB);
+  static const Color surfaceContainerHighest = Color(0xFFD1D5DB);
+
+  static const Color border = Color(0xFFE5E7EB); // Subtle hairline
+  static const Color borderLight = Color(0xFFF3F4F6);
+  static const Color borderHover = Color(0xFFD1D5DB);
+  static const Color hairlineBorder = Color(0xFFE5E7EB);
+  static const Color outline = Color(0xFF9CA3AF);
+  static const Color outlineVariant = Color(0xFFE5E7EB);
+
+  // --- 4. Base Dark Mode Foundations ---
+  static const Color bgDark = Color(0xFF0F172A); // Deep slate neutral dark
+  static const Color surfaceDark = Color(0xFF111827); // Dark surface
+  static const Color cardDark = Color(0xFF1E293B); // Elevated card in dark mode
+  static const Color borderDark = Color(0xFF334155); // Dark hairline border
+  static const Color borderDarkHover = Color(0xFF475569);
+
+  // --- 5. Typography Tones ---
+  static const Color onSurface = Color(0xFF111827); // High contrast dark text
+  static const Color onSurfaceVariant = Color(0xFF6B7280); // Muted annotations
+  static const Color textPrimary = Color(0xFF111827);
+  static const Color textSecondary = Color(0xFF6B7280);
+  static const Color textTertiary = Color(0xFF9CA3AF);
+  static const Color textMuted = Color(0xFF9CA3AF);
+  static const Color textPrimaryLight = Color(0xFF111827);
+  static const Color textSecondaryLight = Color(0xFF6B7280);
+  static const Color textPrimaryDark = Color(0xFFE5E7EB);
+  static const Color textSecondaryDark = Color(0xFF9CA3AF);
+  static const Color textTertiaryDark = Color(0xFF64748B);
+
+  // --- 6. Semantic Statuses & Priorities (ZERO HARSH GREEN RULE) ---
+  // Using Slate-Teal/Cyan (#0D9488) for Resolved/Healthy states
+  static const Color slateTeal = Color(0xFF0D9488); // Deep Slate-Teal
+  static const Color slateTealTint = Color(0xFFCCFBF1);
+  static const Color slateTealText = Color(0xFF115E59);
+  static const Color tertiary = Color(0xFF0D9488);
+  static const Color tertiaryContainer = Color(0xFF5EEAD4);
   static const Color onTertiary = Color(0xFFFFFFFF);
 
-  // --- 8. Warning — Dusty Amber ---
-  static const Color warning = Color(0xFFE3B15C);
-  static const Color warningTint = Color(0xFFF8ECD6);
-  static const Color warningText = Color(0xFF966F2A);
+  static const Color warning = Color(0xFFF59E0B); // Amber
+  static const Color warningTint = Color(0xFFFEF3C7);
+  static const Color warningText = Color(0xFF92400E);
 
-  // --- 9. Critical / Danger — Desaturated Rose ---
-  static const Color dangerRose = Color(0xFFD8848C);
-  static const Color dangerTint = Color(0xFFF6DEE1);
-  static const Color dangerText = Color(0xFF96474E);
-  static const Color error = Color(0xFFD8848C);
-  static const Color errorContainer = Color(0xFFF6DEE1);
+  static const Color dangerRose = Color(0xFFF43F5E); // Rose/Red
+  static const Color dangerTint = Color(0xFFFFE4E6);
+  static const Color dangerText = Color(0xFF9F1239);
+  static const Color error = Color(0xFFF43F5E);
+  static const Color errorContainer = Color(0xFFFFE4E6);
   static const Color onError = Color(0xFFFFFFFF);
 
-  // --- 10. Semantic Priorities ---
-  static const Color priorityP1 = Color(0xFFD8848C); // Critical (Desaturated Rose)
-  static const Color priorityP2 = Color(0xFFF4A28C); // High (Warm Peach)
-  static const Color priorityP3 = Color(0xFFE3B15C); // Medium (Dusty Amber)
-  static const Color priorityP4 = Color(0xFF6E9C9B); // Low (Slate-Teal)
+  // Priorities
+  static const Color priorityP1 = Color(0xFFF43F5E); // Critical (Rose)
+  static const Color priorityP2 = Color(0xFFFB923C); // High (Orange)
+  static const Color priorityP3 = Color(0xFFF59E0B); // Medium (Amber)
+  static const Color priorityP4 = Color(0xFF0D9488); // Low (Slate-Teal)
 
-  static const Color priorityCritical = Color(0xFFD8848C);
-  static const Color priorityHigh = Color(0xFFF4A28C);
-  static const Color priorityMedium = Color(0xFFE3B15C);
-  static const Color priorityLow = Color(0xFF6E9C9B);
+  static const Color priorityCritical = Color(0xFFF43F5E);
+  static const Color priorityHigh = Color(0xFFFB923C);
+  static const Color priorityMedium = Color(0xFFF59E0B);
+  static const Color priorityLow = Color(0xFF0D9488);
 
-  // --- 11. Semantic Statuses (Mineral & Pastel Tones) ---
-  static const Color statusNew = Color(0xFF8C93E8); // Soft Lavender
-  static const Color statusInProgress = Color(0xFF5B61B9);
-  static const Color statusAssigned = Color(0xFF4B72C7); // Muted Blue
-  static const Color statusAwaiting = Color(0xFFE3B15C); // Dusty Amber
-  static const Color statusResolved = Color(0xFF6E9C9B); // Slate-Teal (No green)
-  static const Color statusClosed = Color(0xFF767682);
-  static const Color statusCancelled = Color(0xFF9E9B94);
+  // Statuses
+  static const Color statusNew = Color(0xFF6366F1); // Indigo
+  static const Color statusInProgress = Color(0xFF3B82F6); // Soft Blue
+  static const Color statusAssigned = Color(0xFF8B5CF6); // Soft Purple
+  static const Color statusAwaiting = Color(0xFFF59E0B); // Amber
+  static const Color statusResolved = Color(0xFF0D9488); // Slate-Teal (No pure green)
+  static const Color statusClosed = Color(0xFF6B7280); // Gray
+  static const Color statusCancelled = Color(0xFF9CA3AF);
 
-  // --- 12. Risk Badges ---
-  static const Color riskCritical = Color(0xFFD8848C);
-  static const Color riskHigh = Color(0xFFF4A28C);
-  static const Color riskModerate = Color(0xFFE3B15C);
-  static const Color riskLow = Color(0xFF5E9392);
+  // --- 7. Selective Liquid Glassmorphism Tokens (Design.md Section 5) ---
+  // Light Mode Glass: rgba(255, 255, 255, 0.60) / Border: rgba(255, 255, 255, 0.30)
+  static const Color glassSurfaceLight = Color(0x99FFFFFF); // 60% opacity white
+  static const Color glassBorderLight = Color(0x4DFFFFFF); // 30% opacity white
+  static const Color glassBorderLightAccent = Color(0x336366F1); // Subtle indigo glow border
 
-  // --- 13. Liquid Glassmorphism & Soft Glow Tokens ---
-  static const Color glassSurface = Color(0xD0FFFFFF); // 82% translucent frosted glass
-  static const Color glassSurfaceLight = Color(0xDCFFFFFF); // 86% translucent white
-  static const Color glassSurfaceSubtle = Color(0xB8FFFFFF); // 72% translucent
-  static const Color glassSurfaceDark = Color(0xCC181A20); // 80% translucent obsidian
-  static const Color glassBorder = Color(0x90FFFFFF); // Luminous white edge glow
-  static const Color glassBorderDark = Color(0x28FFFFFF);
-  static const Color glassBorderSubtle = Color(0x458C93E8); // Soft Lavender glow border
-  static const Color glassBorderHover = Color(0x998C93E8); // High hover glow
-  static const Color glassTint = Color(0x208C93E8);
-  static const Color glassGlow = Color(0x358C93E8);
+  // Dark Mode Glass: rgba(17, 24, 39, 0.60) / Border: rgba(255, 255, 255, 0.08)
+  static const Color glassSurfaceDark = Color(0x99111827); // 60% opacity dark slate
+  static const Color glassBorderDark = Color(0x14FFFFFF); // 8% opacity white
+  static const Color glassBorderDarkAccent = Color(0x40818CF8); // Subtle indigo glow
 
-  // --- 14. Ambient Aurora Light Orbs (Mesh Glow Foundations) ---
-  static const Color auroraLavender = Color(0x3A8C93E8);
-  static const Color auroraPeach = Color(0x30F4A28C);
-  static const Color auroraTeal = Color(0x2C6E9C9B);
-  static const Color auroraBlue = Color(0x284B72C7);
-  static const Color auroraAmber = Color(0x20E3B15C);
+  static const Color glassSurface = Color(0x99FFFFFF);
+  static const Color glassBorder = Color(0x4DFFFFFF);
+  static const Color glassBorderSubtle = Color(0x336366F1);
+  static const Color glassGlow = Color(0x206366F1);
 
-  // --- 15. Liquid Glass Gradients ---
+  // Ambient Aurora Orbs
+  static const Color auroraLavender = Color(0x256366F1);
+  static const Color auroraPeach = Color(0x20FB923C);
+  static const Color auroraTeal = Color(0x200D9488);
+  static const Color auroraBlue = Color(0x203B82F6);
+  static const Color auroraAmber = Color(0x18F59E0B);
+
+  // --- 8. Gradients ---
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF6366F1),
+      Color(0xFF8B5CF6),
+    ],
+  );
+
+  static const LinearGradient blueGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF3B82F6),
+      Color(0xFF60A5FA),
+    ],
+  );
+
+  static const LinearGradient tealGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF0D9488),
+      Color(0xFF14B8A6),
+    ],
+  );
+
   static const LinearGradient glassCardGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xEAFFFFFF),
-      Color(0xC0FFFFFF),
+      Color(0xB3FFFFFF),
+      Color(0x80FFFFFF),
     ],
   );
 
@@ -142,59 +172,29 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xEA23252E),
-      Color(0xC0181A20),
+      Color(0xB31E293B),
+      Color(0x80111827),
     ],
   );
 
-  static const LinearGradient primaryGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF5B61B9),
-      Color(0xFF8C93E8),
-    ],
-  );
+  // Convenient Aliases for compatibility
+  static const Color mutedBlue = Color(0xFF3B82F6);
+  static const Color mutedBlueTint = Color(0xFFEFF6FF);
+  static const Color warmPeach = Color(0xFFFB923C);
+  static const Color warmPeachTint = Color(0xFFFFEDD5);
+  static const Color warmPeachText = Color(0xFF9A3412);
+  static const Color sandBeige = Color(0xFFF3F4F6);
 
-  static const LinearGradient peachGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFF4A28C),
-      Color(0xFFF8B8A6),
-    ],
-  );
-
-  static const LinearGradient slateTealGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF5E9392),
-      Color(0xFF8CBAB9),
-    ],
-  );
-
-  // --- 16. Dark Mode Foundations ---
-  static const Color bgDark = Color(0xFF131417);
-  static const Color surfaceDark = Color(0xFF1A1B20);
-  static const Color cardDark = Color(0xFF1E1F26);
-  static const Color borderDark = Color(0xFF2E3038);
-  static const Color textPrimaryDark = Color(0xFFEDEBE6);
-  static const Color textSecondaryDark = Color(0xFFA3A19B);
-  static const Color inverseSurface = Color(0xFF31302E);
-  static const Color inverseOnSurface = Color(0xFFF4F0EC);
-
-  // --- 17. Convenient Palette Aliases ---
-  static const Color rose = Color(0xFFD8848C);
-  static const Color roseTint = Color(0xFFF6DEE1);
-  static const Color coral = Color(0xFFF4A28C);
-  static const Color coralTint = Color(0xFFFDEEE9);
-  static const Color amber = Color(0xFFE3B15C);
-  static const Color amberTint = Color(0xFFF8ECD6);
-  static const Color bgLight = Color(0xFFF7F6F3);
+  static const Color rose = Color(0xFFF43F5E);
+  static const Color roseTint = Color(0xFFFFE4E6);
+  static const Color coral = Color(0xFFFB923C);
+  static const Color coralTint = Color(0xFFFFEDD5);
+  static const Color amber = Color(0xFFF59E0B);
+  static const Color amberTint = Color(0xFFFEF3C7);
+  static const Color bgLight = Color(0xFFFAFAFA);
   static const Color surfaceLight = Color(0xFFFFFFFF);
   static const Color cardLight = Color(0xFFFFFFFF);
-  static const Color backgroundPrimary = Color(0xFFF7F6F3);
-  static const Color accentBlue = Color(0xFF8C93E8);
+  static const Color backgroundPrimary = Color(0xFFFAFAFA);
+  static const Color accentBlue = Color(0xFF6366F1);
   static const Color card = Color(0xFFFFFFFF);
 }
