@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
-import 'package:it_helpdesk_client/shared/constants/app_constants.dart';
+import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatelessWidget {
@@ -35,37 +35,38 @@ class ResponsiveLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final isDesktop = width >= AppConstants.mobileBreakpoint;
+    final width = MediaQuery.sizeOf(context).width;
+    final isMobile = width < AppBreakpoints.mobile;
+    final isTablet = width >= AppBreakpoints.mobile && width < AppBreakpoints.tablet;
     final auth = context.watch<AuthController>();
     final user = auth.currentUser;
 
-    if (!isDesktop) {
-      // Mobile Shell with Calmdesk Top App Bar and Bottom Dock Navigation
+    // --- MOBILE SHELL ---
+    if (isMobile) {
       return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
           backgroundColor: AppColors.surface,
           elevation: 0,
-          titleSpacing: 16,
+          titleSpacing: AppSpacing.lg,
           title: Row(
             children: [
               Container(
-                width: 28,
-                height: 28,
+                width: 32,
+                height: 32,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppColors.border),
+                  color: AppColors.primaryTint,
+                  borderRadius: BorderRadius.circular(AppRadius.sm),
+                  border: Border.all(color: AppColors.hairlineBorder),
                 ),
                 child: const Icon(Icons.support_agent_rounded, size: 18, color: AppColors.primary),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Text(
-                'Desk',
+                'NexAssist',
                 style: GoogleFonts.spaceGrotesk(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
                   letterSpacing: -0.3,
                 ),
@@ -74,103 +75,176 @@ class ResponsiveLayout extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout_rounded, size: 18, color: AppColors.textSecondary),
+              icon: const Icon(Icons.logout_rounded, size: 19, color: AppColors.textSecondary),
               tooltip: 'Sign out',
               onPressed: () => auth.logout(),
             ),
           ],
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
-            child: Divider(color: AppColors.border, height: 1),
+            child: Divider(color: AppColors.hairlineBorder, height: 1),
           ),
         ),
         body: child,
         bottomNavigationBar: Container(
           decoration: const BoxDecoration(
             color: AppColors.surface,
-            border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+            border: Border(top: BorderSide(color: AppColors.hairlineBorder, width: 1)),
           ),
-          child: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: (index) => _onNavigate(context, index),
-            backgroundColor: AppColors.surface,
-            selectedItemColor: AppColors.primary,
-            unselectedItemColor: AppColors.textSecondary,
-            selectedLabelStyle: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w600),
-            unselectedLabelStyle: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w400),
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined, size: 20),
-                activeIcon: Icon(Icons.home_rounded, size: 20),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.inbox_outlined, size: 20),
-                activeIcon: Icon(Icons.inbox_rounded, size: 20),
-                label: 'Cases',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book_outlined, size: 20),
-                activeIcon: Icon(Icons.menu_book_rounded, size: 20),
-                label: 'Knowledge',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.insights_outlined, size: 20),
-                activeIcon: Icon(Icons.insights_rounded, size: 20),
-                label: 'Insights',
-              ),
-            ],
+          child: SafeArea(
+            child: BottomNavigationBar(
+              currentIndex: currentIndex,
+              onTap: (index) => _onNavigate(context, index),
+              backgroundColor: AppColors.surface,
+              selectedItemColor: AppColors.primary,
+              unselectedItemColor: AppColors.textSecondary,
+              selectedLabelStyle: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w600),
+              unselectedLabelStyle: GoogleFonts.publicSans(fontSize: 11, fontWeight: FontWeight.w400),
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined, size: 20),
+                  activeIcon: Icon(Icons.home_rounded, size: 20),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.inbox_outlined, size: 20),
+                  activeIcon: Icon(Icons.inbox_rounded, size: 20),
+                  label: 'Cases',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu_book_outlined, size: 20),
+                  activeIcon: Icon(Icons.menu_book_rounded, size: 20),
+                  label: 'Knowledge',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.insights_outlined, size: 20),
+                  activeIcon: Icon(Icons.insights_rounded, size: 20),
+                  label: 'Insights',
+                ),
+              ],
+            ),
           ),
         ),
       );
     }
 
-    // Desktop / Web Shell with Calmdesk Side Drawer
+    // --- TABLET SHELL (Adaptive Navigation Rail) ---
+    if (isTablet) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: Row(
+          children: [
+            Container(
+              width: 72,
+              decoration: const BoxDecoration(
+                color: AppColors.surface,
+                border: Border(right: BorderSide(color: AppColors.hairlineBorder, width: 1)),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: AppSpacing.lg),
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryTint,
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      border: Border.all(color: AppColors.hairlineBorder),
+                    ),
+                    child: const Icon(Icons.support_agent_rounded, color: AppColors.primary, size: 22),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  _RailItem(
+                    icon: Icons.home_outlined,
+                    activeIcon: Icons.home_rounded,
+                    label: 'Home',
+                    isSelected: currentIndex == 0,
+                    onTap: () => _onNavigate(context, 0),
+                  ),
+                  _RailItem(
+                    icon: Icons.inbox_outlined,
+                    activeIcon: Icons.inbox_rounded,
+                    label: 'Cases',
+                    isSelected: currentIndex == 1,
+                    onTap: () => _onNavigate(context, 1),
+                  ),
+                  _RailItem(
+                    icon: Icons.menu_book_outlined,
+                    activeIcon: Icons.menu_book_rounded,
+                    label: 'Knowledge',
+                    isSelected: currentIndex == 2,
+                    onTap: () => _onNavigate(context, 2),
+                  ),
+                  _RailItem(
+                    icon: Icons.insights_outlined,
+                    activeIcon: Icons.insights_rounded,
+                    label: 'Insights',
+                    isSelected: currentIndex == 3,
+                    onTap: () => _onNavigate(context, 3),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.logout_rounded, size: 20, color: AppColors.textSecondary),
+                    tooltip: 'Sign out',
+                    onPressed: () => auth.logout(),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                ],
+              ),
+            ),
+            Expanded(child: child),
+          ],
+        ),
+      );
+    }
+
+    // --- DESKTOP & WEB SHELL (Spacious Sidebar) ---
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Row(
         children: [
-          // Sidebar
+          // Fluid Sidebar
           Container(
-            width: 240,
+            width: 250,
             decoration: const BoxDecoration(
               color: AppColors.surface,
-              border: Border(right: BorderSide(color: AppColors.border, width: 1)),
+              border: Border(right: BorderSide(color: AppColors.hairlineBorder, width: 1)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Brand Header
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(AppSpacing.xl),
                   child: Row(
                     children: [
                       Container(
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceContainerLow,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
+                          color: AppColors.primaryTint,
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          border: Border.all(color: AppColors.hairlineBorder),
                         ),
                         child: const Icon(Icons.support_agent_rounded, color: AppColors.primary, size: 20),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: AppSpacing.md),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'NexAssist',
                             style: GoogleFonts.spaceGrotesk(
-                              fontSize: 15,
+                              fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
+                              letterSpacing: -0.3,
                             ),
                           ),
                           Text(
-                            'Operations Desk',
+                            'Operations Workspace',
                             style: GoogleFonts.publicSans(fontSize: 11, color: AppColors.textSecondary),
                           ),
                         ],
@@ -178,12 +252,12 @@ class ResponsiveLayout extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Divider(color: AppColors.border, height: 1),
+                const Divider(color: AppColors.hairlineBorder, height: 1),
 
                 // Navigation Items
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.md),
                     children: [
                       _SidebarItem(
                         icon: Icons.home_outlined,
@@ -195,21 +269,21 @@ class ResponsiveLayout extends StatelessWidget {
                       _SidebarItem(
                         icon: Icons.inbox_outlined,
                         activeIcon: Icons.inbox_rounded,
-                        title: 'Case ledger',
+                        title: 'Case Ledger',
                         isSelected: currentIndex == 1,
                         onTap: () => _onNavigate(context, 1),
                       ),
                       _SidebarItem(
                         icon: Icons.menu_book_outlined,
                         activeIcon: Icons.menu_book_rounded,
-                        title: 'Knowledge base',
+                        title: 'Knowledge Base',
                         isSelected: currentIndex == 2,
                         onTap: () => _onNavigate(context, 2),
                       ),
                       _SidebarItem(
                         icon: Icons.insights_outlined,
                         activeIcon: Icons.insights_rounded,
-                        title: 'Operational insights',
+                        title: 'Operational Insights',
                         isSelected: currentIndex == 3,
                         onTap: () => _onNavigate(context, 3),
                       ),
@@ -218,26 +292,26 @@ class ResponsiveLayout extends StatelessWidget {
                 ),
 
                 // User Profile & Sign Out Footer
-                const Divider(color: AppColors.border, height: 1),
+                const Divider(color: AppColors.hairlineBorder, height: 1),
                 Padding(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   child: Row(
                     children: [
                       Container(
-                        width: 32,
-                        height: 32,
+                        width: 34,
+                        height: 34,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceContainerLow,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: AppColors.border),
+                          color: AppColors.primaryTint,
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                          border: Border.all(color: AppColors.hairlineBorder),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           (user?.fullName ?? user?.email ?? 'U')[0].toUpperCase(),
-                          style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w600, color: AppColors.primary, fontSize: 13),
+                          style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w600, color: AppColors.primary, fontSize: 14),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,9 +340,53 @@ class ResponsiveLayout extends StatelessWidget {
             ),
           ),
 
-          // Main Content
+          // Main Content View
           Expanded(child: child),
         ],
+      ),
+    );
+  }
+}
+
+class _RailItem extends StatelessWidget {
+  final IconData icon;
+  final IconData activeIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _RailItem({
+    required this.icon,
+    required this.activeIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Tooltip(
+        message: label,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primaryTint : Colors.transparent,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: isSelected ? Border.all(color: AppColors.primary.withValues(alpha: 0.3)) : null,
+            ),
+            child: Icon(
+              isSelected ? activeIcon : icon,
+              color: isSelected ? AppColors.primary : AppColors.textSecondary,
+              size: 20,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -292,17 +410,17 @@ class _SidebarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.symmetric(vertical: 3),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primaryContainer.withValues(alpha: 0.35) : Colors.transparent,
-        borderRadius: BorderRadius.circular(6),
-        border: isSelected ? Border.all(color: AppColors.primary.withValues(alpha: 0.4)) : null,
+        color: isSelected ? AppColors.primaryTint : Colors.transparent,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        border: isSelected ? Border.all(color: AppColors.primary.withValues(alpha: 0.25)) : null,
       ),
       child: ListTile(
         leading: Icon(
           isSelected ? activeIcon : icon,
           color: isSelected ? AppColors.primary : AppColors.textSecondary,
-          size: 18,
+          size: 19,
         ),
         title: Text(
           title,
@@ -313,7 +431,7 @@ class _SidebarItem extends StatelessWidget {
           ),
         ),
         dense: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
         onTap: onTap,
       ),
     );

@@ -5,8 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:it_helpdesk_client/features/auth/auth_controller.dart';
 import 'package:it_helpdesk_client/shared/api_client.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
+import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 import 'package:it_helpdesk_client/shared/models/case_model.dart';
+import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
+import 'package:it_helpdesk_client/shared/widgets/interactive_card.dart';
+import 'package:it_helpdesk_client/shared/widgets/liquid_glass_panel.dart';
 import 'package:it_helpdesk_client/shared/widgets/priority_badge.dart';
+import 'package:it_helpdesk_client/shared/widgets/responsive_grid.dart';
 import 'package:it_helpdesk_client/shared/widgets/status_badge.dart';
 import 'package:provider/provider.dart';
 
@@ -78,28 +83,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: _isLoading
-          ? const Center(
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
-              ),
-            )
+          ? _buildLoadingSkeleton()
           : RefreshIndicator(
               onRefresh: _fetchDashboardData,
               color: AppColors.primary,
               backgroundColor: AppColors.surface,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                child: Center(
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 860),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Header Greeting & Context
-                        Row(
+                child: ResponsiveContentShell(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Greeting & Context
+                      GSAPFadeSlide(
+                        direction: SlideDirection.down,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -108,15 +106,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    isOperatorOrAdmin ? 'Operator queue' : 'IT service desk',
+                                    isOperatorOrAdmin ? 'Operator Queue' : 'IT Service Desk',
                                     style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 24,
+                                      fontSize: 26,
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.textPrimary,
                                       letterSpacing: -0.5,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: AppSpacing.xs),
                                   Text(
                                     isOperatorOrAdmin
                                         ? 'Active fleet triage and ticket SLA orchestration'
@@ -131,18 +129,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             ElevatedButton.icon(
                               icon: const Icon(Icons.add_rounded, size: 16),
-                              label: const Text('New ticket'),
+                              label: const Text('New Ticket'),
                               onPressed: () => context.go('/cases/create'),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                      ),
+                      const SizedBox(height: AppSpacing.xl),
 
-                        // Action Cards (Quick Creation shortcuts)
-                        if (!isOperatorOrAdmin) ...[
-                          LayoutBuilder(
+                      // Action Cards (Quick Creation shortcuts)
+                      if (!isOperatorOrAdmin) ...[
+                        GSAPFadeSlide(
+                          delay: const Duration(milliseconds: 60),
+                          child: LayoutBuilder(
                             builder: (context, constraints) {
-                              final isWide = constraints.maxWidth > 500;
+                              final isWide = constraints.maxWidth > 520;
                               return isWide
                                   ? Row(
                                       children: [
@@ -154,7 +155,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             onTap: () => context.go('/cases/create'),
                                           ),
                                         ),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: AppSpacing.md),
                                         Expanded(
                                           child: _buildActionCard(
                                             title: 'Request a service',
@@ -173,7 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           description: 'Hardware, software, or outage disruptions',
                                           onTap: () => context.go('/cases/create'),
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: AppSpacing.md),
                                         _buildActionCard(
                                           title: 'Request a service',
                                           badge: 'Request',
@@ -184,266 +185,343 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     );
                             },
                           ),
-                          const SizedBox(height: 18),
-                        ],
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                      ],
 
-                        // 4 Metric Plain Stat Tiles (Space Grotesk, 1px hairlines)
-                        LayoutBuilder(
+                      // 4 Metric Plain Stat Tiles (Space Grotesk, InteractiveCard hover lift)
+                      GSAPFadeSlide(
+                        delay: const Duration(milliseconds: 100),
+                        child: LayoutBuilder(
                           builder: (context, constraints) {
-                            final isWide = constraints.maxWidth >= 600;
+                            final width = constraints.maxWidth;
+                            final int columns = width >= 800 ? 4 : (width >= 440 ? 2 : 1);
                             return GridView.count(
-                              crossAxisCount: isWide ? 4 : 2,
+                              crossAxisCount: columns,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              childAspectRatio: isWide ? 1.6 : 1.5,
+                              crossAxisSpacing: AppSpacing.md,
+                              mainAxisSpacing: AppSpacing.md,
+                              childAspectRatio: columns == 4 ? 1.7 : (columns == 2 ? 1.8 : 2.8),
                               children: [
                                 _buildMetricTile(
-                                  label: isOperatorOrAdmin ? 'Assigned to me' : 'Your cases',
+                                  label: isOperatorOrAdmin ? 'Assigned to me' : 'Your Cases',
                                   value: '$_totalCases',
+                                  accentColor: AppColors.primary,
                                 ),
                                 _buildMetricTile(
-                                  label: 'Active backlog',
+                                  label: 'Active Backlog',
                                   value: '$_openCases',
+                                  accentColor: AppColors.mutedBlue,
                                 ),
                                 _buildMetricTile(
-                                  label: 'At risk',
+                                  label: 'At Risk / SLA',
                                   value: '$_atRiskCases',
                                   hasDot: _atRiskCases > 0,
                                   dotColor: AppColors.coral,
+                                  accentColor: AppColors.coral,
                                 ),
                                 _buildMetricTile(
-                                  label: 'Resolved',
+                                  label: 'Resolved Fleet',
                                   value: '$_resolvedCases',
+                                  accentColor: AppColors.slateTeal,
                                 ),
                               ],
                             );
                           },
                         ),
-                        const SizedBox(height: 18),
+                      ),
+                      const SizedBox(height: AppSpacing.xl),
 
-                        // AI Operator Briefing (Architectural 2px solid left accent)
-                        Container(
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: AppColors.surface,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.border),
-                          ),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                left: BorderSide(color: AppColors.primary, width: 2.5),
+                      // AI Operator Briefing (Liquid Glassmorphism Controlled Panel)
+                      GSAPFadeSlide(
+                        delay: const Duration(milliseconds: 140),
+                        child: LiquidGlassPanel(
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                          backgroundColor: AppColors.surface.withValues(alpha: 0.9),
+                          borderColor: AppColors.primaryContainer.withValues(alpha: 0.3),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 34,
+                                height: 34,
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryTint,
+                                  borderRadius: BorderRadius.circular(AppRadius.md),
+                                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                                ),
+                                child: const Icon(Icons.auto_awesome_rounded, size: 18, color: AppColors.primary),
                               ),
-                            ),
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'AI suggestion',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textSecondary,
-                                  ),
+                              const SizedBox(width: AppSpacing.md),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'AI Copilot Briefing',
+                                          style: GoogleFonts.spaceGrotesk(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.textPrimary,
+                                          ),
+                                        ),
+                                        const SizedBox(width: AppSpacing.xs),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primaryTint,
+                                            borderRadius: BorderRadius.circular(AppRadius.pill),
+                                          ),
+                                          child: Text(
+                                            'Assistive',
+                                            style: GoogleFonts.publicSans(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.primary),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      _atRiskCases > 0
+                                          ? 'Prioritize high-urgency incidents first; $_atRiskCases queue items require confirmation or diagnostic attachments.'
+                                          : 'All queues healthy. Automated triage copilot is indexing incoming requests and monitoring SLA thresholds.',
+                                      style: GoogleFonts.publicSans(
+                                        fontSize: 13,
+                                        color: AppColors.textSecondary,
+                                        height: 1.45,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  _atRiskCases > 0
-                                      ? 'Prioritize high-urgency incidents first; 2 critical queue items require operator confirmation or diagnostic attachments.'
-                                      : 'All queues healthy. Automated triage copilot is indexing requests and monitoring SLA thresholds.',
-                                  style: GoogleFonts.publicSans(
-                                    fontSize: 13,
-                                    color: AppColors.textPrimary,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 24),
+                      ),
+                      const SizedBox(height: AppSpacing.xxl),
 
-                        // Queue Segment Tabs
-                        SingleChildScrollView(
+                      // Queue Segment Tabs
+                      GSAPFadeSlide(
+                        delay: const Duration(milliseconds: 180),
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           child: Row(
                             children: [
                               _buildTabButton('all', 'All cases (${_cases.length})'),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               _buildTabButton('open', 'Open ($_openCases)'),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               _buildTabButton('attention', 'Needs attention'),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: AppSpacing.sm),
                               _buildTabButton('resolved', 'Resolved ($_resolvedCases)'),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 12),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
 
-                        // Case Ledger Container (1px hairline rules)
-                        if (_filteredCases.isEmpty)
-                          Container(
-                            padding: const EdgeInsets.all(36),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
-                            ),
-                            child: Column(
-                              children: [
-                                const Icon(Icons.inbox_outlined, size: 40, color: AppColors.textTertiary),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'No cases in this queue',
-                                  style: GoogleFonts.spaceGrotesk(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    color: AppColors.textPrimary,
-                                  ),
+                      // Case Ledger Container (Spacious, 1px hairlines)
+                      GSAPFadeSlide(
+                        delay: const Duration(milliseconds: 220),
+                        child: _filteredCases.isEmpty
+                            ? Container(
+                                padding: const EdgeInsets.all(AppSpacing.xxxl),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: AppColors.surface,
+                                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                                  border: Border.all(color: AppColors.hairlineBorder),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'New tickets will appear here once submitted.',
-                                  style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+                                child: Column(
+                                  children: [
+                                    const Icon(Icons.inbox_outlined, size: 42, color: AppColors.textTertiary),
+                                    const SizedBox(height: AppSpacing.md),
+                                    Text(
+                                      'No cases in this queue',
+                                      style: GoogleFonts.spaceGrotesk(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppSpacing.xs),
+                                    Text(
+                                      'New tickets will appear here once submitted.',
+                                      style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                        else
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _filteredCases.length,
-                              separatorBuilder: (_, __) => const Divider(color: AppColors.border, height: 1),
-                              itemBuilder: (context, index) {
-                                final c = _filteredCases[index];
-                                return InkWell(
-                                  onTap: () => context.go('/cases/${c.id}'),
-                                  hoverColor: AppColors.surfaceContainerLow,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(14),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        // Top row: Ref Number, Requester/Site, Relative Time
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.surface,
+                                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                                  border: Border.all(color: AppColors.hairlineBorder),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _filteredCases.length,
+                                  separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+                                  itemBuilder: (context, index) {
+                                    final c = _filteredCases[index];
+                                    return InkWell(
+                                      onTap: () => context.go('/cases/${c.id}'),
+                                      hoverColor: AppColors.surfaceContainerLow,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            // Top row: Ref Number, Requester/Site, Relative Time
                                             Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text(
-                                                  c.referenceNumber,
-                                                  style: GoogleFonts.spaceGrotesk(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors.primary,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  c.requesterEmail,
-                                                  style: GoogleFonts.publicSans(
-                                                    fontSize: 12,
-                                                    color: AppColors.textSecondary,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              DateFormat('dd MMM').format(c.createdAt),
-                                              style: GoogleFonts.publicSans(
-                                                fontSize: 11,
-                                                color: AppColors.textTertiary,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6),
-
-                                        // Title
-                                        Text(
-                                          c.title,
-                                          style: GoogleFonts.publicSans(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.textPrimary,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-
-                                        // Badges: Priority, Status, SLA
-                                        Wrap(
-                                          spacing: 6,
-                                          runSpacing: 4,
-                                          crossAxisAlignment: WrapCrossAlignment.center,
-                                          children: [
-                                            PriorityBadge(priority: c.priority),
-                                            StatusBadge(status: c.status),
-                                            if (c.slaBreached)
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.roseTint,
-                                                  borderRadius: BorderRadius.circular(4),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                Row(
                                                   children: [
-                                                    Container(
-                                                      width: 5,
-                                                      height: 5,
-                                                      decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: AppColors.rose,
+                                                    Text(
+                                                      c.referenceNumber,
+                                                      style: GoogleFonts.spaceGrotesk(
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w600,
+                                                        color: AppColors.primary,
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 4),
+                                                    const SizedBox(width: AppSpacing.sm),
                                                     Text(
-                                                      'SLA breached',
+                                                      c.requesterEmail,
                                                       style: GoogleFonts.publicSans(
-                                                        fontSize: 10,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: AppColors.rose,
+                                                        fontSize: 12,
+                                                        color: AppColors.textSecondary,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              )
-                                            else
-                                              Text(
-                                                'SLA active',
-                                                style: GoogleFonts.publicSans(
-                                                  fontSize: 11,
-                                                  color: AppColors.textTertiary,
+                                                Text(
+                                                  DateFormat('dd MMM').format(c.createdAt),
+                                                  style: GoogleFonts.publicSans(
+                                                    fontSize: 11,
+                                                    color: AppColors.textTertiary,
+                                                  ),
                                                 ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: AppSpacing.xs),
+
+                                            // Title
+                                            Text(
+                                              c.title,
+                                              style: GoogleFonts.publicSans(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppColors.textPrimary,
                                               ),
+                                            ),
+                                            const SizedBox(height: AppSpacing.sm),
+
+                                            // Badges: Priority, Status, SLA
+                                            Wrap(
+                                              spacing: AppSpacing.sm,
+                                              runSpacing: AppSpacing.xs,
+                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                              children: [
+                                                PriorityBadge(priority: c.priority),
+                                                StatusBadge(status: c.status),
+                                                if (c.slaBreached)
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.roseTint,
+                                                      borderRadius: BorderRadius.circular(AppRadius.xs),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Container(
+                                                          width: 5,
+                                                          height: 5,
+                                                          decoration: const BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: AppColors.rose,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 4),
+                                                        Text(
+                                                          'SLA breached',
+                                                          style: GoogleFonts.publicSans(
+                                                            fontSize: 10,
+                                                            fontWeight: FontWeight.w600,
+                                                            color: AppColors.rose,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                else
+                                                  Text(
+                                                    'SLA active',
+                                                    style: GoogleFonts.publicSans(
+                                                      fontSize: 11,
+                                                      color: AppColors.textTertiary,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                      ],
-                    ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
+    );
+  }
+
+  Widget _buildLoadingSkeleton() {
+    return const SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.xl),
+      child: ResponsiveContentShell(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GSAPShimmerLoader(width: 220, height: 28),
+            SizedBox(height: AppSpacing.sm),
+            GSAPShimmerLoader(width: 320, height: 16),
+            SizedBox(height: AppSpacing.xl),
+            Row(
+              children: [
+                Expanded(child: GSAPShimmerLoader(height: 70)),
+                SizedBox(width: AppSpacing.md),
+                Expanded(child: GSAPShimmerLoader(height: 70)),
+              ],
+            ),
+            SizedBox(height: AppSpacing.lg),
+            Row(
+              children: [
+                Expanded(child: GSAPShimmerLoader(height: 85)),
+                SizedBox(width: AppSpacing.md),
+                Expanded(child: GSAPShimmerLoader(height: 85)),
+                SizedBox(width: AppSpacing.md),
+                Expanded(child: GSAPShimmerLoader(height: 85)),
+                SizedBox(width: AppSpacing.md),
+                Expanded(child: GSAPShimmerLoader(height: 85)),
+              ],
+            ),
+            SizedBox(height: AppSpacing.xl),
+            GSAPShimmerLoader(height: 320),
+          ],
+        ),
+      ),
     );
   }
 
@@ -453,57 +531,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required String description,
     required VoidCallback onTap,
   }) {
-    return InkWell(
+    return InteractiveCard(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.spaceGrotesk(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
+      padding: AppSpacing.cardPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerLow,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    badge,
-                    style: GoogleFonts.publicSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              description,
-              style: GoogleFonts.publicSans(
-                fontSize: 12,
-                color: AppColors.textSecondary,
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(AppRadius.xs),
+                  border: Border.all(color: AppColors.hairlineBorder),
+                ),
+                child: Text(
+                  badge,
+                  style: GoogleFonts.publicSans(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            description,
+            style: GoogleFonts.publicSans(
+              fontSize: 12,
+              color: AppColors.textSecondary,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -513,14 +584,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required String value,
     bool hasDot = false,
     Color dotColor = AppColors.coral,
+    Color accentColor = AppColors.primary,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
-      ),
+    return InteractiveCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -531,15 +598,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text(
                 label,
                 style: GoogleFonts.publicSans(
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: AppColors.textSecondary,
                 ),
               ),
               if (hasDot)
                 Container(
-                  width: 6,
-                  height: 6,
+                  width: 7,
+                  height: 7,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: dotColor,
@@ -550,7 +617,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             value,
             style: GoogleFonts.spaceGrotesk(
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
               letterSpacing: -0.5,
@@ -565,12 +632,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final isActive = _selectedTab == tabKey;
     return InkWell(
       onTap: () => setState(() => _selectedTab = tabKey),
-      borderRadius: BorderRadius.circular(6),
+      borderRadius: BorderRadius.circular(AppRadius.sm),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
           color: isActive ? AppColors.surface : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(color: isActive ? AppColors.border : Colors.transparent),
         ),
         child: Text(

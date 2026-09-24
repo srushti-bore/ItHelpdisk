@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import pytest
-from backend.models.enums import CaseCategory, CaseStatus, CaseType, Priority, Severity, UserRole
+from backend.models.enums import CaseStatus, CaseType, Priority, UserRole
 from backend.services.case_service import case_service
 from backend.services.sla_service import sla_service
 

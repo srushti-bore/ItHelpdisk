@@ -4,7 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:it_helpdesk_client/shared/api_client.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
+import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 import 'package:it_helpdesk_client/shared/models/knowledge_model.dart';
+import 'package:it_helpdesk_client/shared/widgets/gsap_motion.dart';
+import 'package:it_helpdesk_client/shared/widgets/responsive_grid.dart';
 
 class KnowledgeScreen extends StatefulWidget {
   const KnowledgeScreen({super.key});
@@ -25,8 +28,7 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
     'Software',
     'Network',
     'Access & Identity',
-    'VPN',
-    'Email & Communication',
+    'Security',
   ];
 
   @override
@@ -46,18 +48,20 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
     try {
       final query = <String, dynamic>{
         'page': 1,
-        'page_size': 50,
+        'page_size': 30,
       };
 
       if (_selectedCategory != 'All') {
-        query['category'] = _selectedCategory;
-      }
-      if (_searchController.text.trim().isNotEmpty) {
-        query['search'] = _searchController.text.trim();
+        query['category'] = _selectedCategory.toLowerCase();
       }
 
-      final res = await apiClient.get('/knowledge/articles', queryParams: query);
+      if (_searchController.text.trim().isNotEmpty) {
+        query['query'] = _searchController.text.trim();
+      }
+
+      final res = await apiClient.get('/knowledge', queryParams: query);
       final items = (res['items'] as List).map((i) => KnowledgeModel.fromJson(i)).toList();
+
       if (mounted) {
         setState(() {
           _articles = items;
@@ -74,16 +78,16 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.8,
+      builder: (_) => DraggableScrollableSheet(
+        initialChildSize: 0.85,
         minChildSize: 0.5,
         maxChildSize: 0.95,
         builder: (context, scrollController) => Container(
           decoration: const BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
           ),
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(AppSpacing.xl),
           child: ListView(
             controller: scrollController,
             children: [
@@ -91,17 +95,18 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceContainerLow,
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppColors.primaryTint,
+                      borderRadius: BorderRadius.circular(AppRadius.xs),
+                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                     ),
                     child: Text(
                       article.category,
                       style: GoogleFonts.publicSans(
-                        color: AppColors.textSecondary,
+                        color: AppColors.primary,
                         fontSize: 11,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -111,44 +116,39 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               Text(
                 article.title,
                 style: GoogleFonts.spaceGrotesk(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textPrimary,
                   letterSpacing: -0.4,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: AppSpacing.xs),
               Text(
                 'Updated on ${DateFormat('dd MMM yyyy').format(article.updatedAt)} · ${article.state}',
                 style: GoogleFonts.publicSans(color: AppColors.textTertiary, fontSize: 12),
               ),
-              const Divider(color: AppColors.border, height: 28),
+              const Divider(color: AppColors.hairlineBorder, height: 28),
               SelectableText(
                 article.body,
                 style: GoogleFonts.publicSans(
-                  fontSize: 13,
+                  fontSize: 14,
                   height: 1.6,
                   color: AppColors.textPrimary,
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: AppSpacing.xxl),
               ElevatedButton.icon(
                 icon: const Icon(Icons.content_copy_rounded, size: 16),
-                label: const Text('Copy resolution steps'),
+                label: const Text('Copy Resolution Procedure'),
                 onPressed: () {
-                  Clipboard.setData(ClipboardData(text: article.body));
+                  Clipboard.setData(ClipboardData(text: '${article.title}\n\n${article.body}'));
+                  Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Copied resolution steps to clipboard',
-                        style: GoogleFonts.publicSans(color: Colors.white, fontSize: 13),
-                      ),
-                      backgroundColor: AppColors.textPrimary,
-                    ),
+                    const SnackBar(content: Text('SOP copied to clipboard')),
                   );
                 },
               ),
@@ -161,86 +161,84 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
 
   void _showCreateArticleDialog() {
     final titleController = TextEditingController();
-    final categoryController = TextEditingController(text: 'Hardware');
     final bodyController = TextEditingController();
+    String category = 'hardware';
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        title: Text(
-          'Author knowledge article',
-          style: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
-        ),
-        content: SizedBox(
-          width: 500,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: titleController,
-                  style: GoogleFonts.publicSans(fontSize: 13),
-                  decoration: const InputDecoration(
-                    labelText: 'Article title',
-                    hintText: 'e.g. How to re-enroll office Wi-Fi certificates',
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          backgroundColor: AppColors.surface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
+          title: Text(
+            'New Knowledge Article',
+            style: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+          ),
+          content: SizedBox(
+            width: 480,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: titleController,
+                    decoration: const InputDecoration(labelText: 'Article Title (e.g. VPN Error 800 Resolution)'),
                   ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: categoryController,
-                  style: GoogleFonts.publicSans(fontSize: 13),
-                  decoration: const InputDecoration(
-                    labelText: 'Category',
-                    hintText: 'e.g. Hardware, Network, VPN',
+                  const SizedBox(height: AppSpacing.md),
+                  DropdownButtonFormField<String>(
+                    initialValue: category,
+                    decoration: const InputDecoration(labelText: 'Category'),
+                    items: const [
+                      DropdownMenuItem(value: 'hardware', child: Text('Hardware')),
+                      DropdownMenuItem(value: 'software', child: Text('Software')),
+                      DropdownMenuItem(value: 'network', child: Text('Network')),
+                      DropdownMenuItem(value: 'access', child: Text('Access & Identity')),
+                      DropdownMenuItem(value: 'security', child: Text('Security')),
+                    ],
+                    onChanged: (v) {
+                      if (v != null) setDialogState(() => category = v);
+                    },
                   ),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: bodyController,
-                  maxLines: 6,
-                  style: GoogleFonts.publicSans(fontSize: 13),
-                  decoration: const InputDecoration(
-                    labelText: 'Content / Remediation guide',
-                    hintText: 'Step-by-step diagnostic and remediation guide...',
+                  const SizedBox(height: AppSpacing.md),
+                  TextField(
+                    controller: bodyController,
+                    maxLines: 5,
+                    decoration: const InputDecoration(labelText: 'Remediation Steps & Procedure'),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (titleController.text.trim().isEmpty || bodyController.text.trim().isEmpty) return;
-              try {
-                await apiClient.post(
-                  '/knowledge/articles',
-                  body: {
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (titleController.text.trim().isEmpty || bodyController.text.trim().isEmpty) return;
+                try {
+                  await apiClient.post('/knowledge', body: {
                     'title': titleController.text.trim(),
-                    'category': categoryController.text.trim(),
+                    'category': category,
                     'body': bodyController.text.trim(),
-                    'state': 'published',
-                  },
-                );
-                if (context.mounted) Navigator.pop(context);
-                _fetchArticles();
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.rose),
-                  );
+                    'tags': [category],
+                  });
+                  if (ctx.mounted) Navigator.pop(ctx);
+                  _fetchArticles();
+                } catch (e) {
+                  if (ctx.mounted) {
+                    ScaffoldMessenger.of(ctx).showSnackBar(
+                      SnackBar(content: Text('Failed to publish: $e'), backgroundColor: AppColors.rose),
+                    );
+                  }
                 }
-              }
-            },
-            child: const Text('Publish article'),
-          ),
-        ],
+              },
+              child: const Text('Publish Article'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -249,258 +247,252 @@ class _KnowledgeScreenState extends State<KnowledgeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 860),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      body: SingleChildScrollView(
+        child: ResponsiveContentShell(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Knowledge base',
-                          style: GoogleFonts.spaceGrotesk(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Standard operating procedures and verified remediation guides',
-                          style: GoogleFonts.publicSans(
-                            fontSize: 13,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.add_rounded, size: 16),
-                    label: const Text('New article'),
-                    onPressed: _showCreateArticleDialog,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-
-              // Search Bar
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.border),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+              GSAPFadeSlide(
+                direction: SlideDirection.down,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
-                    const SizedBox(width: 8),
                     Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
-                        decoration: InputDecoration(
-                          hintText: 'Search SOPs, error codes, and troubleshooting guides...',
-                          hintStyle: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textTertiary),
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        onSubmitted: (_) => _fetchArticles(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Knowledge Base',
+                            style: GoogleFonts.spaceGrotesk(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textPrimary,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.xs),
+                          Text(
+                            'Standard operating procedures and verified remediation guides',
+                            style: GoogleFonts.publicSans(
+                              fontSize: 13,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    if (_searchController.text.isNotEmpty)
-                      IconButton(
-                        icon: const Icon(Icons.close_rounded, size: 16, color: AppColors.textSecondary),
-                        onPressed: () {
-                          _searchController.clear();
-                          _fetchArticles();
-                        },
-                      ),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.add_rounded, size: 16),
+                      label: const Text('New Article'),
+                      onPressed: _showCreateArticleDialog,
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: AppSpacing.lg),
 
-              // Category Chips
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _categories.map((cat) {
-                    final isSelected = _selectedCategory == cat;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: ChoiceChip(
-                        label: Text(cat),
-                        selected: isSelected,
-                        selectedColor: AppColors.primaryContainer.withValues(alpha: 0.35),
-                        backgroundColor: AppColors.surface,
-                        labelStyle: GoogleFonts.publicSans(
-                          fontSize: 11,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                          color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+              // Search Bar
+              GSAPFadeSlide(
+                delay: const Duration(milliseconds: 60),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(color: AppColors.hairlineBorder),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.search_rounded, size: 18, color: AppColors.textSecondary),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          style: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textPrimary),
+                          decoration: InputDecoration(
+                            hintText: 'Search SOPs, error codes, and troubleshooting guides...',
+                            hintStyle: GoogleFonts.publicSans(fontSize: 13, color: AppColors.textTertiary),
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          onSubmitted: (_) => _fetchArticles(),
                         ),
-                        side: BorderSide(
-                          color: isSelected ? AppColors.primary : AppColors.border,
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-                        onSelected: (selected) {
-                          if (selected) {
-                            setState(() => _selectedCategory = cat);
-                            _fetchArticles();
-                          }
-                        },
                       ),
-                    );
-                  }).toList(),
+                      if (_searchController.text.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.close_rounded, size: 16, color: AppColors.textSecondary),
+                          onPressed: () {
+                            _searchController.clear();
+                            _fetchArticles();
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
 
-              // Article Ledger List
-              Expanded(
-                child: _isLoading
-                    ? const Center(
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              // Category Chips
+              GSAPFadeSlide(
+                delay: const Duration(milliseconds: 100),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: _categories.map((cat) {
+                      final isSelected = _selectedCategory == cat;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: AppSpacing.sm),
+                        child: ChoiceChip(
+                          label: Text(cat),
+                          selected: isSelected,
+                          selectedColor: AppColors.primaryTint,
+                          backgroundColor: AppColors.surface,
+                          labelStyle: GoogleFonts.publicSans(
+                            fontSize: 12,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                          ),
+                          side: BorderSide(
+                            color: isSelected ? AppColors.primary : AppColors.hairlineBorder,
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() => _selectedCategory = cat);
+                              _fetchArticles();
+                            }
+                          },
                         ),
-                      )
-                    : _articles.isEmpty
-                        ? RefreshIndicator(
-                            onRefresh: _fetchArticles,
-                            color: AppColors.primary,
-                            backgroundColor: AppColors.surface,
-                            child: ListView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              children: [
-                                const SizedBox(height: 60),
-                                Container(
-                                  padding: const EdgeInsets.all(36),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.surface,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: AppColors.border),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const Icon(Icons.article_outlined, size: 40, color: AppColors.textTertiary),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'No articles found',
-                                        style: GoogleFonts.spaceGrotesk(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 15,
-                                          color: AppColors.textPrimary,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        'Try another search keyword or category.',
-                                        style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : RefreshIndicator(
-                            onRefresh: _fetchArticles,
-                            color: AppColors.primary,
-                            backgroundColor: AppColors.surface,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.surface,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: AppColors.border),
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: ListView.separated(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                itemCount: _articles.length,
-                                separatorBuilder: (_, __) => const Divider(color: AppColors.border, height: 1),
-                                itemBuilder: (context, index) {
-                                  final art = _articles[index];
-                                  return InkWell(
-                                    onTap: () => _showArticleDetails(art),
-                                    hoverColor: AppColors.surfaceContainerLow,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(14),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.surfaceContainerLow,
-                                                  borderRadius: BorderRadius.circular(4),
-                                                ),
-                                                child: Text(
-                                                  art.category,
-                                                  style: GoogleFonts.publicSans(
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: AppColors.textSecondary,
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                DateFormat('dd MMM yyyy').format(art.updatedAt),
-                                                style: GoogleFonts.publicSans(
-                                                  fontSize: 11,
-                                                  color: AppColors.textTertiary,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 6),
-                                          Text(
-                                            art.title,
-                                            style: GoogleFonts.publicSans(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.textPrimary,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            art.body,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.publicSans(
-                                              fontSize: 12,
-                                              color: AppColors.textSecondary,
-                                              height: 1.4,
-                                            ),
-                                          ),
-                                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Article Ledger List or Skeleton
+              if (_isLoading)
+                const Column(
+                  children: [
+                    GSAPShimmerLoader(height: 80, margin: EdgeInsets.only(bottom: AppSpacing.sm)),
+                    GSAPShimmerLoader(height: 80, margin: EdgeInsets.only(bottom: AppSpacing.sm)),
+                    GSAPShimmerLoader(height: 80, margin: EdgeInsets.only(bottom: AppSpacing.sm)),
+                    GSAPShimmerLoader(height: 80),
+                  ],
+                )
+              else if (_articles.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.xxxl),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                    border: Border.all(color: AppColors.hairlineBorder),
+                  ),
+                  child: Column(
+                    children: [
+                      const Icon(Icons.article_outlined, size: 40, color: AppColors.textTertiary),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        'No articles found',
+                        style: GoogleFonts.spaceGrotesk(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'Try another search keyword or category.',
+                        style: GoogleFonts.publicSans(color: AppColors.textSecondary, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                    border: Border.all(color: AppColors.hairlineBorder),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _articles.length,
+                    separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineBorder, height: 1),
+                    itemBuilder: (context, index) {
+                      final art = _articles[index];
+                      return InkWell(
+                        onTap: () => _showArticleDetails(art),
+                        hoverColor: AppColors.surfaceContainerLow,
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryTint,
+                                      borderRadius: BorderRadius.circular(AppRadius.xs),
+                                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+                                    ),
+                                    child: Text(
+                                      art.category,
+                                      style: GoogleFonts.publicSans(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primary,
                                       ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  Text(
+                                    DateFormat('dd MMM yyyy').format(art.updatedAt),
+                                    style: GoogleFonts.publicSans(
+                                      fontSize: 11,
+                                      color: AppColors.textTertiary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                              const SizedBox(height: AppSpacing.sm),
+                              Text(
+                                art.title,
+                                style: GoogleFonts.publicSans(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              Text(
+                                art.body,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.publicSans(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
+                                  height: 1.45,
+                                ),
+                              ),
+                            ],
                           ),
-              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
             ],
           ),
         ),

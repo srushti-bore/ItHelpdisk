@@ -103,3 +103,4 @@ class CaseRepository(BaseRepository[Case]):
 
 
 case_repository = CaseRepository()
+case_repo = case_repository

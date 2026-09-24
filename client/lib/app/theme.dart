@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:it_helpdesk_client/shared/constants/app_colors.dart';
+import 'package:it_helpdesk_client/shared/constants/app_spacing.dart';
 
-/// Calmdesk IT Service Desk Unified Theme Configuration
-/// Governed by DESIGN.md: Space Grotesk + Public Sans, 1px Hairlines, Zero Green.
+/// NextAssist Unified Theme Configuration
+/// Strictly governed by `NextAssist — Design.md`:
+/// - Pastel sRGB Color Palette (Soft Lavender, Muted Blue, Warm Peach, Sand Beige)
+/// - Total Ban on Harsh Green & Neon Gradients
+/// - Space Grotesk for Headers & Numbers; Public Sans for UI & Body
+/// - 1px Subtle Hairlines, Controlled Liquid Glassmorphism, 0 Hardcoded Radii
 class AppTheme {
   static ThemeData get lightTheme {
     final baseTextTheme = GoogleFonts.publicSansTextTheme(ThemeData.light().textTheme);
@@ -12,31 +17,38 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.primaryContainer, // #8C93E8
+        primary: AppColors.primary, // Soft Lavender (#5B61B9)
         onPrimary: AppColors.onPrimary,
         primaryContainer: AppColors.primaryTint,
-        secondary: AppColors.secondary,
-        surface: AppColors.surfaceContainerLowest, // #FFFFFF
-        onSurface: AppColors.onSurface, // #2B2A28
+        onPrimaryContainer: AppColors.onPrimaryContainer,
+        secondary: AppColors.secondary, // Muted Blue (#4B72C7)
+        onSecondary: AppColors.onSecondary,
+        secondaryContainer: AppColors.secondaryTint,
+        tertiary: AppColors.slateTeal, // Slate-Teal (#6E9C9B)
+        onTertiary: AppColors.onTertiary,
+        surface: AppColors.surface, // Clean Pure White
+        onSurface: AppColors.onSurface, // Dark Charcoal (#2B2A28)
         onSurfaceVariant: AppColors.onSurfaceVariant, // #6B6862
         outline: AppColors.outline,
-        outlineVariant: AppColors.hairlineBorder, // #E7E4DC
-        error: AppColors.error,
+        outlineVariant: AppColors.hairlineBorder, // #E5E2DA
+        error: AppColors.dangerRose,
+        onError: AppColors.onError,
+        errorContainer: AppColors.dangerTint,
       ),
-      scaffoldBackgroundColor: AppColors.background, // #F7F6F3
+      scaffoldBackgroundColor: AppColors.background, // Off-White / Sand Beige (#F7F6F3)
       canvasColor: AppColors.background,
-      
-      // Typography: Space Grotesk for Headers & Numbers; Public Sans for UI & Body
+
+      // Dual Typography: Space Grotesk for Headers/Metrics, Public Sans for UI & Body
       textTheme: baseTextTheme.copyWith(
-        displayLarge: GoogleFonts.spaceGrotesk(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.onSurface),
-        headlineLarge: GoogleFonts.spaceGrotesk(fontSize: 28, fontWeight: FontWeight.w500, color: AppColors.onSurface),
-        headlineMedium: GoogleFonts.spaceGrotesk(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.onSurface),
-        headlineSmall: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.onSurface),
-        titleLarge: GoogleFonts.spaceGrotesk(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.onSurface),
+        displayLarge: GoogleFonts.spaceGrotesk(fontSize: 34, fontWeight: FontWeight.w600, color: AppColors.onSurface, letterSpacing: -0.8),
+        headlineLarge: GoogleFonts.spaceGrotesk(fontSize: 26, fontWeight: FontWeight.w600, color: AppColors.onSurface, letterSpacing: -0.5),
+        headlineMedium: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.onSurface, letterSpacing: -0.3),
+        headlineSmall: GoogleFonts.spaceGrotesk(fontSize: 17, fontWeight: FontWeight.w600, color: AppColors.onSurface),
+        titleLarge: GoogleFonts.spaceGrotesk(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.onSurface),
         titleMedium: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.onSurface),
         titleSmall: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.onSurface),
-        bodyLarge: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.onSurface),
-        bodyMedium: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w400, color: AppColors.onSurface),
+        bodyLarge: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.onSurface, height: 1.5),
+        bodyMedium: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w400, color: AppColors.onSurface, height: 1.45),
         bodySmall: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.onSurfaceVariant),
         labelLarge: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.onSurface),
         labelMedium: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.onSurfaceVariant),
@@ -45,36 +57,36 @@ class AppTheme {
 
       // Architectural Depth System: Flat White Card with 1px Hairline Rule
       cardTheme: CardThemeData(
-        color: AppColors.surfaceContainerLowest, // #FFFFFF
+        color: AppColors.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
           side: const BorderSide(color: AppColors.hairlineBorder, width: 1),
         ),
       ),
 
-      // Input Fields: 8px Radius, 1px Hairline Border, Focus Accent
+      // Input Fields: Fluid Padding, 8px Radius, 1px Hairline Border, Focus Accent
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surfaceContainerLowest,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        fillColor: AppColors.surface,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: GoogleFonts.publicSans(color: AppColors.textMuted, fontSize: 13),
         labelStyle: GoogleFonts.publicSans(color: AppColors.onSurfaceVariant, fontSize: 13),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.hairlineBorder, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.hairlineBorder, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.primaryContainer, width: 1.5),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.dangerRose, width: 1),
         ),
       ),
@@ -82,10 +94,10 @@ class AppTheme {
       // Buttons: Flat, Sentence Case, 8px Radius, No Ambient Shadow
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryContainer, // #8C93E8
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.onPrimary,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
           elevation: 0,
           textStyle: GoogleFonts.publicSans(fontWeight: FontWeight.w500, fontSize: 13),
         ),
@@ -93,11 +105,11 @@ class AppTheme {
 
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          backgroundColor: AppColors.surfaceContainerLowest,
+          backgroundColor: AppColors.surface,
           foregroundColor: AppColors.onSurface,
           side: const BorderSide(color: AppColors.hairlineBorder, width: 1),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
           elevation: 0,
           textStyle: GoogleFonts.publicSans(fontWeight: FontWeight.w500, fontSize: 13),
         ),
@@ -141,17 +153,17 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: AppColors.bgDark,
       canvasColor: AppColors.bgDark,
-      
+
       textTheme: baseTextTheme.copyWith(
-        displayLarge: GoogleFonts.spaceGrotesk(fontSize: 36, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
-        headlineLarge: GoogleFonts.spaceGrotesk(fontSize: 28, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
-        headlineMedium: GoogleFonts.spaceGrotesk(fontSize: 22, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
-        headlineSmall: GoogleFonts.spaceGrotesk(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
-        titleLarge: GoogleFonts.spaceGrotesk(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
+        displayLarge: GoogleFonts.spaceGrotesk(fontSize: 34, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
+        headlineLarge: GoogleFonts.spaceGrotesk(fontSize: 26, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
+        headlineMedium: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
+        headlineSmall: GoogleFonts.spaceGrotesk(fontSize: 17, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
+        titleLarge: GoogleFonts.spaceGrotesk(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.textPrimaryDark),
         titleMedium: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
         titleSmall: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
-        bodyLarge: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.textPrimaryDark),
-        bodyMedium: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w400, color: AppColors.textPrimaryDark),
+        bodyLarge: GoogleFonts.publicSans(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.textPrimaryDark, height: 1.5),
+        bodyMedium: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w400, color: AppColors.textPrimaryDark, height: 1.45),
         bodySmall: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.textSecondaryDark),
         labelLarge: GoogleFonts.publicSans(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textPrimaryDark),
         labelMedium: GoogleFonts.publicSans(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondaryDark),
@@ -163,7 +175,7 @@ class AppTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
           side: const BorderSide(color: AppColors.borderDark, width: 1),
         ),
       ),
@@ -171,29 +183,29 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceDark,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: GoogleFonts.publicSans(color: AppColors.textSecondaryDark, fontSize: 13),
         labelStyle: GoogleFonts.publicSans(color: AppColors.textSecondaryDark, fontSize: 13),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.borderDark, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.borderDark, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: const BorderSide(color: AppColors.primaryContainer, width: 1.5),
         ),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryContainer,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.onPrimary,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
           elevation: 0,
           textStyle: GoogleFonts.publicSans(fontWeight: FontWeight.w500, fontSize: 13),
         ),

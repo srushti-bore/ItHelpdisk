@@ -28,6 +28,7 @@ def test_model_instantiation():
         status=CaseStatus.NEW,
         priority=Priority.P1_CRITICAL,
         requester_id=user_id,
+        version=1,
     )
     assert case.reference_number == "INC-2026-000001"
     assert case.priority == Priority.P1_CRITICAL
