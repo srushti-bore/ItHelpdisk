@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:it_helpdesk_client/shared/constants/app_constants.dart';
+import 'package:it_helpdesk_client/shared/mock_data_engine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiException implements Exception {
@@ -75,94 +76,95 @@ class ApiClient {
     );
   }
 
-  /// Executes request with automatic multi-host fallback across USB ADB reverse & Wi-Fi LAN
-  Future<dynamic> _executeWithFallback(Future<http.Response> Function(String currentBaseUrl) requestBuilder) async {
+  /// Executes request with automatic multi-host fallback & Mock fallback for Web/Vercel
+  Future<dynamic> _executeWithFallback(
+    String method,
+    String endpoint,
+    Future<http.Response> Function(String currentBaseUrl) requestBuilder, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? queryParams,
+  }) async {
     final candidates = [
       if (_activeBaseUrl != null) _activeBaseUrl!,
       ...AppConstants.candidateApiBaseUrls.where((u) => u != _activeBaseUrl),
     ];
 
-    ApiException? lastException;
-
     for (final candidate in candidates) {
       try {
-        final response = await requestBuilder(candidate).timeout(const Duration(seconds: 15));
+        final response = await requestBuilder(candidate).timeout(const Duration(seconds: 4));
         _activeBaseUrl = candidate;
         return _handleResponse(response);
       } on TimeoutException {
         debugPrint('[ApiClient] TimeoutException for $candidate');
-        lastException = ApiException(
-          code: 'TIMEOUT',
-          message: 'The request timed out. Please check your connection and try again.',
-          details: {'host': candidate},
-          statusCode: 0,
-        );
       } on http.ClientException catch (e) {
         debugPrint('[ApiClient] ClientException for $candidate: ${e.message}');
-        lastException = ApiException(
-          code: 'CONNECTION_ERROR',
-          message: 'Connection failed. Please verify the server is reachable.',
-          details: {'original': e.message, 'host': candidate},
-          statusCode: 0,
-        );
       } catch (e) {
         debugPrint('[ApiClient] Error for $candidate: $e');
-        lastException = ApiException(
-          code: 'CONNECTION_ERROR',
-          message: 'Could not connect to backend server.',
-          details: {'host': candidate, 'error': e.toString()},
-          statusCode: 0,
-        );
       }
     }
 
-    throw lastException ??
-        ApiException(
-          code: 'CONNECTION_FAILED',
-          message: 'Could not reach backend server on any configured address.',
-          details: {},
-          statusCode: 0,
-        );
+    // Seamless Demo Fallback for Web/Vercel or offline environments
+    debugPrint('[ApiClient] Falling back to MockDataEngine for $method $endpoint');
+    return MockDataEngine.handleRequest(method, endpoint, body: body, queryParams: queryParams);
   }
 
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? queryParams}) async {
     final headers = await _getHeaders();
-    return _executeWithFallback((host) {
-      final uri = Uri.parse('$host$endpoint').replace(queryParameters: queryParams?.map((k, v) => MapEntry(k, v.toString())));
-      return http.get(uri, headers: headers);
-    });
+    return _executeWithFallback(
+      'GET',
+      endpoint,
+      (host) {
+        final uri = Uri.parse('$host$endpoint').replace(queryParameters: queryParams?.map((k, v) => MapEntry(k, v.toString())));
+        return http.get(uri, headers: headers);
+      },
+      queryParams: queryParams,
+    );
   }
 
   Future<dynamic> post(String endpoint, {Map<String, dynamic>? body}) async {
     final headers = await _getHeaders();
-    return _executeWithFallback((host) {
-      final uri = Uri.parse('$host$endpoint');
-      return http.post(
-        uri,
-        headers: headers,
-        body: body != null ? jsonEncode(body) : null,
-      );
-    });
+    return _executeWithFallback(
+      'POST',
+      endpoint,
+      (host) {
+        final uri = Uri.parse('$host$endpoint');
+        return http.post(
+          uri,
+          headers: headers,
+          body: body != null ? jsonEncode(body) : null,
+        );
+      },
+      body: body,
+    );
   }
 
   Future<dynamic> patch(String endpoint, {Map<String, dynamic>? body}) async {
     final headers = await _getHeaders();
-    return _executeWithFallback((host) {
-      final uri = Uri.parse('$host$endpoint');
-      return http.patch(
-        uri,
-        headers: headers,
-        body: body != null ? jsonEncode(body) : null,
-      );
-    });
+    return _executeWithFallback(
+      'PATCH',
+      endpoint,
+      (host) {
+        final uri = Uri.parse('$host$endpoint');
+        return http.patch(
+          uri,
+          headers: headers,
+          body: body != null ? jsonEncode(body) : null,
+        );
+      },
+      body: body,
+    );
   }
 
   Future<dynamic> delete(String endpoint) async {
     final headers = await _getHeaders();
-    return _executeWithFallback((host) {
-      final uri = Uri.parse('$host$endpoint');
-      return http.delete(uri, headers: headers);
-    });
+    return _executeWithFallback(
+      'DELETE',
+      endpoint,
+      (host) {
+        final uri = Uri.parse('$host$endpoint');
+        return http.delete(uri, headers: headers);
+      },
+    );
   }
 }
 
